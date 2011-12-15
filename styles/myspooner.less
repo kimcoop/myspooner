@@ -1,0 +1,73 @@
+@font: 'Lancelot';
+
+.clickable {
+	cursor:pointer;
+}
+
+.rounded(@radius:10px){
+	border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+.text-shadow {
+	text-shadow: 0px 1px 0px #efefef;
+}
+
+.shadow(@depth:4px) {
+	-moz-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+	box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+}
+
+
+body {
+	font: 10pt arial;
+}
+
+div#container{ 
+	text-align:center;
+	width:800px; 
+	margin:0 auto; 
+}
+
+h1, h2, h3, h4 {
+	background: #fff;
+	text-shadow: 2px 2px 3px #ccc;
+	font-size: 2.4em;
+	font-family: @font;
+}
+
+form {
+	line-height: 2em;	
+	margin: 0px auto;
+	width: 280px;
+}
+
+th {
+	font-weight: normal;
+	text-align: right;
+}
+
+label {
+	cursor: text;
+}
+
+input[type="password"], input[type="email"], input[type="search"], input[type="text"], input[type="textbox"], input[type="textarea"], textarea   {
+	border: 1px #c7c7c7 solid;
+	color: #333;
+	background: #fff;
+	padding: 0.1em 0.4em 0.1em 0.4em;
+	cursor: text;
+	.rounded;
+}
+
+div.error {
+	text-align: center;
+	position: relative;
+	top: 10px;
+	padding: 10px 10px;
+	margin: 0px auto;
+	width: 400px;
+	border: 1px solid #F0DDDD;
+	z-index: 40;
+}
