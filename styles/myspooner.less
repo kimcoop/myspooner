@@ -1,4 +1,10 @@
 @font: 'Lancelot';
+@pink: #D8005F;
+@green: #00BB3F;
+@yellow: #F1FD72;
+@red: #8C003D;
+@lgreen: #37DD6F;
+@grey: #c7c7c7;
 
 .clickable {
 	cursor:pointer;
@@ -19,11 +25,6 @@
 	box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
 }
 
-
-body {
-	font: 10pt arial;
-}
-
 div#container{ 
 	text-align:center;
 	width:800px; 
@@ -31,16 +32,25 @@ div#container{
 }
 
 h1, h2, h3, h4 {
-	background: #fff;
-	text-shadow: 2px 2px 3px #ccc;
-	font-size: 2.4em;
+	font-size: 2.8em;
 	font-family: @font;
+	color: @pink;
+	font-weight: 800;
+	letter-spacing: -.05em;
+}
+
+h2 {
+	font-size: 2em;
+	text-align: left;
 }
 
 form {
 	line-height: 2em;	
 	margin: 0px auto;
-	width: 280px;
+	width: 290px;
+	background: white;
+	padding: 15px 10px;
+	.rounded;
 }
 
 th {
@@ -53,7 +63,7 @@ label {
 }
 
 input[type="password"], input[type="email"], input[type="search"], input[type="text"], input[type="textbox"], input[type="textarea"], textarea   {
-	border: 1px #c7c7c7 solid;
+	border: 1px #333 solid;
 	color: #333;
 	background: #fff;
 	padding: 0.1em 0.4em 0.1em 0.4em;
@@ -61,13 +71,79 @@ input[type="password"], input[type="email"], input[type="search"], input[type="t
 	.rounded;
 }
 
+input[type="submit"] {
+	font-size: 0.8em;
+}
+
 div.error {
 	text-align: center;
 	position: relative;
-	top: 10px;
 	padding: 10px 10px;
 	margin: 0px auto;
-	width: 400px;
-	border: 1px solid #F0DDDD;
+	margin-bottom: 20px;
+	width: 290px;
+	border: 2px solid @red;
 	z-index: 40;
+	position: relative;
+	.rounded;
 }
+
+div.notice {
+	text-align: center;
+	position: relative;
+	top: 5px;
+	padding: 10px 10px;
+	margin: 0px auto;
+	margin-bottom: 20px;
+	width: 400px;
+	border: 1px solid @yellow;
+	z-index: 40;
+	.rounded;
+}
+
+footer {
+	height: 1.5em;
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+	padding: .8em 0em .4em 0em;
+	width: 100%;
+}
+
+header {
+	width: 100%;
+	padding-top: 1.4em;
+	height: 3em;
+	background: black;
+	position: absolute;
+	color: @grey;
+	top: 0;
+	left: 0;
+	position: fixed;
+	z-index:99;
+	.shadow;
+	
+	#username {
+		float:left;
+		padding-left: 2em;
+	}
+	
+	span {
+		float: right;
+		margin-right: 3em;
+		.clickable;
+	}
+	
+	span:hover {
+		color: @pink;
+	}
+	
+}
+
+body {
+	margin-top: 7em;
+	width: 100%;
+	font: 11pt arial;
+	color: #333;
+	min-height: 500px;
+}	

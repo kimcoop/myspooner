@@ -2,7 +2,11 @@
 
 ?>
 
-If you're seeing this, then footer.php is loaded.
+</div> <!-- end #container -->
+
+<footer>
+Footer!
+</footer>
 
 </body>
 </html>

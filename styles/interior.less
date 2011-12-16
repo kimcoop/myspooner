@@ -1,0 +1,66 @@
+@font: 'Lancelot';
+@pink: #D8005F;
+@green: #00BB3F;
+@yellow: #F1FD72;
+@red: #8C003D;
+@lgreen: #37DD6F;
+@grey: #bbb;
+@darkgrey: #333;
+
+.clickable {
+	cursor:pointer;
+}
+
+.small_font {
+	font-size: 0.8em;
+}
+
+.rounded(@radius:10px){
+	border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+.text-shadow {
+	text-shadow: 2px 2px 1px #333;
+}
+
+.shadow(@depth:4px) {
+	-moz-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+	box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+}
+
+div.article {
+	margin: 1.2em 0em;
+	padding: .8em 0em;
+	border-bottom: thin solid @pink;
+	text-align: justify;
+
+	h3 {
+		color: @green;
+		font-size: 2em;
+		margin: 0 0 0 0;
+		text-align: left;
+		display:inline;
+	}
+	
+	.author {
+		margin-left: .3em;
+		color: @grey;
+		.small_font;
+	}
+	
+	.tag {
+		background: black;
+		color: white;
+		margin: 0 .2em 0 .2em;
+		padding: .1em .2em .1em .2em;
+		.small_font;
+	}
+	
+	.tags {
+		margin-top: .5em;
+	}
+
+}
+

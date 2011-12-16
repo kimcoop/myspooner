@@ -8,7 +8,7 @@
 <div id="container">
 
 
-<h2>Latest Activity</h2>
+<h2>Calendar</h2>
 
 
 

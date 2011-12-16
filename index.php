@@ -1,4 +1,8 @@
-<? 	include('include/header.php');
+<? 	
+
+
+session_start();
+include('include/header.php');
 
 
 ?>
@@ -21,13 +25,13 @@ $(function() {
 					 data: dataString,
 					 success: function(data) {
 						if (data.error != '') {
-						 	alert(data.msg);
+							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).slideUp();
 						} else {
-							$('#error').text(data.error).addClass('error').fadeIn();
+							window.location.href = "pages/home.php";
 						}
 					 }
 			});
-			$('form input').val('');
+			$('#loginForm input.clear').val('');
 			return false;
 		});
 		
@@ -49,13 +53,13 @@ $(function() {
 					 data: dataString,
 					 success: function(data) {
 						if (data.error != '') {
-							alert(data.msg);
+							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).slideUp();
 						} else {
-							$('#error').text(data.error).addClass('error').fadeIn();
+							window.location.href = "pages/home.php";
 						}
 					}
 			});
-			$('form input').val('');
+			$('#registerForm input.clear').val('');
 			return false;
 		});
 		
@@ -66,29 +70,29 @@ $(function() {
 
 <div id="container">
 
-<h1>MySpooner</h1>
-
-<div id="error"></div>
-
-<form method="post" id="loginForm" action="<? echo $form ?>">
-	<table>
-		<tr><th><label for=email1>Email:&nbsp;</label></th><td><input required autofocus name="email1" id="email1" type="email"/></td></tr>
-		<tr><th><label for=password1>Password:&nbsp;</label></th><td><input required name="password1" id="password1" type="password"/></td></tr>
-		<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
-	</table>
-</form>
-<br/>
-<form method="post" id="registerForm" action="<? echo $form ?>">
-	<table>
-		<tr><th><label for=email>Email:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
-		<tr><th><label for=password>Password:&nbsp;</label></th><td><input required name="password" id="password" type="password"/></td></tr>
-		<tr><th><label for=fname>First name:&nbsp;</label></th><td><input required name="fname" id="fname" type="text"/></td></tr>
-		<tr><th><label for=lname>Last name:&nbsp;</label></th><td><input required name="lname" id="lname" type="text"/></td></tr>
-		<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
-	</table>
-</form>
-
-</div><!-- end container -->
-
+<div id="wrapper">
+	<h1>MySpooner</h1>
+	
+	<div id="error" style="display:none"></div>
+	
+	<form method="post" id="loginForm" action="">
+		<table>
+			<tr><th><label for=email1>Email:&nbsp;</label></th><td><input required autofocus name="email1" id="email1" type="email"/></td></tr>
+			<tr><th><label for=password1>Password:&nbsp;</label></th><td><input class="clear" required name="password1" id="password1" type="password"/></td></tr>
+			<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
+		</table>
+	</form>
+	<br/>
+	<form method="post" id="registerForm" action="">
+		<table>
+			<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
+			<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>
+			<tr><th><label for=fname>First name*:&nbsp;</label></th><td><input class="clear" required name="fname" id="fname" type="text"/></td></tr>
+			<tr><th><label for=lname>Last name*:&nbsp;</label></th><td><input class="clear" required name="lname" id="lname" type="text"/></td></tr>
+			<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
+		</table>
+	</form>
+	
+</div><!-- end wrapper -->
 
 <? include('include/footer.php'); ?>
