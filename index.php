@@ -25,7 +25,7 @@ $(function() {
 					 data: dataString,
 					 success: function(data) {
 						if (data.error != '') {
-							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).slideUp();
+							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).fadeOut();
 						} else {
 							window.location.href = "pages/home.php";
 						}
@@ -53,7 +53,7 @@ $(function() {
 					 data: dataString,
 					 success: function(data) {
 						if (data.error != '') {
-							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).slideUp();
+							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).fadeOut();
 						} else {
 							window.location.href = "pages/home.php";
 						}
@@ -75,7 +75,7 @@ $(function() {
 	
 	<div id="error" style="display:none"></div>
 	
-	<form method="post" id="loginForm" action="">
+	<form class="main" method="post" id="loginForm" action="">
 		<table>
 			<tr><th><label for=email1>Email:&nbsp;</label></th><td><input required autofocus name="email1" id="email1" type="email"/></td></tr>
 			<tr><th><label for=password1>Password:&nbsp;</label></th><td><input class="clear" required name="password1" id="password1" type="password"/></td></tr>
@@ -83,7 +83,7 @@ $(function() {
 		</table>
 	</form>
 	<br/>
-	<form method="post" id="registerForm" action="">
+	<form class="main" method="post" id="registerForm" action="">
 		<table>
 			<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
 			<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>

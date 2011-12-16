@@ -35,6 +35,7 @@ div.article {
 	padding: .8em 0em;
 	border-bottom: thin solid @pink;
 	text-align: justify;
+	clear: both;
 
 	h3 {
 		color: @green;
@@ -56,11 +57,50 @@ div.article {
 		margin: 0 .2em 0 .2em;
 		padding: .1em .2em .1em .2em;
 		.small_font;
+		.clickable;
 	}
 	
 	.tags {
-		margin-top: .5em;
+		margin: .5em 0 .5em 0;
 	}
+	
+	.comments {
+		.small_font;
+		margin: 1.3em 0 0 0;
+		padding: 0 1.3em 0 1.3em;
+		
+		span {
+			color: @grey;
+		}
+		
+	}
+	
+	.comment {
+		margin: 1em 0 0 0;
+	}
+}
 
+#newPost {
+	input[type="text"], textarea {
+		width: 400px;
+		margin-bottom: .3em; 
+	}
+	
+	textarea {
+		height: 12em;
+	}	
+}	
+
+#searchBlog {
+	position: absolute;
+	top: 90px;
+	width: 800px;
+	float:right;
+	.rounded;
+	
+	input[type="search"] {
+		width: 40%;
+		margin-right: .3em;
+	}
 }
 

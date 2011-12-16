@@ -60,7 +60,7 @@ $(function() {
 <span class="nav" id="calendar">Calendar</span>
 <span class="nav" id="blog">Blog</span>
 <span class="nav" id="settings">Settings</span>
-<span class="nav">Other</span>
+<span class="nav" id="home">Home</span>
 
 </header>
 

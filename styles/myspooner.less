@@ -44,7 +44,7 @@ h2 {
 	text-align: left;
 }
 
-form {
+form.main {
 	line-height: 2em;	
 	margin: 0px auto;
 	width: 290px;
@@ -63,7 +63,7 @@ label {
 }
 
 input[type="password"], input[type="email"], input[type="search"], input[type="text"], input[type="textbox"], input[type="textarea"], textarea   {
-	border: 1px #333 solid;
+	border: 1px #bbb solid;
 	color: #333;
 	background: #fff;
 	padding: 0.1em 0.4em 0.1em 0.4em;
@@ -82,10 +82,15 @@ div.error {
 	margin: 0px auto;
 	margin-bottom: 20px;
 	width: 290px;
-	border: 2px solid @red;
+	border: 2px solid @pink;
 	z-index: 40;
 	position: relative;
+	color: @red;
 	.rounded;
+}
+
+.errorText {
+	color: @pink;
 }
 
 div.notice {
@@ -138,6 +143,10 @@ header {
 		color: @pink;
 	}
 	
+	span.active {
+		color: @yellow;
+	}
+	
 }
 
 body {
@@ -147,3 +156,21 @@ body {
 	color: #333;
 	min-height: 500px;
 }	
+
+.addNew {
+	margin: .2em 1.5em 0 0;
+	background: transparent url("../images/icons_module.png") no-repeat 0 0;
+	display: inline-block;
+	height: 16px;
+	vertical-align: text-top;
+	 width: 20px;
+	overflow: hidden;
+	background-position: 3px -50px;
+	float: right;
+	.clickable;
+}
+
+	
+.addNew:hover {
+	background-position: -22px -50px;
+}

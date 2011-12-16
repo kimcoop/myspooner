@@ -5,6 +5,17 @@
 	
 ?>
 
+<script type="text/javascript">
+
+$(function() {
+
+	$('header span').removeClass('active');
+	$('#home').addClass('active');
+
+});
+
+</script>
+
 <div id="container">
 
 
