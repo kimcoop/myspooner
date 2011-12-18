@@ -1,6 +1,6 @@
 <?
 
-	include('../functions/functions.php');
+	include('../functions/latest_activity.php');
 	include('../include/header.php');
 	
 ?>
@@ -21,6 +21,6 @@ $(function() {
 
 <h2>Latest Activity</h2>
 
-
+<? echo formatLatestActivities() ?>
 
 <? include('../include/footer.php') ?>

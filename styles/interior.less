@@ -36,9 +36,10 @@ div.article {
 	border-bottom: thin solid @pink;
 	text-align: justify;
 	clear: both;
+	word-wrap: break-word;
 
 	h3 {
-		color: @green;
+		color: @lgreen;
 		font-size: 2em;
 		margin: 0 0 0 0;
 		text-align: left;
@@ -53,11 +54,12 @@ div.article {
 	
 	.tag {
 		background: black;
-		color: white;
+		color: @yellow;
 		margin: 0 .2em 0 .2em;
 		padding: .1em .2em .1em .2em;
 		.small_font;
 		.clickable;
+		.rounded(1px);
 	}
 	
 	.tags {
@@ -103,4 +105,91 @@ div.article {
 		margin-right: .3em;
 	}
 }
+
+.tagSelect {
+		text-align: left;
+		width: 400px;
+		margin: 0px auto;
+		
+	span {
+		text-align: left;
+		color: @pink;
+	}
+
+	div {
+		margin-left: 170px;
+	}
+}
+
+.commentForm {
+	margin-top: 1em;
+	padding: .5em 1em;
+	background: #ddd;
+	border: @darkgrey;
+	.rounded(2px);
+}
+
+.addComment {
+	color: @grey;
+	display:inline;
+	.clickable;
+	
+	.commentInput {
+	}
+	
+}
+
+.addComment:hover {
+	color: @pink;
+}
+
+.commentContent {
+	height: 3.4em;
+	width: 88%;
+}
+
+div.latest {
+	margin: 1em 0em 1em 0em;
+	padding: 1em 0em .5em 0em;
+	border-bottom: thin solid @grey;
+	text-align: justify;
+	color: @grey;
+	.small_font;
+
+	.timestamp {
+		float:right;
+	}
+	
+	h3 {
+		color: @lgreen;
+		font-size: 2em;
+		margin: 0 0 0 0;
+		text-align: left;
+	}
+}
+
+.settingType {
+	width: 400px;
+	margin: 0px auto;
+	
+	span {
+		float: left;
+		text-align: left;
+		padding: 0.1em 0.4em 0.1em 0.4em;
+	}
+	
+	.type {
+		color: @pink;
+		margin: 0em 1em 1em 0em;
+		width: 80px;
+	}
+
+}
+
+#edit {
+	clear: both;
+	text-align: center;
+	margin: 2em 0em 0em -600px;
+}
+
 

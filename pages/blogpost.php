@@ -2,6 +2,7 @@
 
 	include('../functions/functions.php');
 	include('../include/header.php');
+	include('../functions/blog.php');
 	
 ?>
 
@@ -16,9 +17,21 @@ $(function() {
 				e.preventDefault();
 				var title = $('#title').val();
 				var content = $('#content').val();
+				var tags = $('input.tag:checked');
+				var userTags = $('input.userTag:checked');
+				
 				
 				var dataString = 'action=createArticle&title='+title
 													+'&content='+content;
+													
+				$.each(tags, function() {
+					dataString += '&tags[]=' + $(this).val();
+				});
+				
+				$.each(userTags, function() {
+					dataString += '&userTags[]=' + $(this).val();
+				});
+				
 				$.ajax({ 
 						 type: 'post',
 						 dataType: 'json',
@@ -29,21 +42,12 @@ $(function() {
 								$('#error').text(data.error).fadeIn().delay(2000).fadeOut();
 							} else {
 								window.location.href = 'blog.php';
-								//$('#successfulPost').text('Your post was added!').fadeIn().delay(2000).fadeOut();
-								//alert(data.msg);
-								//$('#articles').fadeOut();
-								//$('#articles').text(data.articles).fadeIn();
 							}
 						 }
 				});
 				
-				
 				return false;
 			});
-			
-	$('#backToBlog').click(function() {
-		window.location.href = 'blog.php';
-	});
 
 });
 
@@ -51,7 +55,7 @@ $(function() {
 
 <div id="container">
 
-<p id="backToBlog" class="clickable" style="text-align:left">&laquo; Back to Blog</p>
+<a class="back" href="blog.php">&laquo;&nbsp;Back to blog</a>
 
 <h2>New Blog Post</h2>
 
@@ -60,9 +64,13 @@ $(function() {
 <div id="newPost">
 	<form method="post" action="">
 		<input type="text" maxlength="255" id="title" placeholder="Enter title here"><br>
-		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>
+		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
+		<? echo getTagsAsCheckbox(); ?>
+		<? echo getUserTagsAsCheckbox(); ?>
+		<br>
 		<input type="submit" id="postBlog" value="Publish Post">
 	</form>
 </div>
 
-<? include('../include/footer.php') ?>
+
+<? include('../include/footer.php'); ?>

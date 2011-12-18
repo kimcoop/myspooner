@@ -58,7 +58,7 @@
 			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date) VALUES('$email','$password','$fname','$lname',now())");
 			if ($result) {
 				$_SESSION['username'] = $fname;
-				$_SESSION['user_id'] = mysql_insert_id;
+				$_SESSION['user_id'] = mysql_insert_id();
 				echo json_encode(array('msg'=>'Successful registration!', 'error'=>''));	
 			} else {
 				echo json_encode(array('error'=>'Problems processing your registration.'));	

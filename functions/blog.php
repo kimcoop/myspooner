@@ -13,7 +13,6 @@
 				$events[] = $row;
 			}
 		return $events;	*/
-
 		
 	if (isset($_POST['action']) && !empty($_POST['action']) ){
 		$action = $_POST['action'];
@@ -25,10 +24,89 @@
 			case 'search':
 				search();
 				break;
+			case 'getArticlesByTag':
+				getArticlesByTag($_POST['tag']);
+				break;
+			case 'comment':
+				postComment($_POST['articleID'], $_POST['content'], $_SESSION['user_id']);
+				break;
 		}
 	}
 	
+ function postComment($artID, $content, $user_id) {
+	$query = sprintf("INSERT INTO article_comment(post_date, content, article_id, user_id) VALUES(now(), '%s', '%s', '%s')", $content, $artID, $user_id);
+	mysql_query($query);
+	unset($_POST);
+ }
 	
+ function tagArticle($tags, $articleID) {
+ 		if (!empty($tags)) {
+ 			foreach($tags as $tag) {
+				$query = sprintf("INSERT INTO article_tag(article_id, tag_id) VALUES('%s', '%s')", $articleID, $tag);
+				mysql_query($query);
+ 			}
+ 		} 
+ }
+ 
+ function userTagArticle($userTags, $articleID) {
+ 		if (!empty($userTags)) {
+ 			foreach($userTags as $user) {
+				$query = sprintf("INSERT INTO article_user_tag(article_id, user_id) VALUES('%s', '%s')", $articleID, $user);
+				mysql_query($query);
+ 			}
+ 		} 
+ }
+
+ function addNewTag() { //TODO don't insert if not unique
+ 	$query = "INSERT INTO tag(name) VALUES(".$_POST['tag'].")";
+ 	mysql_query($query);
+ }
+	
+ function getAllTags() {
+ 	$query = "SELECT * FROM tag ORDER BY name ASC";
+ 	$result = mysql_query($query) or die(mysql_error());
+	$tags = array();
+	while($row = mysql_fetch_array($result)){
+			$tags[] = $row;
+		}
+	return $tags;
+ }
+ 
+ function getAllUserTags() {
+ 	$query = "SELECT id, fname FROM user ORDER BY fname ASC";
+ 	$result = mysql_query($query) or die(mysql_error());
+	$tags = array();
+	while($row = mysql_fetch_array($result)){
+			$tags[] = $row;
+		}
+	return $tags;
+ }
+ 
+ function getUserTagsAsCheckbox() {
+ 	$tags = getAllUserTags();
+ 	$str = "";
+ 	$str .= "<div class='tagSelect'><span>Tag users in your post:</span><div>";
+ 	foreach($tags as $tag) {
+ 		$fname = $tag['fname'];
+ 		$id = $tag['id'];
+ 		$str .= "<input type='checkbox' value='$id' class='userTag' name='userTags[]'>&nbsp;<label>$fname</label><br>";
+ 	}
+ 	$str .= "</div></div>";
+ 	return $str; 
+ }
+ 
+ function getTagsAsCheckbox() {
+ 	$tags = getAllTags();
+ 	$str = "";
+ 	$str .= "<div class='tagSelect'><span>Tag your blog post:</span><div>";
+ 	foreach($tags as $tag) {
+ 		$name = $tag['name'];
+ 		$id = $tag['id'];
+ 		$str .= "<input type='checkbox' value='$id' class='tag' name='tags[]'>&nbsp;<label>$name</label><br>";
+ 	}
+ 	$str .= "</div></div>";
+ 	return $str;
+ }
 	
 function search() {
 	$val = $_POST['value'];
@@ -52,9 +130,26 @@ function queryArticles() {
 	return $articles;
 }
 
-function getAllArticles() {
+function queryArticlesByTag($tag) {
+	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content FROM article, article_tag, tag WHERE tag.name= '$tag'";
+	$query .= " AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id";
+	$query .= " ORDER BY post_date DESC";
+	$result = mysql_query($query) or die(mysql_error());
+	$articles = array();
+	while($row = mysql_fetch_array($result)){
+			$articles[] = $row;
+		}
+	return $articles;
+}
+
+function getArticlesByTag($tag) {
+	$articlesByTag = queryArticlesByTag($tag);
+	$str = formatArticles($articlesByTag);
+	return $str;
+}
+
+function formatArticles($articles) {
 	$str = "";
-	$articles = queryArticles();
 	foreach($articles as $a) {
 		$str .= "<div class='article'>";
 		$str .= "<h3>".$a['title']."</h3>";
@@ -74,20 +169,45 @@ function getAllArticles() {
 		}
 		$str .= "</div>"; // end div.tags
 		
-		$comments =  getCommentsForArticle($a['id']);
-		$str .= totalCommentsForArticle($a['id']);
+		$str .= formatCommentsForArticle($a['id']);
+		
+		$str .= "</div>";
+	}//end foreach
+	return $str;
+}
+
+function formatCommentsForArticle($id) {
+	$str = "";
+
+	$comments =  getCommentsForArticle($id);
+	$str .= totalCommentsForArticle($id);
+	$str .= "&nbsp;<div class='addComment'>Add a comment";
+	$str .= "<div class='commentForm' style='display:none;'>";
+	
+	$str .= "<form method='post' action=''>";
+	$str .= "<textarea placeholder='Your comment here' class='commentContent'></textarea>";
+	$str .= "<input type='hidden' class='artID' value='".$id."'>";
+	$str .= "&nbsp;<input type='submit' value='Comment' class='postComment'>";
+	$str .="</form></div></div>"; // end div.addComment
+	
+	if (!empty($comments)) {
 		$str .= "<div class='comments'>";
 		foreach($comments as $comment) {
 			$author = getUsername($comment['user_id']);
 			$str .= "<div class='comment'>";
-			$str .= "<span>On ".toDate($comment['comment_date']).", ".$author." wrote";
+			$str .= "<span>On ".toDate($comment['post_date']).", ".$author." wrote";
 			$str .= "</span><br>";
-			$str .= $comment['text']."</div>";
-		}		
+			$str .= $comment['content']."</div>";
+		}
 		$str .= "</div>"; // end div.comments
-		
-		$str .= "</div>";
-	}//end foreach
+	}
+	return $str;
+}
+
+function getAllArticles() {
+	$str = "";
+	$articles = queryArticles();
+	$str .= formatArticles($articles);
 	return $str;
 }
 
@@ -112,7 +232,7 @@ function getTagsForArticle($id) {
 }
 
 function getCommentsForArticle($id) {
-	$query = "SELECT * FROM article_comment WHERE article_id = '$id' ORDER BY comment_date DESC";
+	$query = "SELECT * FROM article_comment WHERE article_id = '$id' ORDER BY post_date DESC";
 	$result = mysql_query($query);
 	$comments = array();
 	while($row = mysql_fetch_array($result)){
@@ -134,13 +254,19 @@ function createArticle() {
 
 	$title= $_POST['title'];
 	$content= $_POST['content'];
-	//tags, user tags
+	$tags = $_POST['tags'];
+	$userTags = $_POST['userTags'];
 	
 	if ($title!='' && $content!='') {
 	
 		$user_id = $_SESSION['user_id'];
 		$query = "INSERT INTO article(title, user_id, content, post_date) VALUES('$title','$user_id','$content',now())";
 		$result = mysql_query($query);
+		
+		$articleID = mysql_insert_id();
+		tagArticle($tags, $articleID);
+		userTagArticle($userTags, $articleID);
+		
 		if ($result) {
 			echo json_encode(array('msg'=>'Your post was added!'));	
 		} else {

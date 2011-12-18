@@ -37,6 +37,8 @@ h1, h2, h3, h4 {
 	color: @pink;
 	font-weight: 800;
 	letter-spacing: -.05em;
+	clear:both;
+	margin-top: 2em;
 }
 
 h2 {
@@ -51,6 +53,20 @@ form.main {
 	background: white;
 	padding: 15px 10px;
 	.rounded;
+}
+
+a, a:visited {
+	text-decoration: none;
+	color: @green;
+	float: left;
+}
+
+a.back {
+	margin-bottom: 2em;
+}
+
+a:hover {
+	color: @pink;
 }
 
 th {
@@ -71,7 +87,7 @@ input[type="password"], input[type="email"], input[type="search"], input[type="t
 	.rounded;
 }
 
-input[type="submit"] {
+input[type="submit"], input[type="button"] {
 	font-size: 0.8em;
 }
 
@@ -113,6 +129,7 @@ footer {
 	text-align: center;
 	padding: .8em 0em .4em 0em;
 	width: 100%;
+	margin: 4em 0 0 0;
 }
 
 header {
