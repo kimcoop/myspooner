@@ -2,6 +2,7 @@
 	session_start();
 	mysql_connect("localhost", "root", "") or die(mysql_error());
 	mysql_select_db("myspooner") or die(mysql_error());
+	include_once('functions.php');
 	 
 	
 /* Getting an ID:	
@@ -13,6 +14,17 @@
 				$events[] = $row;
 			}
 		return $events;	*/
+		
+	if (isset($_GET['action']) && !empty($_GET['action']) ){
+		$action = $_GET['action'];
+		$action = htmlspecialchars(trim($action));
+		switch($action) {
+		case 'loadComments':
+				$comments = formatCommentsForArticle($_GET['aID']);
+				echo json_encode(array('msg'=>'test message', 'comments'=>$comments));
+				break;
+		}
+	}
 		
 	if (isset($_POST['action']) && !empty($_POST['action']) ){
 		$action = $_POST['action'];
@@ -28,15 +40,16 @@
 				getArticlesByTag($_POST['tag']);
 				break;
 			case 'comment':
-				postComment($_POST['articleID'], $_POST['content'], $_SESSION['user_id']);
+				$aID = $_POST['articleID'];
+				postComment($aID, $_POST['content'], $_SESSION['user_id']);
 				break;
-		}
+			}
 	}
 	
  function postComment($artID, $content, $user_id) {
 	$query = sprintf("INSERT INTO article_comment(post_date, content, article_id, user_id) VALUES(now(), '%s', '%s', '%s')", $content, $artID, $user_id);
 	mysql_query($query);
-	unset($_POST);
+	unset($_POST['action']);
  }
 	
  function tagArticle($tags, $articleID) {
@@ -177,7 +190,7 @@ function formatArticles($articles) {
 }
 
 function formatCommentsForArticle($id) {
-	$str = "";
+	$str = "<div class='commentSection'>";
 
 	$comments =  getCommentsForArticle($id);
 	$str .= totalCommentsForArticle($id);
@@ -201,6 +214,7 @@ function formatCommentsForArticle($id) {
 		}
 		$str .= "</div>"; // end div.comments
 	}
+	$str .= "</div>";
 	return $str;
 }
 

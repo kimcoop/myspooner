@@ -39,15 +39,13 @@ $(function() {
 					});
 				});				
 			});
-			
-		$('.addComment').click(function() {
-			$(this).children('.commentForm').slideDown();
-		});
-		
+				
 		$('.postComment').click(function() {
 			var el = $(this);
 			var contentArea = el.siblings('.commentContent');
 			var content = contentArea.val();
+			var commentForm = el.parent().parent();
+			var commentSection = commentForm.parent().parent();
 			
 			if (content != '') {
 				var articleID = el.siblings('.artID').val();
@@ -59,9 +57,12 @@ $(function() {
 						 dataType: 'json',
 						 url: '../functions/blog.php',
 						 data: dataString,
-						 success: function(data) {
+						 success: function() {
 							contentArea.val('');
-							el.parent().parent().slideUp();
+							$.get('../functions/blog.php', {action: 'loadComments', aID: articleID}, function(data){
+								commentSection.replaceWith( data.comments );
+							}, "json");
+							
 						 }
 				});
 							
@@ -69,8 +70,13 @@ $(function() {
 			}
 			
 			contentArea.val('');
-			el.parent().parent().slideUp();
+			commentForm.slideUp();
 		
+		});
+		
+			
+		$('.addComment').live('click', function() {
+			$(this).children('.commentForm').slideDown();
 		});
 			
 });
