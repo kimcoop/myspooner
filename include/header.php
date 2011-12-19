@@ -12,6 +12,7 @@
 <link type="text/css" rel="stylesheet" href="../styles/main.css"/>
 <link type="text/css" rel="stylesheet/less" href="../styles/myspooner.less"/>
 <link type="text/css" rel="stylesheet/less" href="../styles/interior.less"/>
+<link type="text/css" rel="stylesheet/less" href="../styles/interior-2.less"/>
 
 <!--FONTS-->
 <link href='http://fonts.googleapis.com/css?family=Lancelot' rel='stylesheet' type='text/css'>
@@ -61,6 +62,7 @@ $(function() {
 <span class="nav" id="blog">Blog</span>
 <span class="nav" id="settings">Settings</span>
 <span class="nav" id="photos">Photos</span>
+<span class="nav" id="wall">Wall</span>
 <span class="nav" id="home">Home</span>
 
 </header>

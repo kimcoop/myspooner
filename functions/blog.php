@@ -54,9 +54,10 @@
  }
  
  function userTagArticle($userTags, $articleID) {
+ 		$taggerID = $_SESSION['user_id'];
  		if (!empty($userTags)) {
  			foreach($userTags as $user) {
-				$query = sprintf("INSERT INTO article_user_tag(article_id, user_id) VALUES('%s', '%s')", $articleID, $user);
+				$query = sprintf("INSERT INTO article_user_tag(article_id, user_id, tag_date, tagger_id) VALUES('%s', '%s', now(), '%s')", $articleID, $user, $taggerID);
 				mysql_query($query);
  			}
  		} 
@@ -172,6 +173,24 @@ function getArticlesByTag($tag) {
 	return $str;
 }
 
+function formatTagsForArticle($id) {
+	$str = "";
+	$tags = getTagsForArticle($id);
+	foreach($tags as $tag) {
+		$str .= "<span class='tag'>".$tag['name']."</span>";
+	}
+	return $str;
+}
+
+function formatUserTagsForArticle($id) {
+	$str = "";
+	$tags = getUserTagsForArticle($id);
+	foreach($tags as $tag) {
+		$str .= "<span class='tag'>".$tag['fname']."</span>";
+	}
+	return $str;
+}
+
 function formatArticles($articles) {
 	$str = "";
 	foreach($articles as $a) {
@@ -180,19 +199,10 @@ function formatArticles($articles) {
 		$str .= "<span class='author'>by ".getUsername($a['user_id']);
 		$str .= " on " .toDate($a['post_date'])."</span><br>";
 		$str .= $a['content'];
-		
-		$tags = getUserTagsForArticle($a['id']);
 		$str .= "<div class='tags'>";
-		foreach($tags as $tag) {
-			$str .= "<span class='tag'>".$tag['fname']."</span>";
-		}
-		
-		$tags = getTagsForArticle($a['id']);
-		foreach($tags as $tag) {
-			$str .= "<span class='tag'>".$tag['name']."</span>";
-		}
+		$str .= formatUserTagsForArticle($a['id']);		
+		$str .= formatTagsForArticle($a['id']);
 		$str .= "</div>"; // end div.tags
-		
 		$str .= formatCommentsForArticle($a['id']);
 		
 		$str .= "</div>";

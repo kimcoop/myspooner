@@ -29,6 +29,20 @@
 	-webkit-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
 	box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
 }
+	
+.tag {
+	background: black;
+	color: @yellow;
+	margin: 0 .2em 0 .2em;
+	padding: .1em .2em .1em .2em;
+	.small_font;
+	.clickable;
+	.rounded(1px);
+}
+
+.tag:hover {
+	color: @pink;
+}
 
 div.article {
 	margin: 1.5em 0em 0em 0em;
@@ -50,16 +64,6 @@ div.article {
 		margin-left: .3em;
 		color: @grey;
 		.small_font;
-	}
-	
-	.tag {
-		background: black;
-		color: @yellow;
-		margin: 0 .2em 0 .2em;
-		padding: .1em .2em .1em .2em;
-		.small_font;
-		.clickable;
-		.rounded(1px);
 	}
 	
 	.tags {

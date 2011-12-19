@@ -1,0 +1,56 @@
+@font: 'Lancelot';
+@pink: #D8005F;
+@green: #00BB3F;
+@yellow: #F1FD72;
+@red: #8C003D;
+@lgreen: #37DD6F;
+@grey: #bbb;
+@darkgrey: #333;
+
+.clickable {
+	cursor:pointer;
+}
+
+.small_font {
+	font-size: 0.8em;
+}
+
+.rounded(@radius:10px){
+	border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+.text-shadow(@color:#333) {
+	text-shadow: 5px 1px 10px @color;
+}
+
+.shadow(@depth:4px) {
+	-moz-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+	box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
+}
+
+fieldset#front {
+	border: medium solid @lgreen;
+	width: 450px;
+	margin: 0px auto;
+
+	h1 {
+		font-size: 5em;
+		margin: 0 0 0 0;
+	}
+	
+	.rounded;
+}
+
+#notifications {
+	text-align: left;
+}
+
+.notification, .notificationMarked {
+	margin: .5em .5em 0 0;
+}
+
+.notificationMarked {
+	color: @grey;
+}

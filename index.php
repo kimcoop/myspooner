@@ -11,7 +11,7 @@ include('include/header.php');
 
 $(function() {
 		
-		$('#loginButton').click(function(e) {
+		$('#loginButton').live('click',function(e) {
 			e.preventDefault();
 			var email = $('#email1').val();
 			var password = $('#password1').val();
@@ -35,7 +35,7 @@ $(function() {
 			return false;
 		});
 		
-		$('#registerButton').click(function(e) {
+		$('#registerButton').live('click',function(e) {
 			e.preventDefault();
 			var email = $('#email').val();
 			var password = $('#password').val();
@@ -63,6 +63,10 @@ $(function() {
 			return false;
 		});
 		
+		$('#linkRegister').click(function() {
+			$('#access').html( $('#reg').html() );
+			$('#reg').detach();
+		});
 		
 });
 
@@ -71,10 +75,12 @@ $(function() {
 <div id="container">
 
 <div id="wrapper">
-	<h1>MySpooner</h1>
+	<fieldset id="front">
+	<legend><h1>MySpooner</h1></legend>
 	
 	<div id="error" style="display:none"></div>
 	
+	<div id='access'>
 	<form class="main" method="post" id="loginForm" action="">
 		<table>
 			<tr><th><label for=email1>Email:&nbsp;</label></th><td><input required autofocus name="email1" id="email1" type="email"/></td></tr>
@@ -82,8 +88,13 @@ $(function() {
 			<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
 		</table>
 	</form>
-	<br/>
-	<form class="main" method="post" id="registerForm" action="">
+	<p id='linkRegister'>Are you new? Click here to register</p>
+	</div>	
+			
+	</fieldset>
+	
+	<div id='reg' style="display:none">
+	<form class="main" method="post" id="registerForm">
 		<table>
 			<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
 			<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>
@@ -92,6 +103,7 @@ $(function() {
 			<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
 		</table>
 	</form>
+	</div>
 	
 </div><!-- end wrapper -->
 
