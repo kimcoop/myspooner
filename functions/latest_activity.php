@@ -20,13 +20,47 @@
 		$action = htmlspecialchars(trim($action));
 		switch($action) {
 			case 'markAsReceived':
-				markAsReceived($_POST['tagID']);
+				markAsReceived($_POST['type'], $_POST['received']);
 				break;
 		}
 	}
 	
-	function markAsReceived($tagID) {
-		$query = "UPDATE article_user_tag SET received=1 WHERE id='$tagID'";
+	function formatMessages() {
+		$str = "";
+		$messages = getNewMessages();
+		if (!empty($messages) ) {
+			foreach($messages as $message) {
+				$subject = $message['subject'];
+				$from = getUsername($message['written_by']);
+				$date = toDate($message['post_date']);
+				$content = $message['content'];
+				$id = $message['id'];
+				$str .= "<div class='message'><span class='preview'>On $date, $from wrote you a message.</span><span class='checkboxes'><input type='checkbox' class='message' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
+				$str .= "<div class='full_message' style='display:none'><div class='subject'>Subject: $subject</div><div class='content'>$content.</div></div>";
+			}
+		}
+		return $str;
+	}
+	
+	function getNewMessages($action=null) {
+		$id = $_SESSION['user_id'];
+		$query = "SELECT * FROM message WHERE recipient='$id' AND received='0' ORDER BY post_date DESC";
+		$result = mysql_query($query);
+			
+			if ($action != null) {
+				$messages = mysql_num_rows($result);
+				return "$messages new";
+			} else {
+				$messages = array();
+				while($row = mysql_fetch_array($result)){
+						$messages[] = $row;
+					}
+				return $messages;
+			}
+	}
+	
+	function markAsReceived($type, $id) {
+		$query = "UPDATE $type SET received=1 WHERE id='$id'";
 		mysql_query($query);
 		echo json_encode(array('msg'=>'Marked as read.'));
 	}
@@ -39,8 +73,8 @@
 			$tagger = getUsername($tag['tagger_id']);
 			$date = toDate($tag['tag_date']);
 			$id = $tag['id'];
-			$str .= "<div class='notification'>On $date, $tagger tagged you in a post called $post.&nbsp;";
-			$str .= "<input type='checkbox' class='notification' value='$id' name='received'></div>";
+			$str .= "<div class='notification'>On $date, $tagger tagged you in a post called $post.";
+			$str .= "<span class='checkboxes'><input type='checkbox' class='notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 		}
 		
 		return $str;
@@ -52,11 +86,8 @@
 		$result = mysql_query($query);
 		
 		if ($action != null) {
-			$plural = "";
 			$tags = mysql_num_rows($result);
-			if ($tags == 1) return "You've been tagged 1 time.";
-			else if ($tags == 0) return "No new tags at this time.";
-			else return "You've been tagged $tags times.";
+			return "$tags new";
 		} else {
 			$notifications = array();
 			while($row = mysql_fetch_array($result)){
@@ -68,10 +99,7 @@
 	
 	function getJoiners(){
 		$id = $_SESSION['user_id'];
-		$query = "SELECT last_login FROM user WHERE id='$id'";
-		$result = mysql_query($query);
-		$row = mysql_fetch_array($result);
-		$date = $row['last_login'];
+		$date = $_SESSION['last_login'];
 		$query = "SELECT * FROM user WHERE join_date>'$date' ORDER BY join_date DESC";
 		$result = mysql_query($query) or die(mysql_error());
 		$joiners = array();
@@ -102,20 +130,23 @@
 	function formatLatestActivities() {
 		$str = "";
 		$activities = getLatest();
-		foreach($activities as $a) {
-			$username = getUsername($a['user_id']);
-			$content = $a['content'];
-			$date = toDate($a['post_date']);
-			$title = getArticleTitle($a['id']);
-			$str .= "<div class='latest'>".$username." <span class='pinkText'>wrote</span> a blog post.&nbsp;&nbsp;<span class='timestamp'>$date</span>";
-			$str .= "<br>$title".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div>";			
-		}
+		if (!empty($activities)) {
+			foreach($activities as $a) {
+				$username = getUsername($a['user_id']);
+				$content = $a['content'];
+				$date = toDate($a['post_date']);
+				$title = getArticleTitle($a['id']);
+				$str .= "<div class='latest'>".$username." <span class='pinkText'>wrote</span> a blog post.&nbsp;&nbsp;<span class='timestamp'>$date</span>";
+				$str .= "<br>$title".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div>";			
+			}
+		} else $str .= "No updates since your last login on ".toDate($_SESSION['last_login']).".";
 		return $str;
 	}
 	
 	function getLatest() {
 		$all = array();
-		$query = "SELECT * FROM article ORDER BY post_date DESC";
+		$date = $_SESSION['last_login'];
+		$query = "SELECT * FROM article WHERE post_date>'$date' ORDER BY post_date DESC";
 		//$query = "SELECT * FROM article UNION SELECT * FROM article_comment ORDER BY post_date";
 		$result = mysql_query($query) or die(mysql_error());
 		while($row = mysql_fetch_array($result)){

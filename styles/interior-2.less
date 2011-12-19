@@ -34,23 +34,55 @@ fieldset#front {
 	border: medium solid @lgreen;
 	width: 450px;
 	margin: 0px auto;
+	.rounded;
 
 	h1 {
 		font-size: 5em;
 		margin: 0 0 0 0;
 	}
-	
-	.rounded;
 }
 
-#notifications {
+#notifications, #messages, #updates {
 	text-align: left;
 }
 
-.notification, .notificationMarked {
-	margin: .5em .5em 0 0;
+.notificationMarked, .messageMarked {
+	color: @grey;
 }
 
-.notificationMarked {
-	color: @grey;
+.notification {
+	clear:both;
+}
+
+span.checkboxes, span.messageMarked, span.notificationMarked {
+	margin: .5em 0 0 0;
+	float: right;
+	}
+
+.message {
+	margin: .5em 0 .5em 0;
+	clear: both;
+	.clickable;
+}
+
+.preview:hover {
+	color: @pink;
+}
+
+.full_message {
+	margin: 1em 0em 1em 0em;
+	padding: .5em 1em;
+	background: #ddd;
+	border: @darkgrey;
+	word-wrap: break-word;
+	width: 97%;
+	.rounded(2px);
+
+	.subject {
+		color: @green;
+	}
+	
+	.content {
+		margin: .8em 0 0 0em;
+	}
 }

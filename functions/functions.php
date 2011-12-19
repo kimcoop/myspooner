@@ -55,9 +55,10 @@
 		
 		if ($email != '' && $password != '' && $fname != '' && $lname != '') {
 		
-			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date) VALUES('$email','$password','$fname','$lname',now())");
+			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,last_login) VALUES('$email','$password','$fname','$lname',now(), now())");
 			if ($result) {
 				$_SESSION['username'] = $fname;
+				$_SESSION['last_login'] = new DateTime();
 				$_SESSION['user_id'] = mysql_insert_id();
 				echo json_encode(array('msg'=>'Successful registration!', 'error'=>''));	
 			} else {
@@ -88,8 +89,13 @@
 			if ( mysql_num_rows($result) > 0) {
 				$row = mysql_fetch_array($result);
 				$fname = $row['fname'];
-				$_SESSION['user_id'] = $row['id'];
+				$id = $row['id'];
+				$_SESSION['user_id'] = $id;
 				$msg = "Welcome back, $fname.";
+				$query = "SELECT last_login FROM user WHERE id='$id'";
+				$result = mysql_query($query);
+				$row = mysql_fetch_array($result);
+				$_SESSION['last_login'] = $row['last_login'];
 				$_SESSION['username'] = $fname;
 				echo json_encode(array('msg'=>$msg, 'error'=>''));	
 			} else {
