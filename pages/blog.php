@@ -1,6 +1,5 @@
 <?
 
-	include('../functions/functions.php');
 	include('../functions/blog.php');
 	include('../include/header.php');
 	
@@ -9,6 +8,10 @@
 <script type="text/javascript">
 
 $(function() {
+
+			/*$('.close').live('click', function() {
+				$(this).parent().parent().slideUp();
+			});*/
 			
 			$('header span').removeClass('active');
 			$('#blog').addClass('active');
@@ -23,22 +26,22 @@ $(function() {
 					$('#filterOn').text('Displaying blog posts tagged as '+tag);
 					$.ajax({ 
 						 type: 'post',
-						 dataType: 'string',
+						 dataType: 'json',
 						 url: '../functions/blog.php',
 						 data: {
 						 			'action': 'getArticlesByTag',
 						 			'tag': tag
 						 },
 						 success: function(data) {
-							if (data.error) {
-								alert(data.error);
-							} else {
-								$('#posts').text(data.articles);
+								$('#posts').html(data.articles);
 							}
-						 }
-					});
-				});				
-			});
+					});// end ajax
+				});// end function		
+			});// end click
+			
+		$('.articleComments').live('click', function() {
+			$(this).next().next('.comments').slideToggle();
+		});
 				
 		$('.postComment').click(function() {
 			var el = $(this);
@@ -57,12 +60,9 @@ $(function() {
 						 dataType: 'json',
 						 url: '../functions/blog.php',
 						 data: dataString,
-						 success: function() {
+						 success: function(data) {
 							contentArea.val('');
-							$.get('../functions/blog.php', {action: 'loadComments', aID: articleID}, function(data){
-								commentSection.replaceWith( data.comments );
-							}, "json");
-							
+							commentSection.replaceWith(data.comments);
 						 }
 				});
 							

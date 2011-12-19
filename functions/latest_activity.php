@@ -2,7 +2,7 @@
 	session_start();
 	mysql_connect("localhost", "root", "") or die(mysql_error());
 	mysql_select_db("myspooner") or die(mysql_error());
-	include('functions.php');
+	include_once('functions.php');
 	 
 	
 /* Getting an ID:	
@@ -41,7 +41,7 @@
 			$date = toDate($a['post_date']);
 			$title = getArticleTitle($a['id']);
 			$str .= "<div class='latest'>".$username." wrote a blog post.<span class='timestamp'>$date</span>";
-			$str .= "<h3>$title</h3></div>";
+			$str .= "<p>$title</p></div>";
 			
 		}
 		return $str;

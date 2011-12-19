@@ -1,7 +1,7 @@
 <?
-
-	include('../functions/settings.php');
-	include('../include/header.php');
+	include_once('../functions/blog.php');
+	include_once('../functions/settings.php');
+	include_once('../include/header.php');
 	
 ?>
 
@@ -12,17 +12,25 @@ $(function() {
 	$.originals = { 
 			'fname' : $('#fname').text(), 
 			'lname' : $('#lname').text(),
-			'email' : $('#email').text()
+			'email' : $('#email').text(),
+			'phone' : $('#phone').text(),
+			'mother' : $('#mother').val(),
+			'father' : $('#father').val(),
+			'about' : $('#about').val()
 	};
-
+	
 	$('header span').removeClass('active');
 	$('#settings').addClass('active');
 	
 	$('#edit').click(function() {
 		$('.editable').each(function() {
-			text = $(this).text();
-			id = $(this).attr('id');
-			$(this).replaceWith( $('<input id='+id+' class="editing" style="float:left" type="text">').val(text) );
+			var el = $(this);
+			id = el.attr('id');
+			if (el[0].tagName == 'SPAN') {
+				el.replaceWith( $('<input id='+id+' class="editing" style="float:left" type="text">').val(el.text()) );
+			} else {
+				el.removeAttr('disabled').addClass('editing').removeClass('editable');
+			}
 		});
 	});
 	
@@ -31,20 +39,34 @@ $(function() {
 			var fname = $('#fname').val();
 			var lname = $('#lname').val();
 			var email = $('#email').val();
+			var phone = $('#phone').val();
+			var mother = $('#mother').val();
+			var father = $('#father').val();
+			var about = $('#about').val();
 			
-			if (fname==$.originals['fname'] && lname==$.originals['lname'] && email==$.originals['email']) {
+			if (fname=='' || lname=='' || email=='') {
+				$('#notice').text('First name, last name, and email are required.').addClass('errorText').fadeIn().delay(2000).fadeOut();
+			} else if (fname==$.originals['fname'] && lname==$.originals['lname'] && email==$.originals['email'] && phone==$.originals['phone'] && mother==$.originals['mother'] && father==$.originals['father'] && about==$.originals['about']) {
 				solidify();
 			} else if (!isValidEmail(email)) {
-				$('#notice').text('Invalid email.').addClass('errorText').fadeIn().delay(2000).fadeOut();
+				$('#notice').text('Invalid email address.').addClass('errorText').fadeIn().delay(2000).fadeOut();
 			} else {
 			
 			$.originals['fname'] = fname;
 			$.originals['lname'] = lname;
 			$.originals['email'] = email;
+			$.originals['phone'] = phone;
+			$.originals['mother'] = mother;
+			$.originals['father'] = father;
+			$.originals['about'] = about;
 			
 			var dataString = 'action=updateUser&fname='+fname+
 												'&lname='+lname+
-												'&email='+email;
+												'&email='+email+
+												'&phone='+phone+
+												'&mother='+mother+
+												'&father='+father+
+												'&about='+about;
 			$.ajax({ 
 						 type: 'post',
 						 dataType: 'json',
@@ -62,10 +84,15 @@ $(function() {
 	
 	$('#cancel').click(function() {
 			$('.editing').each(function() {
-				text = $(this).val();
-				id = $(this).attr('id');
+				var el = $(this);
+				text = el.val();
+				id = el.attr('id');
 				var original = $.originals[id];
-				$(this).replaceWith( $('<span id='+id+' class="editable">').text(original) );
+				if ( el[0].tagName == 'INPUT' ) {
+						el.replaceWith( $('<span id='+id+' class="editable">').text(original) );
+				}	else {
+						el.attr('disabled', true).val(original).removeClass('editing').addClass('editable');
+				}
 			});	
 	});
 	
@@ -73,9 +100,14 @@ $(function() {
 
 function solidify() {
 		$('.editing').each(function() {
-			text = $(this).val();
-			id = $(this).attr('id');
-			$(this).replaceWith( $('<span id='+id+' class="editable">').text(text) );
+			var el = $(this);
+			text = el.val();
+			id = el.attr('id');
+				if ( el[0].tagName == 'INPUT' ) {
+					el.replaceWith( $('<span id='+id+' class="editable">').text(text) );				
+				}	else {//reset to original value
+					el.attr('disabled', true).removeClass('editing').addClass('editable');
+				}
 		});
 	};
 
@@ -94,8 +126,12 @@ function isValidEmail(email) {
 
 <div id="notice" style="display:none"></div>
 
+<? echo "<div class='memberTimestamp'>Member since ".toDate(getJoinDate($id))."</div>";
+	 echo "<br><div class='memberTimestamp'>Last login ".toDate(getLastLogin($id))."</div>"; ?>
+
+<br>
 <div class='settings'>
-	<? 
+	<?
 	
 		$id = $_SESSION['user_id'];
 		echo "<div class='settingType'><span class='type'>First name:</span><span id='fname' class='editable'>".getUsername($id)."</span></div>";
@@ -104,7 +140,15 @@ function isValidEmail(email) {
 		echo "<br><br>";
 		echo "<div class='settingType'><span class='type'>Email:</span><span id='email' class='editable'>".getEmail($id)."</span></div>";
 		echo "<br><br>";
-		echo "<div class='settingType'><span class='type'>Joined on:</span><span>".toDate(getJoinDate($id))."</span></div>";
+		echo "<div class='settingType'><span class='type'>Phone:</span><span id='phone' class='editable'>".getPhone($id)."</span></div>";
+		echo "<br><br>";
+		echo "<div class='settingType'><span class='type'>About:</span><span id='about' class='editable'>".getAbout($id)."</span></div>";
+		echo "<br><br>";
+		$mom = getMother($id);
+		echo "<div class='settingType'><span class='type'>Mother:</span>".getUsersAsSelect('mother', $mom)."</div>";
+		echo "<br><br>";
+		$dad = getFather($id);
+		echo "<div class='settingType'><span class='type'>Father:</span>".getUsersAsSelect('father', $dad)."</div>";
 	
 	?>
 		<br>

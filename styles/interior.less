@@ -31,7 +31,7 @@
 }
 
 div.article {
-	margin: 1.2em 0em;
+	margin: 1.5em 0em 0em 0em;
 	padding: .8em 0em;
 	border-bottom: thin solid @pink;
 	text-align: justify;
@@ -79,6 +79,14 @@ div.article {
 	
 	.comment {
 		margin: 1em 0 0 0;
+	}
+	
+	.articleComments {
+		.clickable;
+	}
+	
+	.articleComments:hover {
+		color: @pink;
 	}
 }
 
@@ -149,21 +157,21 @@ div.article {
 }
 
 div.latest {
-	margin: 1em 0em 1em 0em;
+	margin: 1.3em 0em 1em 0em;
 	padding: 1em 0em .5em 0em;
 	border-bottom: thin solid @grey;
 	text-align: justify;
-	color: @grey;
-	.small_font;
 
 	.timestamp {
 		float:right;
+		color: @grey;
+		.small_font;
 	}
 	
-	h3 {
-		color: @lgreen;
-		font-size: 2em;
-		margin: 0 0 0 0;
+	p {
+		color: @grey;
+		font-size: 1em;
+		margin: 1em 0 0 1em;
 		text-align: left;
 	}
 }
@@ -172,7 +180,7 @@ div.latest {
 	width: 400px;
 	margin: 0px auto;
 	
-	span {
+	span, .editable, .editing {
 		float: left;
 		text-align: left;
 		padding: 0.1em 0.4em 0.1em 0.4em;
@@ -192,4 +200,21 @@ div.latest {
 	margin: 2em 0em 0em -600px;
 }
 
+.close {
+	float:right;
+	margin: -1em 0 0 0;
+	background: transparent url("../images/icons_module.png") no-repeat 0 0;
+	display: inline-block;
+	height: 16px;
+	vertical-align: text-top;
+	 width: 16px;
+	overflow: hidden;
+	background-position: 3px -500px;
+	.clickable;
+}
 
+.memberTimestamp {
+	font-size: .8em;
+	float: right;
+	color: @grey;
+}

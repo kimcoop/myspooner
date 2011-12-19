@@ -101,6 +101,9 @@
 	}
 	
 	function logout() {
+		$id = $_SESSION['user_id'];
+		$query = "UPDATE user SET last_login=now() WHERE id='$id'";
+		mysql_query($query);
 		session_destroy();
 	}
 ?>

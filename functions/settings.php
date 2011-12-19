@@ -2,7 +2,7 @@
 	session_start();
 	mysql_connect("localhost", "root", "") or die(mysql_error());
 	mysql_select_db("myspooner") or die(mysql_error());
-	include('functions.php');
+	include_once('functions.php');
 	
 /* Getting an ID:	
 		$row = mysql_fetch_array($result);
@@ -19,13 +19,16 @@
 		$action = htmlspecialchars(trim($action));
 		switch($action) {
 			case 'updateUser':
-				updateUser($_POST['fname'], $_POST['lname'], $_POST['email'], $_SESSION['user_id']);
+				updateUser();
 				break;
 		}
 	}
 	
-	function updateUser($fname, $lname, $email, $id) {
-		$query = "UPDATE user SET fname='$fname', lname='$lname', email='$email' WHERE id='$id'";
+	function updateUser() {
+		$fname = trim($_POST['fname']); $lname = trim($_POST['lname']); $email = trim($_POST['email']); $id = $_SESSION['user_id'];
+		$phone = trim($_POST['phone']); $mother = trim($_POST['mother']); $father = trim($_POST['father']); $about = trim($_POST['about']);
+		
+		$query = "UPDATE user SET fname='$fname', lname='$lname', email='$email', phone='$phone', mother='$mother', father='$father', about='$about' WHERE id='$id'";
 		mysql_query($query);
 	}
 	
@@ -49,6 +52,31 @@
 	function getJoinDate($id) {
 		$row = getUserInfo($id);
 		return $row['join_date'];
+	}
+	
+	function getPhone($id) {
+		$row = getUserInfo($id);
+		return $row['phone'];
+	}
+	
+	function getMother($id) {
+		$row = getUserInfo($id);
+		return $row['mother'];
+	}
+	
+	function getFather($id) {
+		$row = getUserInfo($id);
+		return $row['father'];
+	}
+	
+	function getAbout($id) {
+		$row = getUserInfo($id);
+		return $row['about'];
+	}
+	
+	function getLastLogin($id) {
+		$row = getUserInfo($id);
+		return $row['last_login'];
 	}
 	
 	?>

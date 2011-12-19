@@ -15,17 +15,6 @@
 			}
 		return $events;	*/
 		
-	if (isset($_GET['action']) && !empty($_GET['action']) ){
-		$action = $_GET['action'];
-		$action = htmlspecialchars(trim($action));
-		switch($action) {
-		case 'loadComments':
-				$comments = formatCommentsForArticle($_GET['aID']);
-				echo json_encode(array('msg'=>'test message', 'comments'=>$comments));
-				break;
-		}
-	}
-		
 	if (isset($_POST['action']) && !empty($_POST['action']) ){
 		$action = $_POST['action'];
 		$action = htmlspecialchars(trim($action));
@@ -37,11 +26,14 @@
 				search();
 				break;
 			case 'getArticlesByTag':
-				getArticlesByTag($_POST['tag']);
+				$articles = getArticlesByTag($_POST['tag']);
+				echo json_encode(array('articles'=>$articles));
 				break;
 			case 'comment':
 				$aID = $_POST['articleID'];
 				postComment($aID, $_POST['content'], $_SESSION['user_id']);
+				$comments = formatCommentsForArticle($aID);
+				echo json_encode(array('comments'=>$comments));
 				break;
 			}
 	}
@@ -85,8 +77,8 @@
 	return $tags;
  }
  
- function getAllUserTags() {
- 	$query = "SELECT id, fname FROM user ORDER BY fname ASC";
+ function getAllUsers() {
+ 	$query = "SELECT id, fname, lname, email FROM user ORDER BY fname ASC";
  	$result = mysql_query($query) or die(mysql_error());
 	$tags = array();
 	while($row = mysql_fetch_array($result)){
@@ -95,8 +87,27 @@
 	return $tags;
  }
  
+ function getUsersAsSelect($selectID =null, $active='') {
+ 	$users = getAllUsers();
+ 	$str = "";
+ 	if ($selectID != null) $str .= "<select id='$selectID'";
+ 	else $str .= "<select";
+ 	$str .= " class='editable' disabled>";
+ 	$str .= "<option value='0'>Not specified</option>";
+ 	foreach($users as $u) {
+ 		$name = $u['fname']."&nbsp;".$u['lname'];
+ 		$id = $u['id'];
+ 		$email = $u['email'];
+ 		if ($active == $id) $str .= "<option selected";
+ 		else $str .= "<option";
+ 		$str .= " id='$email' value='$id'>$name</option>";
+ 	}
+ 	$str .= "</select>";
+ 	return $str;
+ }
+ 
  function getUserTagsAsCheckbox() {
- 	$tags = getAllUserTags();
+ 	$tags = getAllUsers();
  	$str = "";
  	$str .= "<div class='tagSelect'><span>Tag users in your post:</span><div>";
  	foreach($tags as $tag) {
@@ -193,7 +204,7 @@ function formatCommentsForArticle($id) {
 	$str = "<div class='commentSection'>";
 
 	$comments =  getCommentsForArticle($id);
-	$str .= totalCommentsForArticle($id);
+	$str .= "<span class='articleComments'>".totalCommentsForArticle($id)."</span>";
 	$str .= "&nbsp;<div class='addComment'>Add a comment";
 	$str .= "<div class='commentForm' style='display:none;'>";
 	
@@ -201,10 +212,10 @@ function formatCommentsForArticle($id) {
 	$str .= "<textarea placeholder='Your comment here' class='commentContent'></textarea>";
 	$str .= "<input type='hidden' class='artID' value='".$id."'>";
 	$str .= "&nbsp;<input type='submit' value='Comment' class='postComment'>";
-	$str .="</form></div></div>"; // end div.addComment
+	$str .="<div class='close'></div></form></div></div>"; // end div.addComment
 	
 	if (!empty($comments)) {
-		$str .= "<div class='comments'>";
+		$str .= "<div class='comments' style='display:none'>";
 		foreach($comments as $comment) {
 			$author = getUsername($comment['user_id']);
 			$str .= "<div class='comment'>";
