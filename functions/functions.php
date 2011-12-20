@@ -32,6 +32,28 @@
 		}
 	}
 	
+	function ago($time) {
+   $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+   $lengths = array("60","60","24","7","4.35","12","10");
+
+   $now = time();
+
+       $difference     = $now - $time;
+       $tense         = "ago";
+
+   for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+       $difference /= $lengths[$j];
+   }
+
+   $difference = round($difference);
+
+   if($difference != 1) {
+       $periods[$j].= "s";
+   }
+
+   return "$difference $periods[$j] ago";
+ }
+	
 	function getUsername($id) {
 		$query = "SELECT fname FROM user WHERE id = '$id'";
 		$result = mysql_query($query) or die(mysql_error());
@@ -40,10 +62,16 @@
 	}
 	
 	function toDate($date){
-	
-		$r = new DateTime($date);
-		$return = $r->format('l, m-d-Y @ H:i a');
+		$r = strtotime($date);
 		
+		return ago($r);
+		//$return = $r->format('l, m-d-Y @ g:i a');
+		//return $return;
+	}	
+	
+	function toDateOnly($date){
+		$r = new DateTime($date);
+		$return = $r->format('l, m-d-Y');
 		return $return;
 	}
 	
@@ -58,7 +86,7 @@
 			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,last_login) VALUES('$email','$password','$fname','$lname',now(), now())");
 			if ($result) {
 				$_SESSION['username'] = $fname;
-				$_SESSION['last_login'] = new DateTime();
+				$_SESSION['last_login'] = 0;
 				$_SESSION['user_id'] = mysql_insert_id();
 				echo json_encode(array('msg'=>'Successful registration!', 'error'=>''));	
 			} else {

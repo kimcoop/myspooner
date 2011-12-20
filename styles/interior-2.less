@@ -7,6 +7,12 @@
 @grey: #bbb;
 @darkgrey: #333;
 
+.georgia {
+	font-family: georgia, times;
+	font-size: 1em;
+	font-weight: normal;
+}
+
 .clickable {
 	cursor:pointer;
 }
@@ -42,24 +48,24 @@ fieldset#front {
 	}
 }
 
-#notifications, #messages, #updates {
+#notifications, #messages, #updates, #mywall {
 	text-align: left;
+	clear: both;
+	
+	h2 {
+		border-bottom: thin solid @pink;
+	}
 }
 
 .notificationMarked, .messageMarked {
 	color: @grey;
 }
 
-.notification {
-	clear:both;
-}
-
 span.checkboxes, span.messageMarked, span.notificationMarked {
-	margin: .5em 0 0 0;
 	float: right;
 	}
 
-.message {
+.message, .notification {
 	margin: .5em 0 .5em 0;
 	clear: both;
 	.clickable;
@@ -85,4 +91,23 @@ span.checkboxes, span.messageMarked, span.notificationMarked {
 	.content {
 		margin: .8em 0 0 0em;
 	}
+}
+
+.threadedMessages {
+	clear: both;
+	border-top: thin solid #BBB;
+	margin: 1em 0 0 1em;
+	padding: .5em 0 0 0;
+}
+
+
+.post {
+	margin: 2em 0 2em 0;
+	text-align: justify;
+	clear: both;
+	word-wrap: break-word;
+}
+
+#ui-datepicker-div {
+	background: white;
 }

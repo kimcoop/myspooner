@@ -1,7 +1,8 @@
 <?
-
+	session_start();
 	include('../functions/functions.php');
 	include('../include/header.php');
+	include('../functions/wall.php');
 	
 ?>
 
@@ -18,9 +19,8 @@ $(function() {
 
 <div id="container">
 
-
-<h2>wall</h2>
-
-
-
+<div id="mywall">
+	<h2>Wall</h2>
+	<? echo formatWall($_SESSION['user_id']) ?>
+</div>
 <? include('../include/footer.php') ?>

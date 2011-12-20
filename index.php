@@ -92,12 +92,13 @@ $(function() {
 			<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
 		</table>
 	</form>
-	<p id='linkRegister'>Are you new? Click here to register</p>
+	<a href='return:false' style='float:right;margin:0 .5em .2em 0;' id='linkRegister'>New? Click here to register.</a>
 	</div>	
 			
 	</fieldset>
 	
 	<div id='reg' style="display:none">
+	<p>Welcome! Sign up by filling out these fields.</p>
 	<form class="main" method="post" id="registerForm">
 		<table>
 			<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>

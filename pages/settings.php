@@ -1,13 +1,52 @@
 <?
 	include_once('../functions/blog.php');
 	include_once('../functions/settings.php');
-	include_once('../include/header.php');
-	
+	include_once('../include/header.php');	
 ?>
 
 <script type="text/javascript">
 
 $(function() {
+
+
+	$('.addNew').click(function() {
+	
+		$('#newTrip').fadeIn();
+	
+	});
+
+	$('#arrival').datepicker();
+	$('#departure').datepicker();
+	
+	$('#saveSpoonerDates').click(function() {
+		var user_id = $('#user_id').val();
+		var arrival = $('#arrival').val();
+		var departure = $('#departure').val();
+		var notes = $('#notes').val();
+		
+		if (arrival=='' || departure=='') {
+			$('#dates_notice').addClass('errorText').text('Arrival and departure dates must be filled in.').fadeIn().delay(2000).fadeOut();
+		} else {
+	
+		var dataString = 'action=setSpoonerDates'+
+											'&user_id='+user_id+
+											'&arrival='+arrival+
+											'&departure='+departure+
+											'&notes='+notes;
+	
+		$.ajax({ 
+					 type: 'post',
+					 dataType: 'json',
+					 url: '../functions/settings.php',
+					 data: dataString,
+					 success: function(data) {
+							$('#dates_notice').addClass('greenText').text(data.msg).fadeIn().delay(2000).fadeOut();
+							//solidify();
+					}
+			});
+			return false;
+		}
+	}); //end click
 
 	$.originals = { 
 			'fname' : $('#fname').text(), 
@@ -26,11 +65,7 @@ $(function() {
 		$('.editable').each(function() {
 			var el = $(this);
 			id = el.attr('id');
-			if (el[0].tagName == 'SPAN') {
-				el.replaceWith( $('<input id='+id+' class="editing" style="float:left" type="text">').val(el.text()) );
-			} else {
-				el.removeAttr('disabled').addClass('editing').removeClass('editable');
-			}
+			el.removeAttr('disabled').addClass('editing').removeClass('editable');
 		});
 	});
 	
@@ -88,11 +123,7 @@ $(function() {
 				text = el.val();
 				id = el.attr('id');
 				var original = $.originals[id];
-				if ( el[0].tagName == 'INPUT' ) {
-						el.replaceWith( $('<span id='+id+' class="editable">').text(original) );
-				}	else {
-						el.attr('disabled', true).val(original).removeClass('editing').addClass('editable');
-				}
+				el.attr('disabled', true).val(original).removeClass('editing').addClass('editable');
 			});	
 	});
 	
@@ -103,11 +134,7 @@ function solidify() {
 			var el = $(this);
 			text = el.val();
 			id = el.attr('id');
-				if ( el[0].tagName == 'INPUT' ) {
-					el.replaceWith( $('<span id='+id+' class="editable">').text(text) );				
-				}	else {//reset to original value
-					el.attr('disabled', true).removeClass('editing').addClass('editable');
-				}
+			el.attr('disabled', true).removeClass('editing').addClass('editable');
 		});
 	};
 
@@ -122,38 +149,65 @@ function isValidEmail(email) {
 <div id="container">
 
 
-<h2>Settings</h2>
+<h2>Profile Info</h2>
 
 <div id="notice" style="display:none"></div>
 
-<? echo "<div class='memberTimestamp'>Member since ".toDate(getJoinDate($id))."</div>";
+<? 
+	 $id = $_SESSION['user_id'];
+	echo "<div class='memberTimestamp'>Member since ".toDate(getJoinDate($id))."</div>";
 	 echo "<br><div class='memberTimestamp'>Last login ".toDate(getLastLogin($id))."</div>"; ?>
 
 <br>
 <div class='settings'>
 	<?
-	
-		$id = $_SESSION['user_id'];
-		echo "<div class='settingType'><span class='type'>First name:</span><span id='fname' class='editable'>".getUsername($id)."</span></div>";
+		echo "<input type='hidden' value='$id' id='user_id'>";
+		echo "<span class='type'>First name:</span><input type='text' disabled id='fname' class='editable' value='".getUsername($id)."'>";
 		echo "<br><br>";
-		echo "<div class='settingType'><span class='type'>Last name:</span><span id='lname' class='editable'>".getLastName($id)."</span></div>";
+		echo "<span class='type'>Last name:</span><input type='text' disabled id='lname' class='editable' value='".getLastName($id)."'>";
 		echo "<br><br>";
-		echo "<div class='settingType'><span class='type'>Email:</span><span id='email' class='editable'>".getEmail($id)."</span></div>";
+		echo "<span class='type'>Email:</span><input type='text' disabled id='email' class='editable' value='".getEmail($id)."'>";
 		echo "<br><br>";
-		echo "<div class='settingType'><span class='type'>Phone:</span><span id='phone' class='editable'>".getPhone($id)."</span></div>";
+		echo "<span class='type'>Phone:</span><input type='text' disabled id='phone' class='editable' value='".getPhone($id)."'>";
 		echo "<br><br>";
-		echo "<div class='settingType'><span class='type'>About:</span><span id='about' class='editable'>".getAbout($id)."</span></div>";
+		echo "<span class='type'>About:</span><input type='text' disabled id='about' class='editable' value='".getAbout($id)."'>";
 		echo "<br><br>";
 		$mom = getMother($id);
-		echo "<div class='settingType'><span class='type'>Mother:</span>".getUsersAsSelect('mother', $mom)."</div>";
+		echo "<span class='type'>Mother:</span>".getUsersAsSelect('mother', $mom);
 		echo "<br><br>";
 		$dad = getFather($id);
-		echo "<div class='settingType'><span class='type'>Father:</span>".getUsersAsSelect('father', $dad)."</div>";
+		echo "<span class='type'>Father:</span>".getUsersAsSelect('father', $dad);
 	
 	?>
-		<br>
+		<br><br>
 		<input type='button' value='Edit' id='edit'>&nbsp;<input type='submit' id='save' value='Save'>
 		<input type='button' id='cancel' value='Cancel'>
+	
+	
+	<div class='spoonerDates'>
+	<h2>Spooner Dates</h2>
+	<div id="dates_notice" style="display:none"></div><br>
+	
+	<? echo formatSpoonerDates($id) ?>
+	
+	<br>
+	
+	<div>
+		Ready to post your Spooner dates?
+		<div class='addNew'></div>
+	</div>
+	
+	<div id='newTrip' style='display:none'>
+	<br>
+	Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
+	Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
+	Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
+	<input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
+	</div><!-- end div#newTrip-->
+	
+	
+	</div><!-- end div.spoonerDates -->
+	
 	
 </div>
 

@@ -7,6 +7,11 @@
 @grey: #bbb;
 @darkgrey: #333;
 
+.timestamp {
+	color: @grey;
+	.small_font;
+}
+
 .clickable {
 	cursor:pointer;
 }
@@ -160,16 +165,25 @@ div.article {
 	width: 88%;
 }
 
+.replyContent {
+	height: 3.4em;
+	width: 92%;
+}
+
+.reply {
+	
+	margin: 1em 0 .2em 0;
+}	
+
 div.latest {
 	margin: 0em 0em 2em 0em;
 	padding: 1em 0em .5em 0em;
-	border-bottom: thin solid @grey;
 	text-align: justify;
+	.rounded;
 
-	.timestamp {
+	.datetime {
 		float:right;
-		color: @grey;
-		.small_font;
+		.timestamp
 	}
 	
 	p {
@@ -180,28 +194,14 @@ div.latest {
 	}
 }
 
-.settingType {
-	width: 400px;
-	margin: 0px auto;
-	
-	span, .editable, .editing {
-		float: left;
-		text-align: left;
-		padding: 0.1em 0.4em 0.1em 0.4em;
-	}
-	
-	.type {
-		color: @pink;
-		margin: 0em 1em 1em 0em;
-		width: 80px;
-	}
-
+div.settings {
+	text-align: center;
 }
 
-#edit {
-	clear: both;
-	text-align: center;
-	margin: 2em 0em 0em -600px;
+.type {
+	margin: 0em .4em 1em 0em;
+	width: 120px;
+	text-align: left;
 }
 
 .close {

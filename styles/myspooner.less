@@ -5,6 +5,7 @@
 @red: #8C003D;
 @lgreen: #37DD6F;
 @grey: #c7c7c7;
+@dark: #333;
 
 .clickable {
 	cursor:pointer;
@@ -29,6 +30,7 @@ div#container{
 	text-align:center;
 	width:800px; 
 	margin:0 auto; 
+	margin-bottom: 4em;
 }
 
 h1, h2, h3, h4 {
@@ -81,7 +83,7 @@ label {
 
 input[type="password"], input[type="email"], input[type="search"], input[type="text"], input[type="textbox"], input[type="textarea"], textarea   {
 	border: 1px #bbb solid;
-	color: #333;
+	color: @dark;
 	background: #fff;
 	padding: 0.1em 0.4em 0.1em 0.4em;
 	cursor: text;
@@ -121,6 +123,10 @@ div.error {
 
 .greenText {
 	color: @green !important;
+}
+
+.darkText {
+	color: @dark !important;
 }
 
 footer {
@@ -171,12 +177,12 @@ body {
 	margin-top: 7em;
 	width: 100%;
 	font: 11pt arial;
-	color: #333;
+	color: @dark;
 	min-height: 500px;
 }	
 
 .addNew {
-	margin: .2em 1.5em 0 0;
+	margin: 0em 1.5em 0 0;
 	background: transparent url("../images/icons_module.png") no-repeat 0 0;
 	display: inline-block;
 	height: 16px;
@@ -184,7 +190,6 @@ body {
 	 width: 20px;
 	overflow: hidden;
 	background-position: 3px -50px;
-	float: right;
 	.clickable;
 }
 

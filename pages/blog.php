@@ -85,7 +85,12 @@ $(function() {
 <div id="container">
 
 
-<h2>Blog<span id="addNewPost" class="addNew"></span></h2>
+<h2>Blog</h2>
+
+<div>
+	Write a new blog post!
+	<div id="addNewPost" class="addNew"></div>
+</div>
 
 <!--<div id="searchResults"></div>
 

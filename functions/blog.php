@@ -197,7 +197,7 @@ function formatArticles($articles) {
 		$str .= "<div class='article'>";
 		$str .= "<h3>".$a['title']."</h3>";
 		$str .= "<span class='author'>by ".getUsername($a['user_id']);
-		$str .= " on " .toDate($a['post_date'])."</span><br>";
+		$str .= " ".toDate($a['post_date'])."</span><br>";
 		$str .= $a['content'];
 		$str .= "<div class='tags'>";
 		$str .= formatUserTagsForArticle($a['id']);		
@@ -229,7 +229,7 @@ function formatCommentsForArticle($id) {
 		foreach($comments as $comment) {
 			$author = getUsername($comment['user_id']);
 			$str .= "<div class='comment'>";
-			$str .= "<span>On ".toDate($comment['post_date']).", ".$author." wrote";
+			$str .= "<span>".toDate($comment['post_date']).", ".$author." wrote";
 			$str .= "</span><br>";
 			$str .= $comment['content']."</div>";
 		}

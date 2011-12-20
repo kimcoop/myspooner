@@ -52,29 +52,51 @@ $(function() {
 			$('span.preview').click(function() {
 				el = $(this);
 				el.parent().next('.full_message').slideToggle();			
-			});
+			}); 
+			
+			$('.postReply').live('click',function() {
+				var el = $(this);
+				var msgID = el.siblings('.msgID').val();
+				var content = el.siblings('.replyContent').val();
+				var toUser = el.siblings('.toUser').val();
+				
+				var dataString = 'action=postReply&rootMsgID='+msgID+
+													'&content='+content+
+													'&toUser='+toUser;alert(dataString);
+				
+					$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/latest_activity.php',
+						 data: dataString,
+						 success: function(data) {
+								el.parent().replaceWith( $("<span></span").text(data.msg) );
+							}
+					});// end ajax
+			});// end click			
 });
 
 </script>
 
 <div id="container">
 
-<h2>Notifications: <? echo getNotifications('count'); ?></h2>
-
 <div id="notifications">
-<? echo formatNotifications() ?>
+	<h2>Notifications: <? echo getNotifications('count'); ?></h2>
+	<? echo formatNotifications() ?>
 </div>
 
-<h2>Messages: <? echo getNewMessages('count'); ?></h2>
 
 <div id="messages">
-<? echo formatMessages() ?>
+	<h2>Messages: <? echo getNewMessages('count'); ?></h2>
+	<? echo formatMessages() ?>
 </div>
 
-<h2>Latest Activity</h2>
 <div id="updates">
-<? echo formatJoiners();
-	 echo formatLatestActivities() ?>
+		<h2>Latest Activity</h2>
+	
+	<? echo formatSpoonerDates();
+		 echo formatJoiners();
+		 echo formatLatestActivities() ?>
 </div>
 
 <? include('../include/footer.php') ?>
