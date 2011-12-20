@@ -69,6 +69,16 @@
 		//return $return;
 	}	
 	
+	function toDateWithAgo($date) {
+		$d = new DateTime($date);
+		$d = $d->format('D, m-d-y');
+		$r = strtotime($date);
+		
+		return ago($r)." on $d";
+		//$return = $r->format('l, m-d-Y @ g:i a');
+		//return $return;
+	}
+	
 	function toDateOnly($date){
 		$r = new DateTime($date);
 		$return = $r->format('l, m-d-Y');

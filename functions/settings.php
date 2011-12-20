@@ -34,15 +34,22 @@
 		$dates = getSpoonerDates($id);
 		
 		if (!empty($dates)) {
-			if (count($dates)==1) $str .= "Your trip:<br>";
-			else $str .= "Your trips:<br>";
+			$str .= "<div id='trips'>";
+			if (count($dates)==1) $str .= "Your upcoming trip:<br>";
+			else $str .= "Your upcoming trips:<br>";
 		
-			foreach($dates as $date) {
-				$arrival = $date['arrival'];
-				$departure = $date['departure'];
-				$str .= toDateOnly($arrival)." until ";
-				$str .= toDateOnly($departure)."<br>";
-			}
+				foreach($dates as $date) {
+					$str .= "<div class='spoonerTrip'><span>";
+					$arrival = $date['arrival'];
+					$departure = $date['departure'];
+					$post_date = toDateWithAgo($date['post_date']);
+					$str .= toDateOnly($arrival)." until ";
+					$str .= toDateOnly($departure);
+					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date</span>";
+					$str .= "</div><br>";
+				}
+				
+		$str .= "</div>";
 		}
 		return $str;
 	}
@@ -66,7 +73,9 @@
 		$query .= " VALUES('$user_id', now(), '$arrival', '$departure', '$notes')";
 		mysql_query($query);
 		
-		echo json_encode(array('msg'=>'Spooner dates saved!'));	
+		$formattedDates = formatSpoonerDates($user_id);
+		
+		echo json_encode(array('msg'=>'Spooner dates saved!', 'trips'=>$formattedDates));	
 	}
 	
 	

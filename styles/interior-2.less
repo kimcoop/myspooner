@@ -7,6 +7,15 @@
 @grey: #bbb;
 @darkgrey: #333;
 
+.bordered_post {
+	margin: 2em 0em 1em 0em;
+	padding: 0.4em 0em;
+	border-top: thin solid #eee;
+	text-align: justify;
+	clear: both;
+	word-wrap: break-word;
+}
+
 .georgia {
 	font-family: georgia, times;
 	font-size: 1em;
@@ -51,10 +60,6 @@ fieldset#front {
 #notifications, #messages, #updates, #mywall {
 	text-align: left;
 	clear: both;
-	
-	h2 {
-		border-bottom: thin solid @pink;
-	}
 }
 
 .notificationMarked, .messageMarked {
@@ -102,12 +107,35 @@ span.checkboxes, span.messageMarked, span.notificationMarked {
 
 
 .post {
-	margin: 2em 0 2em 0;
-	text-align: justify;
-	clear: both;
-	word-wrap: break-word;
+	.bordered_post;
 }
 
 #ui-datepicker-div {
 	background: white;
+}
+
+.newTrip {
+	.clickable;
+}
+
+.newTrip:hover {
+	color:@pink;
+}
+
+#trips {
+	text-align: left;
+}
+
+.spoonerTrip {
+	float: left;
+	margin: .4em 0 0 0;
+	width: 100%;
+	
+	span {
+		float:left;
+	}	
+}
+
+.announcedTrip {
+	.bordered_post;
 }

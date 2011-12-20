@@ -41,9 +41,9 @@
 				
 				$writer = getUsername($p['writer']);
 				$content = $p['content'];
-				$date = toDate($p['post_date']);
+				$date = toDateWithAgo($p['post_date']);
 				
-				$str .= "$content<span class='timestamp' style='float:right'>by $writer on $date</span>";
+				$str .= "$content<span class='memberTimestamp'>by $writer $date</span>";
 				
 				$str .= "</div>"; //end div.post
 			}

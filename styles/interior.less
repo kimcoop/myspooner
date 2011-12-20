@@ -7,6 +7,15 @@
 @grey: #bbb;
 @darkgrey: #333;
 
+.bordered_post {
+	margin: 2em 0em 1em 0em;
+	padding: 0.4em 0em;
+	border-top: thin solid #eee;
+	text-align: justify;
+	clear: both;
+	word-wrap: break-word;
+}
+
 .timestamp {
 	color: @grey;
 	.small_font;
@@ -50,12 +59,7 @@
 }
 
 div.article {
-	margin: 1.5em 0em 0em 0em;
-	padding: .8em 0em;
-	border-bottom: thin solid @pink;
-	text-align: justify;
-	clear: both;
-	word-wrap: break-word;
+	.bordered_post;
 
 	h3 {
 		color: @lgreen;
@@ -101,8 +105,8 @@ div.article {
 
 #newPost {
 	input[type="text"], textarea {
-		width: 400px;
-		margin-bottom: .3em; 
+		width: 600px;
+		margin: .3em; 
 	}
 	
 	textarea {
@@ -176,10 +180,7 @@ div.article {
 }	
 
 div.latest {
-	margin: 0em 0em 2em 0em;
-	padding: 1em 0em .5em 0em;
-	text-align: justify;
-	.rounded;
+	.bordered_post;
 
 	.datetime {
 		float:right;

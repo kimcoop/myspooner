@@ -197,7 +197,7 @@ function formatArticles($articles) {
 		$str .= "<div class='article'>";
 		$str .= "<h3>".$a['title']."</h3>";
 		$str .= "<span class='author'>by ".getUsername($a['user_id']);
-		$str .= " ".toDate($a['post_date'])."</span><br>";
+		$str .= "</span><span class='memberTimestamp'>".toDateWithAgo($a['post_date'])."</span><br>";
 		$str .= $a['content'];
 		$str .= "<div class='tags'>";
 		$str .= formatUserTagsForArticle($a['id']);		

@@ -9,16 +9,18 @@
 $(function() {
 
 
-	$('.addNew').click(function() {
+	$('.newTrip').live('click', function() {
+		$('#newTrip').slideToggle();	
+	});
 	
-		$('#newTrip').fadeIn();
-	
+	$('#cancelNewTrip').live('click', function() {
+		$('#newTrip').slideUp();
 	});
 
 	$('#arrival').datepicker();
 	$('#departure').datepicker();
 	
-	$('#saveSpoonerDates').click(function() {
+	$('#saveSpoonerDates').live('click', function() {
 		var user_id = $('#user_id').val();
 		var arrival = $('#arrival').val();
 		var departure = $('#departure').val();
@@ -41,7 +43,8 @@ $(function() {
 					 data: dataString,
 					 success: function(data) {
 							$('#dates_notice').addClass('greenText').text(data.msg).fadeIn().delay(2000).fadeOut();
-							//solidify();
+							$('#newTrip').fadeOut('slow');
+							$('#trips').delay(1000).replaceWith( data.trips );
 					}
 			});
 			return false;
@@ -61,7 +64,7 @@ $(function() {
 	$('header span').removeClass('active');
 	$('#settings').addClass('active');
 	
-	$('#edit').click(function() {
+	$('#edit').live('click', function() {
 		$('.editable').each(function() {
 			var el = $(this);
 			id = el.attr('id');
@@ -69,7 +72,7 @@ $(function() {
 		});
 	});
 	
-	$('#save').click(function() {
+	$('#save').live('click', function() {
 		if ( $('.editing').length != 0) {	
 			var fname = $('#fname').val();
 			var lname = $('#lname').val();
@@ -117,7 +120,7 @@ $(function() {
 		}
 	});
 	
-	$('#cancel').click(function() {
+	$('#cancel').live('click', function() {
 			$('.editing').each(function() {
 				var el = $(this);
 				text = el.val();
@@ -185,29 +188,28 @@ function isValidEmail(email) {
 	
 	
 	<div class='spoonerDates'>
-	<h2>Spooner Dates</h2>
-	<div id="dates_notice" style="display:none"></div><br>
-	
-	<? echo formatSpoonerDates($id) ?>
-	
-	<br>
-	
-	<div>
-		Ready to post your Spooner dates?
-		<div class='addNew'></div>
-	</div>
-	
-	<div id='newTrip' style='display:none'>
-	<br>
-	Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
-	Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
-	Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
-	<input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
-	</div><!-- end div#newTrip-->
-	
-	
-	</div><!-- end div.spoonerDates -->
-	
+		<h2>Spooner Dates</h2>
+		<div id="dates_notice" style="display:none"></div>
+		
+		<div class='button_container'>
+			<span class='newTrip'>Ready to post a Spooner trip?
+			<div class='addNew'></div></span>
+		</div>
+		
+		<div id='newTrip' style='display:none'>
+			<br>
+			Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
+			Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
+			Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
+			<br><br><br><input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
+			<input id='cancelNewTrip' style='z-index:400000' type='button' value='Cancel'>
+		</div><!-- end div#newTrip-->
+		
+		<br>
+			<div id='trips'>
+				<? echo formatSpoonerDates($id) ?>
+			</div>
+	</div><!-- end div.spoonerDates -->	
 	
 </div>
 

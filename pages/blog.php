@@ -87,7 +87,7 @@ $(function() {
 
 <h2>Blog</h2>
 
-<div>
+<div class='button_container'>
 	Write a new blog post!
 	<div id="addNewPost" class="addNew"></div>
 </div>

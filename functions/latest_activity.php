@@ -188,9 +188,13 @@
 			$date = toDate($d['post_date']);
 			$arrival = toDateOnly($d['arrival']);
 			$departure = toDateOnly($d['departure']);			
-			$str .= "<div class='latest'><div class='greenText'>".$username." posted a Spooner trip!</div>";
-			$str .= "<span class='datetime'>$date</span>";
+			$notes = $d['notes'];
+			$str .= "<div class='announcedTrip'>";
+			$str .= "<span class='memberTimestamp'>$date</span>";
+			$str .= "<div class='greenText'>".$username." posted a Spooner trip!</div>";
 			$str .= "$arrival until $departure.";
+			if (!empty($notes)) $str .= "<br>".$notes;
+						
 			$str .= "</div>";
 		}
 		return $str;	
@@ -225,7 +229,7 @@
 		foreach($joins as $j) {
 			$username = getUsername($j['id']);
 			$date = toDate($j['join_date']);
-			$str .= "<div class='latest'>".$username." <span class='greenText'>joined</span> MySpooner!<span class='datetime'>$date</span></div>";
+			$str .= "<div class='latest'><span class='pinkText'>".$username."</span> joined MySpooner!<span class='datetime'>$date</span></div>";
 		}
 		return $str;	
 	}
@@ -246,7 +250,7 @@
 				$content = $a['content'];
 				$date = toDate($a['post_date']);
 				$title = getArticleTitle($a['id']);
-				$str .= "<div class='latest'>".$username." <span class='pinkText'>wrote</span> a blog post titled $title<span class='datetime'>$date</span>";
+				$str .= "<div class='latest'><span class='pinkText'>".$username."</span> wrote a blog post titled $title<span class='datetime'>$date</span>";
 				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div>";			
 			}
 		}
