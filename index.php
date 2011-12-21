@@ -1,13 +1,9 @@
 <? 	
 
-
-session_start();
-
-
-if (isset($_SESSION['user_id'])) header('Location: /pages/home.php');
-
-include('include/header.php');
-
+	session_start();
+	
+	if (isset($_SESSION['user_id'])) header('Location: /pages/home.php');
+	include('include/header.php');
 
 ?>
 
@@ -28,8 +24,13 @@ $(function() {
 					 url: 'functions/functions.php',
 					 data: dataString,
 					 success: function(data) {
-						if (data.error != '') {
-							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).fadeOut();
+						if (data.error) {
+							$('#notice').text(data.error).addClass('errorText').css({
+								'visibility':'visible',
+								'opacity':0
+							}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+						} else if (data.waiting) {
+							$('#access').html( data.waiting + "<br><br>" );						
 						} else {
 							window.location.href = "pages/home.php";
 						}
@@ -45,26 +46,39 @@ $(function() {
 			var password = $('#password').val();
 			var fname = $('#fname').val();
 			var lname= $('#lname').val();
+			var about = $('#about').val();
 			
-			var dataString = 'action=register&email='+email
-												+'&password='+password
-												+'&fname='+fname
-												+'&lname='+lname;		
-			$.ajax({ 
-					 type: 'post',
-					 dataType: 'json',
-					 url: 'functions/functions.php',
-					 data: dataString,
-					 success: function(data) {
-						if (data.error != '') {
-							$('#error').text(data.error).addClass('error').fadeIn('slow').delay(1000).fadeOut();
-						} else {
-							window.location.href = "pages/home.php";
-						}
-					}
-			});
-			$('#registerForm input.clear').val('');
-			return false;
+			if (!isValidEmail(email)) {
+				$('#notice').text('Please enter a valid email.').addClass('errorText').css({
+						'visibility':'visible',
+						'opacity':0
+					}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+			} else {
+					var dataString = 'action=register&email='+email
+														+'&password='+password
+														+'&fname='+fname
+														+'&lname='+lname
+														+'&about='+about;		
+					$.ajax({ 
+							 type: 'post',
+							 dataType: 'json',
+							 url: 'functions/functions.php',
+							 data: dataString,
+							 success: function(data) {
+								if (data.error) {
+									$('#notice').text(data.error).addClass('errorText').css({
+										'visibility':'visible',
+										'opacity':0
+									})
+									.fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+								} else {
+									$('#access').html( data.msg + "<br><br>" );
+								}
+							}
+					});
+					$('#registerForm input.clear').val('');
+					return false;
+		}
 		});
 		
 		$('#linkRegister').click(function() {
@@ -82,7 +96,7 @@ $(function() {
 	<fieldset id="front">
 	<legend><h1>MySpooner</h1></legend>
 	
-	<div id="error" style="display:none"></div>
+	<div id="notice" style="visibility:hidden;height:1em;padding-top:.2em"></div>
 	
 	<div id='access'>
 	<form class="main" method="post" id="loginForm" action="">
@@ -98,13 +112,14 @@ $(function() {
 	</fieldset>
 	
 	<div id='reg' style="display:none">
-	<p>Welcome! Sign up by filling out these fields.</p>
+	<p>Sign up by filling out these fields.<br>Once your account is verified, you'll be notified via email.</p>
 	<form class="main" method="post" id="registerForm">
 		<table>
 			<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
 			<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>
 			<tr><th><label for=fname>First name*:&nbsp;</label></th><td><input class="clear" required name="fname" id="fname" type="text"/></td></tr>
 			<tr><th><label for=lname>Last name*:&nbsp;</label></th><td><input class="clear" required name="lname" id="lname" type="text"/></td></tr>
+			<tr><th><label for=lname>About*:&nbsp;</label></th><td><input class="clear" required name="about" id="about" type="text"/></td></tr>
 			<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
 		</table>
 	</form>

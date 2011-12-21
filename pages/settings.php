@@ -141,11 +141,6 @@ function solidify() {
 		});
 	};
 
-function isValidEmail(email) {
-    var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
-    return pattern.test(email);
-};
-
 
 </script>
 
@@ -177,7 +172,14 @@ function isValidEmail(email) {
 		echo "<br><br>";
 		$mom = getMother($id);
 		echo "<span class='type'>Mother:</span>".getUsersAsSelect('mother', $mom);
-		echo "<br><br>";
+	?>
+		
+		<div class='tooltip' style='position:relative;right:-500px;'>
+			<span class='question'></span> Why these?
+			<div class='answer' style='visibility:hidden'>Entering your parents keeps the family tree up-to-date! Click Calendar to view it.</div>
+		</div>
+		
+	<?
 		$dad = getFather($id);
 		echo "<span class='type'>Father:</span>".getUsersAsSelect('father', $dad);
 	
@@ -201,7 +203,7 @@ function isValidEmail(email) {
 			Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
 			Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
 			Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
-			<br><br><br><input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
+			<br><br><br><br><br><br><input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
 			<input id='cancelNewTrip' style='z-index:400000' type='button' value='Cancel'>
 		</div><!-- end div#newTrip-->
 		

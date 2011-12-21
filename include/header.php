@@ -44,7 +44,10 @@ $(function() {
 		});
 		
 		$('.question').click(function() {
-			$(this).next('.answer').fadeIn('slow').delay(3000).fadeOut('slow');
+			$(this).next('.answer').css({
+        'visibility' : 'visible',
+        'opacity' : 0
+    	}).fadeTo('slow', 1).delay(3000).fadeTo('slow', 0);
 		});
 		
 		
@@ -68,8 +71,13 @@ $(function() {
 				});// end function		
 			});// end click
 		
-		
 	});	
+	
+	
+function isValidEmail(email) {
+    var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+    return pattern.test(email);
+};
 		
 </script>		
 

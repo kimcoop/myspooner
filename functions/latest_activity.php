@@ -252,7 +252,7 @@
 	function getJoiners(){
 		$id = $_SESSION['user_id'];
 		$date = $_SESSION['last_login'];
-		$query = "SELECT * FROM user WHERE join_date>'$date' ORDER BY join_date DESC";
+		$query = "SELECT * FROM user WHERE join_date>'$date' AND validated=1 ORDER BY join_date DESC";
 		$result = mysql_query($query) or die(mysql_error());
 		$joiners = array();
 		while($row = mysql_fetch_array($result)){

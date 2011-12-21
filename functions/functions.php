@@ -90,20 +90,18 @@
 		$password= md5(grab('password'));
 		$fname= grab('fname');
 		$lname= grab('lname');
+		$about = grab('about');
 		
-		if ($email != '' && $password != '' && $fname != '' && $lname != '') {
+		if ($email != '' && $password != '' && $fname != '' && $lname != '' && $about != '') {
 		
-			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,last_login) VALUES('$email','$password','$fname','$lname',now(), now())");
+			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,about,last_login) VALUES('$email','$password','$fname','$lname',now(), '$about', now())");
 			if ($result) {
-				$_SESSION['username'] = $fname;
-				$_SESSION['last_login'] = 0;
-				$_SESSION['user_id'] = mysql_insert_id();
-				echo json_encode(array('msg'=>'Successful registration!', 'error'=>''));	
+				echo json_encode(array('msg'=>'Thanks! You\'ll be notified as soon as you\'re verified.'));	
 			} else {
 				echo json_encode(array('error'=>'Problems processing your registration.'));	
 			}
 		} else {
-			echo json_encode(array('error'=>'Please fill in all fields.'));	
+			echo json_encode(array('error'=>'All fields required.'));	
 		}
 	}
 
@@ -126,18 +124,22 @@
 			
 			if ( mysql_num_rows($result) > 0) {
 				$row = mysql_fetch_array($result);
-				$fname = $row['fname'];
-				$id = $row['id'];
-				$_SESSION['user_id'] = $id;
-				$msg = "Welcome back, $fname.";
-				$query = "SELECT last_login FROM user WHERE id='$id'";
-				$result = mysql_query($query);
-				$row = mysql_fetch_array($result);
-				$_SESSION['last_login'] = $row['last_login'];
-				$_SESSION['username'] = $fname;
-				echo json_encode(array('msg'=>$msg, 'error'=>''));	
+				
+				$validated = $row['validated'];
+				if (!$validated) {
+					echo json_encode(array('waiting'=>'Your account is awaiting approval.<br>You\'ll be notified via email when another user validates your account.'));
+				} else {
+					$fname = $row['fname'];
+					$id = $row['id'];
+					$_SESSION['user_id'] = $id;
+					$query = "SELECT last_login FROM user WHERE id='$id'";
+					$result = mysql_query($query);
+					$row = mysql_fetch_array($result);
+					$_SESSION['last_login'] = $row['last_login'];
+					$_SESSION['username'] = $fname;
+				}
 			} else {
-				echo json_encode(array('error'=>"Unrecognized login."));	
+				echo json_encode(array('error'=>'Unrecognized login.'));	
 			}
 		} else {
 			echo json_encode(array('error'=>'Please fill in your email and password.'));	

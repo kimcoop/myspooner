@@ -99,8 +99,8 @@ $(function() {
 <div id="container">
 
 <div id="validations">
-	<h2>New Users</h2>Why am I seeing this? <span class='question'></span>	
-	<span class='answer' style='display:none'>Anyone wishing to join MySpooner must be validated as family by an existing member.</span>
+	<h2>New Users</h2><div class='tooltip' style='position:relative;top:-40px;left:120px'><span class='question'></span> Why am I seeing this?
+	<div class='answer' style='visibility:hidden'>Anyone wishing to join MySpooner must first be validated as family by an existing member.</div></div>
 	<? echo formatRequests() ?>
 </div>
 

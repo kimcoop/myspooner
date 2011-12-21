@@ -20,6 +20,10 @@
 	text-shadow: 0px 1px 0px #efefef;
 }
 
+.small_font {
+	font-size: 0.8em;
+}
+
 .shadow(@depth:4px) {
 	-moz-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
 	-webkit-box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
@@ -217,4 +221,15 @@ body {
 
 .question:hover {
 	.shadow;
+}
+
+.tooltip {
+	.small_font;
+	max-width:300px;
+	text-align:left;
+	word-wrap: break-word;
+}
+
+.answer {
+	color: @lgreen;
 }
