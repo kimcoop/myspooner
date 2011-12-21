@@ -107,10 +107,10 @@
  	return $str;
  }
  
- function getUserTagsAsCheckbox() {
+ function getUserTagsAsCheckbox($phrase = 'Tag users in your post:') {
  	$tags = getAllUsers();
  	$str = "";
- 	$str .= "<div class='tagSelect'><span>Tag users in your post:</span><div>";
+ 	$str .= "<div class='tagSelect'><span>$phrase</span><div>";
  	foreach($tags as $tag) {
  		$fname = $tag['fname'];
  		$id = $tag['id'];
@@ -132,7 +132,7 @@
  	$str .= "</div></div>";
  	return $str;
  }
-	
+	/*
 function search() {
 	$val = $_POST['value'];
 	$query = "SELECT * FROM article WHERE title LIKE '%$val%' OR content LIKE '%$val%'";
@@ -143,7 +143,7 @@ function search() {
 		}
 	echo json_encode(array('results'=>$articles));	
 
-}
+}*/
 
 function queryArticles() {
 	$query = "SELECT * FROM article ORDER BY post_date DESC";
@@ -193,6 +193,15 @@ function formatUserTagsForArticle($id) {
 	}
 	return $str;
 }
+/*
+function formatTagsForTrip($id) {
+	$str = "";
+	$tags = getTagsForTrip($id);
+	foreach($tags as $tag) {
+		$str .= "<span class='tag'>".$tag['fname']."</span>";
+	}
+	return $str;
+}*/
 
 function formatArticles($articles) {
 	$str = "";
@@ -216,7 +225,7 @@ function formatArticles($articles) {
 function formatCommentsForArticle($id) {
 	$str = "<div class='commentSection'>";
 
-	$comments =  getCommentsForArticle($id);
+	$comments = getCommentsForArticle($id);
 	$str .= "<span class='articleComments'>".totalCommentsForArticle($id)."</span>";
 	$str .= "&nbsp;<div class='addComment'>Add a comment";
 	$str .= "<div class='commentForm' style='display:none;'>";
@@ -248,6 +257,17 @@ function getAllArticles() {
 	$str .= formatArticles($articles);
 	return $str;
 }
+/*
+
+function getTagsForTrip($id) {
+	$query = "SELECT fname FROM spooner_trip_tag, user WHERE trip_id = '$id' AND user.id = spooner_trip_tag.user_id";
+	$result = mysql_query($query);
+	$tags = array();
+	while($row = mysql_fetch_array($result)){
+			$tags[] = $row;
+		}
+	return $tags;
+}*/
 
 function getUserTagsForArticle($id) {
 	$query = "SELECT fname FROM article_user_tag, user WHERE article_id = '$id' AND user.id = article_user_tag.user_id";

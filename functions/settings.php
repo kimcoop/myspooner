@@ -79,7 +79,7 @@
 	}
 	
 	function setSpoonerDates() {
-		$user_id = $_POST['user_id'];
+		$user_id = $_SESSION['user_id'];
 		$arrival = date('Y-m-d', strtotime($_POST['arrival']));
 		$departure = date('Y-m-d', strtotime($_POST['departure']));
 		$notes = $_POST['notes'];
@@ -87,12 +87,20 @@
 		$query .= " VALUES('$user_id', now(), '$arrival', '$departure', '$notes')";
 		mysql_query($query);
 		
+		$tripID = mysql_insert_id();
+		tagSpoonerTrip($_POST['userTags'], $tripID, $user_id);
 		$formattedDates = formatSpoonerDates($user_id);
-		
 		echo json_encode(array('msg'=>'Spooner dates saved!', 'trips'=>$formattedDates));	
 	}
-	
-	
+
+	function tagSpoonerTrip($userTags, $tripID, $taggerID) {
+ 		if (!empty($userTags)) {
+ 			foreach($userTags as $user) {
+				$query = sprintf("INSERT INTO spooner_trip_tag(trip_id, user_id, tag_date, tagger_id) VALUES('%s', '%s', now(), '%s')", $tripID, $user, $taggerID);
+				mysql_query($query);
+ 			}
+ 		} 
+ }
 	function updateUser() {
 		$fname = trim($_POST['fname']); $lname = trim($_POST['lname']); $email = trim($_POST['email']); $id = $_SESSION['user_id'];
 		$phone = trim($_POST['phone']); $mother = trim($_POST['mother']); $father = trim($_POST['father']); $about = trim($_POST['about']);		

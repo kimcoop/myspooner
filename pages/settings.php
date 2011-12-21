@@ -35,8 +35,14 @@ $(function() {
 											'&arrival='+arrival+
 											'&departure='+departure+
 											'&notes='+notes;
+			
+		var userTags = $('input.userTag:checked');
+											
+		$.each(userTags, function() {
+			dataString += '&userTags[]=' + $(this).val();
+		});
 	
-		$.ajax({ 
+		$.ajax({
 					 type: 'post',
 					 dataType: 'json',
 					 url: '../functions/settings.php',
@@ -190,7 +196,7 @@ function solidify() {
 	
 	
 	<div class='spoonerDates'>
-		<h2>Spooner Dates</h2>
+		<h2>Spooner Trips</h2>
 		<div id="dates_notice" style="display:none"></div>
 		
 		<div class='button_container'>
@@ -203,6 +209,12 @@ function solidify() {
 			Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
 			Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
 			Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
+			
+			
+			
+		<? echo getUserTagsAsCheckbox('Tag others on this trip:'); ?>
+			
+			
 			<br><br><br><br><br><br><input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
 			<input id='cancelNewTrip' style='z-index:400000' type='button' value='Cancel'>
 		</div><!-- end div#newTrip-->

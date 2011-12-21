@@ -92,6 +92,24 @@ $(function() {
 					});// end ajax
 			});// end click
 			
+			$('input.trip_notification').click(function() {
+				var el = $(this);
+				var tripID = el.val();
+				
+					$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/latest_activity.php',
+						 data: {
+						 			'action': 'markTripAsReceived',
+						 			'tripID' : tripID
+						 },
+						 success: function(data) {
+								el.parent('span').replaceWith( $("<span class='tripMarked'></span").text(data.msg) );
+							}
+					});// end ajax
+			});// end click
+			
 });
 
 </script>
@@ -105,7 +123,7 @@ $(function() {
 </div>
 
 <div id="notifications">
-	<h2>Notifications: <? echo getNotifications('count'); ?></h2>
+	<h2>Notifications: <span class='georgia'><? echo getNotifications('count') + getTripNotifications('count'); ?></span> new</h2>
 	<? echo formatNotifications() ?>
 </div>
 

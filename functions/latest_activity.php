@@ -31,6 +31,10 @@
 				validateUser($_POST['user_id'], $_SESSION['user_id']);
 				unset($_POST['action']);
 				break;
+			case 'markTripAsReceived':
+				markAsReceived('spooner_trip_tag', $_POST['tripID']);
+				unset($_POST['action']);
+				break;
 		}
 	}	
 	
@@ -176,12 +180,19 @@
 	}
 	
 	function markAsReceived($type, $id) {
-		$query = "UPDATE $type SET received=1 WHERE id='$id'";
-		mysql_query($query);
-		
-		if ($type=='message') {
-			$query = "UPDATE $type SET received=1 WHERE root_msg_id='$id'";
+	 if ($type=='spooner_trip_tag') {
+	 		$user_id = $_SESSION['user_id'];
+			$query = "UPDATE spooner_trip_tag SET received=1 WHERE user_id='$user_id' AND trip_id='$id'";
 			mysql_query($query);		
+		} else {
+		
+			$query = "UPDATE $type SET received=1 WHERE id='$id'";
+			mysql_query($query);
+			
+			if ($type=='message') {
+				$query = "UPDATE $type SET received=1 WHERE root_msg_id='$id'";
+				mysql_query($query);		
+			}
 		}
 		echo json_encode(array('msg'=>'Marked as read.'));
 	}
@@ -194,12 +205,46 @@
 			$tagger = getUsername($tag['tagger_id']);
 			$date = toDate($tag['tag_date']);
 			$id = $tag['id'];
-			$str .= "<div class='notification'>$tagger tagged you in a post called $post. <span class='timestamp'>$date</span>";
+			$str .= "<div class='notification'><span class='user'>$tagger</span> tagged you in a post called $post. <span class='timestamp'>$date</span>";
 			$str .= "<span class='checkboxes'><input type='checkbox' class='notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 		}
 		
+		$str .= formatTripNotifications();
+		
 		return $str;
 	}
+	
+	function formatTripNotifications() {
+		$tripTags = getTripNotifications();
+		$str = "";
+		
+		foreach($tripTags as $tag) {
+				$tagger = getUsername($tag['tagger_id']);
+				$date = toDate($tag['tag_date']);
+				$id = $tag['trip_id'];
+				$str .= "<div class='trip_notification'><span class='user'>$tagger</span> tagged you on a Spooner trip! <span class='timestamp'>$date</span>";
+				$str .= "<span class='checkboxes'><input type='checkbox' class='trip_notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
+			}
+			return $str;
+	}
+	
+	
+	function getTripNotifications($action=null) {
+		$id = $_SESSION['user_id'];
+		$query = "SELECT * FROM spooner_trip_tag WHERE received=0 AND user_id='$id'";
+		$result = mysql_query($query);
+		
+		if ($action != null) {
+			$tags = mysql_num_rows($result);
+			return $tags; //return the number
+		} else {
+			$notifications = array();
+			while($row = mysql_fetch_array($result)){
+					$notifications[] = $row;
+				}
+			return $notifications;
+		}
+	}	
 	
 	function getNotifications($action=null) {
 		$id = $_SESSION['user_id'];
@@ -222,6 +267,7 @@
 		$str = "";
 		$dates = getSpoonerDates();
 		foreach($dates as $d) {
+			$id = $d['id'];
 			$username = getUsername($d['user_id']);
 			$date = toDate($d['post_date']);
 			$arrival = toDateOnly($d['arrival']);
@@ -232,10 +278,25 @@
 			$str .= "<div class='greenText'><span class='user'>".$username."</span> posted a Spooner trip!</div>";
 			$str .= "$arrival until $departure.";
 			if (!empty($notes)) $str .= "<br>".$notes;
-						
+			$str .= formatOthersForTrip($id);
 			$str .= "</div>";
 		}
 		return $str;	
+	}
+	
+	function formatOthersForTrip($trip_id) {
+	
+		$query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND user_id=user.id ORDER BY fname ASC";
+		$result = mysql_query($query) or die(mysql_error());
+		if (mysql_num_rows($result) > 0) $str = "<br>";
+		while($row = mysql_fetch_array($result)){
+				$str .= "<span class='tag user' style='font-weight:normal'>".$row['fname']."</span>";
+			}
+		return $str;
+		/*
+		$str .= "<div class='notification'>$tagger tagged you in a post called $post. <span class='timestamp'>$date</span>";
+		$str .= "<span class='checkboxes'><input type='checkbox' class='notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
+		*/	
 	}
 	
 	function getSpoonerDates() {

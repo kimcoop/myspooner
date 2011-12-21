@@ -18,8 +18,7 @@ $(function() {
 				var title = $('#title').val();
 				var content = $('#content').val();
 				var tags = $('input.tagForArticle:checked');
-				var userTags = $('input.userTag:checked');
-				
+				var userTags = $('input.userTag:checked');				
 				
 				var dataString = 'action=createArticle&title='+title
 													+'&content='+content;
