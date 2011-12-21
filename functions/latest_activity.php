@@ -27,7 +27,45 @@
 				postReply($_POST['rootMsgID'], $_POST['toUser'], $_POST['content']);
 				unset($_POST['action']);
 				break;
+			case 'validateUser':
+				validateUser($_POST['user_id'], $_SESSION['user_id']);
+				unset($_POST['action']);
+				break;
 		}
+	}	
+	
+	
+	function validateUser($user_id, $validator) {
+		$query = "UPDATE user SET validated=1, validator='$validator' WHERE id='$user_id'";
+		mysql_query($query);
+		echo json_encode(array('msg'=>'User validated!'));
+	}
+	
+	function formatRequests() {
+		$str = "";
+		$requests = getRequests();
+		if (!empty($requests)) {
+			foreach($requests as $request) {
+				$id = $request['id'];
+				$about = $request['about'];
+				$name = getUsername($id);
+				$date = toDate($request['join_date']);
+			$str .= "<div class='validation'>$name wants to join MySpooner! <span class='timestamp'>$date</span>";
+			$str .= "<span class='checkboxes'><input type='checkbox' class='validation' value='$id'>&nbsp;<label>Validate</label></span></div>";
+				//$str .= "<br>About:$about<br></div>";
+			}
+		}
+		return $str;
+	}
+	
+	function getRequests() {
+		$query = "SELECT * FROM user WHERE validated='0'";
+		$result = mysql_query($query);
+		$requests = array();
+		while($row = mysql_fetch_array($result)){
+				$requests[] = $row;
+			}
+		return $requests;
 	}
 	
 	function formatThreadedMessages($rootID) {

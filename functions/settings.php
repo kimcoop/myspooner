@@ -34,18 +34,20 @@
 		$dates = getSpoonerDates($id);
 		
 		if (!empty($dates)) {
-			$str .= "<div id='trips'>";
-			if (count($dates)==1) $str .= "Your upcoming trip:<br>";
-			else $str .= "Your upcoming trips:<br>";
+			$str .= "<div id='trips'><div class='greenText'>";
+			if (count($dates)==1) $str .= "Your upcoming trip:</div>";
+			else $str .= "Your upcoming trips:</div>";
 		
 				foreach($dates as $date) {
 					$str .= "<div class='spoonerTrip'><span>";
 					$arrival = $date['arrival'];
 					$departure = $date['departure'];
+					$notes = $date['notes'];
 					$post_date = toDateWithAgo($date['post_date']);
 					$str .= toDateOnly($arrival)." until ";
 					$str .= toDateOnly($departure);
 					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date</span>";
+					if (!empty($notes)) $str .= "<br>".$notes;
 					$str .= "</div><br>";
 				}
 				

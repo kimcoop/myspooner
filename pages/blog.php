@@ -8,10 +8,6 @@
 <script type="text/javascript">
 
 $(function() {
-
-			/*$('.close').live('click', function() {
-				$(this).parent().parent().slideUp();
-			});*/
 			
 			$('header span').removeClass('active');
 			$('#blog').addClass('active');
@@ -19,25 +15,6 @@ $(function() {
 			$('#addNewPost').click(function() {
 				window.location.href = 'blogpost.php';
 			});
-			
-			$('.tag').click(function() {
-				var tag = $(this).text();
-				$('#container').load('filterblog.php', function() {
-					$('#filterOn').text('Displaying blog posts tagged as '+tag);
-					$.ajax({ 
-						 type: 'post',
-						 dataType: 'json',
-						 url: '../functions/blog.php',
-						 data: {
-						 			'action': 'getArticlesByTag',
-						 			'tag': tag
-						 },
-						 success: function(data) {
-								$('#posts').html(data.articles);
-							}
-					});// end ajax
-				});// end function		
-			});// end click
 			
 		$('.articleComments').live('click', function() {
 			$(this).next().next('.comments').slideToggle();

@@ -1,5 +1,4 @@
 <?
-
 	include('../functions/latest_activity.php');
 	include('../include/header.php');
 	include_once('../functions/blog.php');
@@ -73,12 +72,37 @@ $(function() {
 								el.parent().replaceWith( $("<span></span").text(data.msg) );
 							}
 					});// end ajax
-			});// end click			
+			});// end click	
+			
+				$('input.validation').click(function() {
+				var el = $(this);
+				var userID = el.val();
+				
+					$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/latest_activity.php',
+						 data: {
+						 			'action': 'validateUser',
+						 			'user_id' : userID
+						 },
+						 success: function(data) {
+								el.parent('span').replaceWith( $("<span class='validationMarked'></span").text(data.msg) );
+							}
+					});// end ajax
+			});// end click
+			
 });
 
 </script>
 
 <div id="container">
+
+<div id="validations">
+	<h2>New Users</h2>Why am I seeing this? <span class='question'></span>	
+	<span class='answer' style='display:none'>Anyone wishing to join MySpooner must be validated as family by an existing member.</span>
+	<? echo formatRequests() ?>
+</div>
 
 <div id="notifications">
 	<h2>Notifications: <? echo getNotifications('count'); ?></h2>
@@ -94,7 +118,7 @@ $(function() {
 <div id="updates">
 		<h2>Latest Activity</h2>
 	
-	<? echo formatSpoonerDates();
+	<? echo formatSpoonerDates(); //TODO - find a better way to organize these
 		 echo formatJoiners();
 		 echo formatLatestActivities() ?>
 </div>

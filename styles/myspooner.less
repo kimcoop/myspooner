@@ -3,7 +3,7 @@
 @green: #00BB3F;
 @yellow: #F1FD72;
 @red: #8C003D;
-@lgreen: #37DD6F;
+@lgreen: #74E8D5;
 @grey: #c7c7c7;
 @dark: #333;
 
@@ -205,4 +205,16 @@ body {
 
 .grey {
 	color: @grey !important;
+}
+
+.question {
+	background: transparent url("../images/questionmark.gif") no-repeat 0 0;
+	display: inline-block;
+	height: 22px;
+	width: 23px;
+	.clickable;
+}
+
+.question:hover {
+	.shadow;
 }

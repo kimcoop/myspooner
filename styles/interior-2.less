@@ -3,7 +3,7 @@
 @green: #00BB3F;
 @yellow: #F1FD72;
 @red: #8C003D;
-@lgreen: #37DD6F;
+@lgreen: #74E8D5;
 @grey: #bbb;
 @darkgrey: #333;
 
@@ -57,20 +57,21 @@ fieldset#front {
 	}
 }
 
-#notifications, #messages, #updates, #mywall {
+#notifications, #messages, #updates, #mywall, #validations {
 	text-align: left;
 	clear: both;
 }
 
-.notificationMarked, .messageMarked {
+span.checkboxes, span.validation {
+	float: right;
+	}
+	
+.messageMarked, .notificationMarked, .validationMarked {
+	float: right;
 	color: @grey;
 }
 
-span.checkboxes, span.messageMarked, span.notificationMarked {
-	float: right;
-	}
-
-.message, .notification {
+.message, .notification, .validation{
 	margin: .5em 0 .5em 0;
 	clear: both;
 	.clickable;
