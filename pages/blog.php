@@ -12,7 +12,7 @@ $(function() {
 			$('header span').removeClass('active');
 			$('#blog').addClass('active');
 			
-			$('#addNewPost').click(function() {
+			$('.addNewPost').click(function() {
 				window.location.href = 'blogpost.php';
 			});
 			
@@ -64,9 +64,9 @@ $(function() {
 
 <h2>Blog</h2>
 
-<div class='button_container'>
-	Write a new blog post!
-	<div id="addNewPost" class="addNew"></div>
+<div class='button_container addNewPost'>
+	Create a blog post
+	<div class="addNew"></div>
 </div>
 
 <!--<div id="searchResults"></div>

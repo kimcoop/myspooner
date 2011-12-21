@@ -70,6 +70,26 @@ $(function() {
 					});// end ajax
 				});// end function		
 			});// end click
+			
+			
+			$('.user').click(function() {
+				var user = $(this).text();
+				$('#container').load('profile.php', function() {
+					$('#profileOf').text('Viewing the profile of '+user);
+					$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/settings.php',
+						 data: {
+						 			'action': 'getProfile',
+						 			'username': user
+						 },
+						 success: function(data) {
+								$('#body').html( data.msg );
+							}
+					});// end ajax
+				});// end function		
+			});// end click
 		
 	});	
 	

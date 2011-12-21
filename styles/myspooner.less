@@ -169,6 +169,7 @@ header {
 	
 	span:hover {
 		color: @pink;
+		text-decoration:underline;
 	}
 	
 	span.active {
@@ -188,6 +189,15 @@ body {
 .button_container {
 	 margin-top:-2em; 
 	 float:right;
+	 .clickable;
+}
+
+.button_container:hover {
+	color: @pink;
+	
+	.addNew {
+		background-position: -22px -50px;
+	}
 }
 
 .addNew {
@@ -224,6 +234,7 @@ body {
 }
 
 .tooltip {
+	display:none;
 	.small_font;
 	max-width:300px;
 	text-align:left;
@@ -232,4 +243,13 @@ body {
 
 .answer {
 	color: @lgreen;
+}
+
+.user {
+	.clickable;
+	font-weight:bold;
+}
+
+.user:hover {
+	text-decoration:underline;
 }

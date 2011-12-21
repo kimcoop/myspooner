@@ -229,7 +229,7 @@
 			$notes = $d['notes'];
 			$str .= "<div class='announcedTrip'>";
 			$str .= "<span class='memberTimestamp'>$date</span>";
-			$str .= "<div class='greenText'>".$username." posted a Spooner trip!</div>";
+			$str .= "<div class='greenText'><span class='user'>".$username."</span> posted a Spooner trip!</div>";
 			$str .= "$arrival until $departure.";
 			if (!empty($notes)) $str .= "<br>".$notes;
 						
@@ -267,7 +267,7 @@
 		foreach($joins as $j) {
 			$username = getUsername($j['id']);
 			$date = toDate($j['join_date']);
-			$str .= "<div class='latest'><span class='pinkText'>".$username."</span> joined MySpooner!<span class='datetime'>$date</span></div>";
+			$str .= "<div class='latest'><span class='user pinkText'>".$username."</span> joined MySpooner!<span class='datetime'>$date</span></div>";
 		}
 		return $str;	
 	}
@@ -288,7 +288,7 @@
 				$content = $a['content'];
 				$date = toDate($a['post_date']);
 				$title = getArticleTitle($a['id']);
-				$str .= "<div class='latest'><span class='pinkText'>".$username."</span> wrote a blog post titled $title<span class='datetime'>$date</span>";
+				$str .= "<div class='latest'><span class='user pinkText'>".$username."</span> wrote a blog post titled $title<span class='datetime'>$date</span>";
 				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div>";			
 			}
 		}

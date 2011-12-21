@@ -26,7 +26,19 @@
 				setSpoonerDates();
 				unset($_POST['action']);
 				break;
+			case 'getProfile':
+				getProfile($_POST['username']);
+				unset($_POST['action']);
+				break;
 		}
+	}
+	
+	function getProfile($name) {
+		$id = getUserByName($name);
+		$details = "";
+		$details .= getLastName($id)."<br>".getEmail($id)."<br>".getPhone($id)."<br>".getAbout($id)."";
+		$details .= getUsername(getMother($id))."<br>".getUsername(getFather($id))."<br>";
+		echo json_encode(array('msg'=>$details));
 	}
 
 	function formatSpoonerDates($id) {
@@ -133,6 +145,13 @@
 	function getLastLogin($id) {
 		$row = getUserInfo($id);
 		return $row['last_login'];
+	}
+	
+	function getUserByName($name) {
+		$query = "SELECT id FROM user WHERE fname='$name'";
+		$result = mysql_query($query);
+		$row = mysql_fetch_array($result);
+		return $row['id'];
 	}
 	
 	?>

@@ -17,7 +17,7 @@ $(function() {
 				e.preventDefault();
 				var title = $('#title').val();
 				var content = $('#content').val();
-				var tags = $('input.tag:checked');
+				var tags = $('input.tagForArticle:checked');
 				var userTags = $('input.userTag:checked');
 				
 				

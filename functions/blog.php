@@ -127,7 +127,7 @@
  	foreach($tags as $tag) {
  		$name = $tag['name'];
  		$id = $tag['id'];
- 		$str .= "<input type='checkbox' value='$id' class='tag' name='tags[]'>&nbsp;<label>$name</label><br>";
+ 		$str .= "<input type='checkbox' value='$id' class='tagForArticle' name='tags[]'>&nbsp;<label>$name</label><br>";
  	}
  	$str .= "</div></div>";
  	return $str;
@@ -158,6 +158,9 @@ function queryArticles() {
 function queryArticlesByTag($tag) {
 	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content FROM article, article_tag, tag WHERE tag.name= '$tag'";
 	$query .= " AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id";
+	
+	//$query .= " OR user.fname='$tag' AND user.id = article_user_tag.user_id AND article_user_tag.article_id = article.id";
+	
 	$query .= " ORDER BY post_date DESC";
 	$result = mysql_query($query) or die(mysql_error());
 	$articles = array();

@@ -17,7 +17,7 @@ $(function() {
 			var password = $('#password1').val();
 			
 			var dataString = 'action=login&email='+email
-												+'&password='+password;		
+												+'&password='+password;
 			$.ajax({ 
 					 type: 'post',
 					 dataType: 'json',

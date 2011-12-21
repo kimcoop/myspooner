@@ -168,7 +168,7 @@ function solidify() {
 		echo "<br><br>";
 		echo "<span class='type'>Phone:</span><input type='text' disabled id='phone' class='editable' value='".getPhone($id)."'>";
 		echo "<br><br>";
-		echo "<span class='type'>About:</span><input type='text' disabled id='about' class='editable' value='".getAbout($id)."'>";
+		echo "<span class='type'>About:</span><textarea disabled id='about' class='editable'>".getAbout($id)."</textarea>";
 		echo "<br><br>";
 		$mom = getMother($id);
 		echo "<span class='type'>Mother:</span>".getUsersAsSelect('mother', $mom);
@@ -181,7 +181,7 @@ function solidify() {
 		
 	<?
 		$dad = getFather($id);
-		echo "<span class='type'>Father:</span>".getUsersAsSelect('father', $dad);
+		echo "<br><br><span class='type'>Father:</span>".getUsersAsSelect('father', $dad);
 	
 	?>
 		<br><br>

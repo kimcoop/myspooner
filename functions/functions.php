@@ -94,11 +94,17 @@
 		
 		if ($email != '' && $password != '' && $fname != '' && $lname != '' && $about != '') {
 		
-			$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,about,last_login) VALUES('$email','$password','$fname','$lname',now(), '$about', now())");
-			if ($result) {
-				echo json_encode(array('msg'=>'Thanks! You\'ll be notified as soon as you\'re verified.'));	
-			} else {
-				echo json_encode(array('error'=>'Problems processing your registration.'));	
+			$query = "SELECT * FROM user WHERE email='$email'";
+			$result = mysql_query($query);
+			if (mysql_num_rows($result) >0) echo json_encode(array('error'=>'That email is already in use. Please try another.'));	
+			else {
+		
+				$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,about,last_login) VALUES('$email','$password','$fname','$lname',now(), '$about', now())");
+				if ($result) {
+					echo json_encode(array('msg'=>'Thanks! You\'ll be notified as soon as you\'re verified.'));	
+				} else {
+					echo json_encode(array('error'=>'Problems processing your registration.'));	
+				}
 			}
 		} else {
 			echo json_encode(array('error'=>'All fields required.'));	
@@ -127,7 +133,7 @@
 				
 				$validated = $row['validated'];
 				if (!$validated) {
-					echo json_encode(array('waiting'=>'Your account is awaiting approval.<br>You\'ll be notified via email when another user validates your account.'));
+					echo json_encode(array('waiting'=>'Your account is awaiting approval.<br>You\'ll be notified via email when<br>another user validates your account.'));
 				} else {
 					$fname = $row['fname'];
 					$id = $row['id'];
@@ -137,6 +143,7 @@
 					$row = mysql_fetch_array($result);
 					$_SESSION['last_login'] = $row['last_login'];
 					$_SESSION['username'] = $fname;
+					echo json_encode(array('msg'=>'Welcome back!'));	
 				}
 			} else {
 				echo json_encode(array('error'=>'Unrecognized login.'));	

@@ -56,10 +56,23 @@
 
 .tag:hover {
 	color: @pink;
+	text-decoration:underline;
+}
+
+div#articles > *:nth-child(odd), div#posts > *:nth-child(odd) {
+	background: #FAFAFA;
+	
+	.commentForm {
+	background: #FAFAFA;
+	}
+	
 }
 
 div.article {
 	.bordered_post;
+	margin: 0 0 0 0;
+	.rounded(1px);
+	padding: 1em .5em .8em .5em;
 
 	h3 {
 		color: @lgreen;
