@@ -18,15 +18,12 @@ $(function() {
         type: 'POST',
         data: {
             action: 'fetchCalendar'
-        },
-        success: function() {
-        	alert('Successfully loaded events.');
-        },        
+        },       
         error: function() {
             alert('Error fetching events.');
         },
-        color: 'yellow',   // a non-ajax option
-        textColor: 'black' // a non-ajax option
+        color: '#74E8D5',   // a non-ajax option
+        textColor: '#333' // a non-ajax option
     } //end events	
 	}); //end fullCalendar
 
@@ -35,9 +32,6 @@ $(function() {
 </script>
 
 <div id="container">
-
-
-<h2>Calendar</h2>
 
 
 <div id="big_calendar"></div>

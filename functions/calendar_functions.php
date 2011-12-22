@@ -24,15 +24,22 @@
 				break;
 		}
 	}
+	
+	/*
+	$query = "SELECT * FROM spooner_trip_tag, user 
+	 WHERE trip_id='$trip_id' AND user_id=user.id ORDER BY fname ASC";
+		$result = mysql_query($query) or die(mysql_error());
+	*/
 
   function getAllTrips() {
-		$query = "SELECT * FROM spooner_date ORDER BY arrival";
+		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t";
+		$query .= " WHERE s.id = t.trip_id";
+		$query .= " ORDER BY arrival";
 		$result = mysql_query($query) or die(mysql_error());
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
-				$user = getUsername($row['user_id']);
-				//$user = 'test';
-				$id = $row['id'];
+				$user = getUsername($row['user_id'], 'short');
+				$id = $row['s.id'];
 				$title = $user.' in Spooner';
 				$start = $row['arrival'];
 				$end = $row['departure'];

@@ -71,11 +71,15 @@
    return "$difference $periods[$j] ago";
  }
 	
-	function getUsername($id) {
-		$query = "SELECT fname FROM user WHERE id = '$id'";
+	function getUsername($id, $option=null) {
+		if ($option != null) $query = "SELECT fname,lname FROM user WHERE id = '$id'";
+		else $query = "SELECT fname FROM user WHERE id = '$id'";
 		$result = mysql_query($query) or die(mysql_error());
 		$row = mysql_fetch_array($result);
-		return $row[0];
+		if ($option == 'full') return $row['fname'].' '.$row['lname'];
+		else if ($option == 'short') return $row['fname'].' '.$row['lname'][0].'.';
+		
+		else return $row[0];
 	}
 	
 	function toDate($date){

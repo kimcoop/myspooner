@@ -96,8 +96,8 @@
  	$str .= " class='editable' disabled>";
  	$str .= "<option value='0'>Not specified</option>";
  	foreach($users as $u) {
- 		$name = $u['fname']."&nbsp;".$u['lname'];
  		$id = $u['id'];
+ 		$name = getUsername($id, 'full');
  		$email = $u['email'];
  		if ($active == $id) $str .= "<option selected";
  		else $str .= "<option";
@@ -112,8 +112,8 @@
  	$str = "";
  	$str .= "<div class='tagSelect'><span>$phrase</span><div>";
  	foreach($tags as $tag) {
- 		$name = $tag['fname']."&nbsp;".$tag['lname'];
  		$id = $tag['id'];
+ 		$name = getUsername($id, 'full');
  		$str .= "<input type='checkbox' value='$id' class='userTag' name='userTags[]'>&nbsp;<label>$name</label><br>";
  	}
  	$str .= "</div></div>";
@@ -189,19 +189,11 @@ function formatUserTagsForArticle($id) {
 	$str = "";
 	$tags = getUserTagsForArticle($id);
 	foreach($tags as $tag) {
-		$str .= "<span class='tag'>".$tag['fname']."</span>";
+		$id = $tag['id'];
+		$str .= "<span class='tag'>".getUsername($id)."</span>";
 	}
 	return $str;
 }
-/*
-function formatTagsForTrip($id) {
-	$str = "";
-	$tags = getTagsForTrip($id);
-	foreach($tags as $tag) {
-		$str .= "<span class='tag'>".$tag['fname']."</span>";
-	}
-	return $str;
-}*/
 
 function formatArticles($articles) {
 	$str = "";
@@ -270,7 +262,7 @@ function getTagsForTrip($id) {
 }*/
 
 function getUserTagsForArticle($id) {
-	$query = "SELECT fname FROM article_user_tag, user WHERE article_id = '$id' AND user.id = article_user_tag.user_id";
+	$query = "SELECT user.id, fname FROM article_user_tag, user WHERE article_id = '$id' AND user.id = article_user_tag.user_id";
 	$result = mysql_query($query);
 	$tags = array();
 	while($row = mysql_fetch_array($result)){
