@@ -17,6 +17,10 @@
  /* Events
 -----------------------------------------------------*/
  
+ header {
+ 	display: none !important;
+ }
+ 	
 .fc-event-skin {
 	background: none !important;
 	color: #000 !important;

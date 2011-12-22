@@ -47,37 +47,6 @@ $(function() {
 				
 				return false;
 			});
-			
-			$('#createNewTag').click(function() {
-				var el = $('#newTag');
-				var tag = el.val();
-				var dataString = 'action=addNewTag&tag='+tag;
-				
-				if (tag != '') {
-				
-					$.ajax({ 
-								 type: 'post',
-								 dataType: 'json',
-								 url: '../functions/blog.php',
-								 data: dataString,
-								 success: function(data) {
-								 	if (data.error) {
-										$('#tagError').text(data.error).addClass('errorText').css({
-											'visibility':'visible',
-											'opacity':0
-										}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
-									} else {
-										$('#tagsAsCheckboxes').fadeTo('slow',0, function() {
-											$(this).html( data.tagsAsCheckboxes ).fadeTo('slow',1);
-											});
-										}
-								 }
-						});
-						
-					}
-					el.val('');
-					return false;
-				});	//end click
 
 });
 

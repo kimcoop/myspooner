@@ -26,13 +26,19 @@ $(function() {
         textColor: '#333' // a non-ajax option
     } //end events	
 	}); //end fullCalendar
+	
+	$('#createAnEvent').click(function() {	
+		window.location.href='new_event.php';
+	});
 
 });
 
 </script>
 
 <div id="container">
+<a href="javascript:window.print()">Click to print</a>
 
+<span class='button_container' id='createAnEvent'>Create an event<span class='addNew'></span></span>
 
 <div id="big_calendar"></div>
 

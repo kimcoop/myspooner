@@ -14,7 +14,7 @@
 <link type="text/css" rel="stylesheet/less" href="../styles/interior.less"/>
 <link type="text/css" rel="stylesheet/less" href="../styles/interior-2.less"/>
 <link rel='stylesheet' type='text/css' href='../styles/fullcalendar.css' />
-
+<link rel="stylesheet" href='../styles/fullcalendar.print.css' type="text/css" media="print"/>
 
 <link href='http://fonts.googleapis.com/css?family=Lancelot' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../js/less.min.js"></script>
@@ -26,6 +26,37 @@
 <script type="text/javascript">
 
 $(function() {
+
+	$('#createNewTag').click(function() {
+				var el = $('#newTag');
+				var tag = el.val();
+				var dataString = 'action=addNewTag&tag='+tag;
+				
+				if (tag != '') {
+				
+					$.ajax({ 
+								 type: 'post',
+								 dataType: 'json',
+								 url: '../functions/blog.php',
+								 data: dataString,
+								 success: function(data) {
+								 	if (data.error) {
+										$('#tagError').text(data.error).addClass('errorText').css({
+											'visibility':'visible',
+											'opacity':0
+										}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+									} else {
+										$('#tagsAsCheckboxes').fadeTo('slow',0, function() {
+											$(this).html( data.tagsAsCheckboxes ).fadeTo('slow',1);
+											});
+										}
+								 }
+						});
+						
+					}
+					el.val('');
+					return false;
+				});	//end click
 			
 		$('.articleComments').live('click', function() {
 			$(this).next().next('.comments').slideToggle();
