@@ -47,6 +47,37 @@ $(function() {
 				
 				return false;
 			});
+			
+			$('#createNewTag').click(function() {
+				var el = $('#newTag');
+				var tag = el.val();
+				var dataString = 'action=addNewTag&tag='+tag;
+				
+				if (tag != '') {
+				
+					$.ajax({ 
+								 type: 'post',
+								 dataType: 'json',
+								 url: '../functions/blog.php',
+								 data: dataString,
+								 success: function(data) {
+								 	if (data.error) {
+										$('#tagError').text(data.error).addClass('errorText').css({
+											'visibility':'visible',
+											'opacity':0
+										}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+									} else {
+										$('#tagsAsCheckboxes').fadeTo('slow',0, function() {
+											$(this).html( data.tagsAsCheckboxes ).fadeTo('slow',1);
+											});
+										}
+								 }
+						});
+						
+					}
+					el.val('');
+					return false;
+				});	//end click
 
 });
 
@@ -64,7 +95,17 @@ $(function() {
 	<form method="post" action="">
 		<input type="text" maxlength="255" id="title" placeholder="Enter title here"><br>
 		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
-		<? echo getTagsAsCheckbox(); ?>
+		
+		<div id="tagsAsCheckboxes">
+			<? echo getTagsAsCheckbox(); ?>
+		</div>
+		
+		
+		<div style='margin-left:3em'>
+		<span class='addNew' id='createNewTag'></span>
+		<input type="text" id="newTag" placeholder="New tag" style='width: 5em'>
+		</div>
+		
 		<? echo getUserTagsAsCheckbox(); ?>
 		<br>
 		<input type="submit" id="postBlog" value="Publish Post">

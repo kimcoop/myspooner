@@ -35,15 +35,16 @@ $(function() {
 						 data: dataString,
 						 success: function(data) {
 							contentArea.val('');
-							commentSection.replaceWith(data.comments);
+							commentSection.fadeTo('slow',0, function() {
+									$(this).replaceWith(data.comments);
+								}).delay(1000).fadeTo('slow',1, function() {
+									commentForm.slideUp('slow');
+								});
 						 }
 				});
 							
 				return false;
 			}
-			
-			contentArea.val('');
-			commentForm.slideUp();
 		
 		});
 		

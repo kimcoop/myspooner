@@ -35,6 +35,9 @@
 				$comments = formatCommentsForArticle($aID);
 				echo json_encode(array('comments'=>$comments));
 				break;
+			case 'addNewTag':
+				addNewTag($_POST['tag']);
+				break;
 			}
 	}
 	
@@ -63,9 +66,18 @@
  		} 
  }
 
- function addNewTag() { //TODO don't insert if not unique
- 	$query = "INSERT INTO tag(name) VALUES(".$_POST['tag'].")";
- 	mysql_query($query);
+ function addNewTag($tag) { //Don't insert if not unique
+ 
+ 	$query = "SELECT * from tag WHERE name='$tag'";
+ 	$result = mysql_query($query);
+ 	if (mysql_num_rows($result) < 1) {
+		$query = "INSERT INTO tag(name) VALUES('$tag')";
+		mysql_query($query);
+		$tags = getTagsAsCheckbox();
+		echo json_encode(array('tagsAsCheckboxes'=>$tags));
+ 	} else {
+ 		echo json_encode(array('error'=>'Tag already exists.'));
+ 	}
  }
 	
  function getAllTags() {
@@ -123,7 +135,7 @@
  function getTagsAsCheckbox() {
  	$tags = getAllTags();
  	$str = "";
- 	$str .= "<div class='tagSelect'><span>Tag your blog post:</span><div>";
+ 	$str .= "<div class='tagSelect'><span>Tag your blog post:</span><span id='tagError' style='visibility:hidden;margin-left:3em'></span><div>";
  	foreach($tags as $tag) {
  		$name = $tag['name'];
  		$id = $tag['id'];
