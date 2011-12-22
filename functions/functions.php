@@ -120,7 +120,7 @@
 			if (mysql_num_rows($result) >0) echo json_encode(array('error'=>'That email is already in use. Please try another.'));	
 			else {
 		
-				$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,about,last_login) VALUES('$email','$password','$fname','$lname',now(), '$about', now())");
+				$result = toQuery("INSERT INTO user(email,password,fname,lname,join_date,about,last_login) VALUES('$email','$password','$fname','$lname',now(), '$about', now()-50000)");
 				if ($result) {
 					echo json_encode(array('msg'=>'Thanks! You\'ll be notified as soon as you\'re verified.'));	
 				} else {

@@ -26,6 +26,10 @@
 <script type="text/javascript">
 
 $(function() {
+			
+		$('.articleComments').live('click', function() {
+			$(this).next().next('.comments').slideToggle();
+		});
 		
 		$('#logout').click(function(e) {
 			e.preventDefault();

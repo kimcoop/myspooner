@@ -40,9 +40,9 @@
 	
 	
 	function validateUser($user_id, $validator) {
-		$query = "UPDATE user SET validated=1, validator='$validator' WHERE id='$user_id'";
+		$query = "UPDATE user SET validated=1, validator='$validator', join_date=now() WHERE id='$user_id'";
 		mysql_query($query);
-		echo json_encode(array('msg'=>'User approved.'));
+		echo json_encode(array('msg'=>'User approved!'));
 	}
 	
 	function formatRequests() {
@@ -52,7 +52,7 @@
 			foreach($requests as $request) {
 				$id = $request['id'];
 				$about = $request['about'];
-				$name = getUsername($id);
+				$name = getUsername($id, 'full');
 				$date = toDate($request['join_date']);
 			$str .= "<div class='validation'>$name wants to join MySpooner! <span class='timestamp'>$date</span>";
 			$str .= "<span class='checkboxes'><input type='checkbox' class='validation' value='$id'>&nbsp;<label>Approve user</label></span></div>";
@@ -310,7 +310,7 @@
 	
 	function getSpoonerDates() {
 		$date = $_SESSION['last_login'];
-		$query = "SELECT * FROM spooner_date WHERE post_date>'$date' ORDER BY post_date DESC";
+		$query = "SELECT * FROM spooner_date WHERE post_date>'$date' ORDER BY post_date DESC LIMIT 10";
 		$result = mysql_query($query) or die(mysql_error());
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
@@ -370,7 +370,7 @@
 	function getLatest() {
 		$all = array();
 		$date = $_SESSION['last_login'];
-		$query = "SELECT * FROM article WHERE post_date>'$date' ORDER BY post_date DESC";
+		$query = "SELECT * FROM article WHERE post_date>'$date' ORDER BY post_date DESC LIMIT 5";
 		//$query = "SELECT * FROM article UNION SELECT * FROM article_comment ORDER BY post_date";
 		$result = mysql_query($query) or die(mysql_error());
 		while($row = mysql_fetch_array($result)){

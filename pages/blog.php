@@ -15,10 +15,6 @@ $(function() {
 			$('.addNewPost').click(function() {
 				window.location.href = 'blogpost.php';
 			});
-			
-		$('.articleComments').live('click', function() {
-			$(this).next().next('.comments').slideToggle();
-		});
 				
 		$('.postComment').click(function() {
 			var el = $(this);
