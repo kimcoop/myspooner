@@ -13,12 +13,15 @@
 <link type="text/css" rel="stylesheet/less" href="../styles/myspooner.less"/>
 <link type="text/css" rel="stylesheet/less" href="../styles/interior.less"/>
 <link type="text/css" rel="stylesheet/less" href="../styles/interior-2.less"/>
+<link rel='stylesheet' type='text/css' href='../styles/fullcalendar.css' />
+
 
 <link href='http://fonts.googleapis.com/css?family=Lancelot' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../js/less.min.js"></script>
 <!--<script type="text/javascript" src="../js/jquery.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<script type='text/javascript' src='../js/fullcalendar.js'></script>
 
 <script type="text/javascript">
 
@@ -32,7 +35,7 @@ $(function() {
 					 dataType: 'json',
 					 url: '../functions/functions.php',
 					 success: function(data) {
-							window.location.href = "../index.php";
+							window.location.href = '../index.php';
 					 }
 			});
 			return false;
@@ -73,25 +76,22 @@ $(function() {
 			
 			
 			$('.user').click(function() {
-				var user = $(this).text();
-				$('#container').load('profile.php', function() {
-					$('#profileOf').text('Viewing the profile of '+user);
-					$.ajax({ 
-						 type: 'post',
+				var user = $(this).attr('id');
+				var dataString = 'action=getProfile&userID='+user;
+				alert(dataString);
+				
+				$.ajax({ 
+						 type: 'get',
 						 dataType: 'json',
-						 url: '../functions/settings.php',
-						 data: {
-						 			'action': 'getProfile',
-						 			'username': user
-						 },
-						 success: function(data) {
-								$('#body').html( data.msg );
-							}
-					});// end ajax
-				});// end function		
+						 url: 'profile.php',
+						 data: dataString,
+						 success: function(data) {}
+					});// end ajax		
+				
+				//window.location.href = 'profile.php';
 			});// end click
 		
-	});	
+	});
 	
 	
 function isValidEmail(email) {

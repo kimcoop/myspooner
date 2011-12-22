@@ -42,7 +42,7 @@
 	function validateUser($user_id, $validator) {
 		$query = "UPDATE user SET validated=1, validator='$validator' WHERE id='$user_id'";
 		mysql_query($query);
-		echo json_encode(array('msg'=>'User validated!'));
+		echo json_encode(array('msg'=>'User approved.'));
 	}
 	
 	function formatRequests() {
@@ -55,21 +55,27 @@
 				$name = getUsername($id);
 				$date = toDate($request['join_date']);
 			$str .= "<div class='validation'>$name wants to join MySpooner! <span class='timestamp'>$date</span>";
-			$str .= "<span class='checkboxes'><input type='checkbox' class='validation' value='$id'>&nbsp;<label>Validate</label></span></div>";
+			$str .= "<span class='checkboxes'><input type='checkbox' class='validation' value='$id'>&nbsp;<label>Approve user</label></span></div>";
 				//$str .= "<br>About:$about<br></div>";
 			}
 		}
 		return $str;
 	}
 	
-	function getRequests() {
+	function getRequests($action=null) {
 		$query = "SELECT * FROM user WHERE validated='0'";
 		$result = mysql_query($query);
-		$requests = array();
-		while($row = mysql_fetch_array($result)){
-				$requests[] = $row;
-			}
-		return $requests;
+
+		if ($action != null) {
+				$messages = mysql_num_rows($result);
+				return "$messages";
+			} else {
+			$requests = array();
+			while($row = mysql_fetch_array($result)){
+					$requests[] = $row;
+				}
+			return $requests;
+		}
 	}
 	
 	function formatThreadedMessages($rootID) {
@@ -202,10 +208,11 @@
 		$tags = getNotifications();
 		foreach($tags as $tag) {
 			$post = getArticleTitle($tag['article_id']);
-			$tagger = getUsername($tag['tagger_id']);
+			$taggerID = $tag['tagger_id'];
+			$tagger = getUsername($taggerID);
 			$date = toDate($tag['tag_date']);
 			$id = $tag['id'];
-			$str .= "<div class='notification'><span class='user'>$tagger</span> tagged you in a post called $post. <span class='timestamp'>$date</span>";
+			$str .= "<div class='notification'><span class='user' id='$taggerID'>$tagger</span> tagged you in a post called $post. <span class='timestamp'>$date</span>";
 			$str .= "<span class='checkboxes'><input type='checkbox' class='notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 		}
 		
@@ -219,10 +226,11 @@
 		$str = "";
 		
 		foreach($tripTags as $tag) {
-				$tagger = getUsername($tag['tagger_id']);
+				$taggerID = $tag['tagger_id'];
+				$tagger = getUsername($taggerID);
 				$date = toDate($tag['tag_date']);
 				$id = $tag['trip_id'];
-				$str .= "<div class='trip_notification'><span class='user'>$tagger</span> tagged you on a Spooner trip! <span class='timestamp'>$date</span>";
+				$str .= "<div class='trip_notification'><span class='user' id='$taggerID'>$tagger</span> tagged you on a Spooner trip! <span class='timestamp'>$date</span>";
 				$str .= "<span class='checkboxes'><input type='checkbox' class='trip_notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 			}
 			return $str;
@@ -268,14 +276,15 @@
 		$dates = getSpoonerDates();
 		foreach($dates as $d) {
 			$id = $d['id'];
-			$username = getUsername($d['user_id']);
+			$userID = $d['user_id'];
+			$username = getUsername($userID);
 			$date = toDate($d['post_date']);
 			$arrival = toDateOnly($d['arrival']);
 			$departure = toDateOnly($d['departure']);			
 			$notes = $d['notes'];
 			$str .= "<div class='announcedTrip'>";
 			$str .= "<span class='memberTimestamp'>$date</span>";
-			$str .= "<div class='greenText'><span class='user'>".$username."</span> posted a Spooner trip!</div>";
+			$str .= "<div class='greenText'><span class='user' id='$userID'>".$username."</span> posted a Spooner trip!</div>";
 			$str .= "$arrival until $departure.";
 			if (!empty($notes)) $str .= "<br>".$notes;
 			$str .= formatOthersForTrip($id);
@@ -326,9 +335,10 @@
 		$str = "";
 		$joins = getJoiners();
 		foreach($joins as $j) {
-			$username = getUsername($j['id']);
+			$userID = $j['id'];
+			$username = getUsername($userID);
 			$date = toDate($j['join_date']);
-			$str .= "<div class='latest'><span class='user pinkText'>".$username."</span> joined MySpooner!<span class='datetime'>$date</span></div>";
+			$str .= "<div class='latest'><span class='user pinkText' id='$userID'>".$username."</span> joined MySpooner!<span class='datetime'>$date</span></div>";
 		}
 		return $str;	
 	}
@@ -345,11 +355,12 @@
 		$activities = getLatest();
 		if (!empty($activities)) {
 			foreach($activities as $a) {
-				$username = getUsername($a['user_id']);
+				$userID = $a['id'];
+				$username = getUsername($userID);
 				$content = $a['content'];
 				$date = toDate($a['post_date']);
 				$title = getArticleTitle($a['id']);
-				$str .= "<div class='latest'><span class='user pinkText'>".$username."</span> wrote a blog post titled $title<span class='datetime'>$date</span>";
+				$str .= "<div class='latest'><span class='user pinkText' id='$userID'>".$username."</span> wrote a blog post titled $title<span class='datetime'>$date</span>";
 				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div>";			
 			}
 		}

@@ -23,4 +23,6 @@ $(function() {
 	<h2>Wall</h2>
 	<? echo formatWall($_SESSION['user_id']) ?>
 </div>
+
+
 <? include('../include/footer.php') ?>

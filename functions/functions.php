@@ -32,6 +32,23 @@
 		}
 	}
 	
+	function getAddPost() {
+		$str = "<div class='write buttonContainer' style='float:right'>";
+		$str .= "Write a wall post <span class='addNew'></span>";
+		$str .= "</div>";
+		return $str;	
+	}
+	
+	function getCommentSpace($placeholder, $submit_value, $submit_class) {
+		$str = "<div class='commentForm'>";
+		$str .= "<form method='post' action=''>";
+		$str .= "<textarea placeholder='$placeholder' class='commentContent'></textarea>";
+		$str .= "&nbsp;<input type='submit' value='$submit_value' class='$submit_class'>";
+		$str .= "<div class='close'></div></form></div></div>"; // end div.addComment
+		$str .= "</div>";
+		return $str;
+	}
+	
 	function ago($time) {
    $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
    $lengths = array("60","60","24","7","4.35","12","10");

@@ -79,7 +79,7 @@
  }
  
  function getAllUsers() {
- 	$query = "SELECT id, fname, lname, email FROM user ORDER BY fname ASC";
+ 	$query = "SELECT id, fname, lname, email FROM user WHERE validated='1' ORDER BY fname ASC";
  	$result = mysql_query($query) or die(mysql_error());
 	$tags = array();
 	while($row = mysql_fetch_array($result)){
@@ -112,9 +112,9 @@
  	$str = "";
  	$str .= "<div class='tagSelect'><span>$phrase</span><div>";
  	foreach($tags as $tag) {
- 		$fname = $tag['fname'];
+ 		$name = $tag['fname']."&nbsp;".$tag['lname'];
  		$id = $tag['id'];
- 		$str .= "<input type='checkbox' value='$id' class='userTag' name='userTags[]'>&nbsp;<label>$fname</label><br>";
+ 		$str .= "<input type='checkbox' value='$id' class='userTag' name='userTags[]'>&nbsp;<label>$name</label><br>";
  	}
  	$str .= "</div></div>";
  	return $str; 

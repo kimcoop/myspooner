@@ -2,6 +2,7 @@
 	include('../functions/latest_activity.php');
 	include('../include/header.php');
 	include_once('../functions/blog.php');
+	include_once('../functions/functions.php');
 	
 ?>
 
@@ -116,14 +117,9 @@ $(function() {
 
 <div id="container">
 
-<div id="validations">
-	<h2>New Users</h2><div class='tooltip' style='position:relative;top:-40px;left:120px'><span class='question'></span> Why am I seeing this?
-	<div class='answer' style='visibility:hidden'>Anyone wishing to join MySpooner must first be validated as family by an existing member.</div></div>
-	<? echo formatRequests() ?>
-</div>
-
 <div id="notifications">
-	<h2>Notifications: <span class='georgia'><? echo getNotifications('count') + getTripNotifications('count'); ?></span> new</h2>
+	<h2>Notifications: <span class='georgia'><? echo getNotifications('count') + getTripNotifications('count') + getRequests('count'); ?></span> new</h2>
+	<? echo formatRequests() ?>
 	<? echo formatNotifications() ?>
 </div>
 
