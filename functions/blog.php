@@ -132,10 +132,10 @@
  	return $str; 
  }
  
- function getTagsAsCheckbox() {
+ function getTagsAsCheckbox($phrase='Tag your blog post') {
  	$tags = getAllTags();
  	$str = "";
- 	$str .= "<div class='tagSelect'><span>Tag your blog post:</span><span id='tagError' style='visibility:hidden;margin-left:3em'></span><div>";
+ 	$str .= "<div class='tagSelect'><span>$phrase:</span><span id='tagError' style='visibility:hidden;margin-left:3em'></span><div>";
  	foreach($tags as $tag) {
  		$name = $tag['name'];
  		$id = $tag['id'];

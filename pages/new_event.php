@@ -4,16 +4,7 @@
 	include('../include/header.php');
 	include_once('../functions/blog.php');
 	include_once('../functions/calendar.php');
-	/*CREATE TABLE `event` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` int(11) DEFAULT NULL,
-  `start_date` datetime DEFAULT NULL,
-  `end_date` datetime DEFAULT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `post_date` datetime DEFAULT NULL,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;*/
+	
 ?>
 
 <script type="text/javascript">
@@ -24,22 +15,19 @@ $(function() {
 	$('#calendar').addClass('active');
 			
 			$('#createNewEvent').click(function() {
-				var el = $('#newTag');
-				var tag = el.val();
+				var name = $('#name').val();
+				var content = $('#content').val();
 				
-				if (tag != '') {
+				if (name != '' && content != '') {
 				
-					var title = $('#title').val();
-					var content = $('#content').val();
 					var tags = $('input.tagForArticle:checked');				
 					
-					var dataString = 'action=createArticle&title='+title
+					var dataString = 'action=createEvent&name='+name
 														+'&content='+content;
 														
 					$.each(tags, function() {
 						dataString += '&tags[]=' + $(this).val();
 					});
-				
 				
 					$.ajax({ 
 								 type: 'post',
@@ -52,16 +40,18 @@ $(function() {
 											'visibility':'visible',
 											'opacity':0
 										}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
-									} else {
-										$('#tagsAsCheckboxes').fadeTo('slow',0, function() {
-											$(this).html( data.tagsAsCheckboxes ).fadeTo('slow',1);
-											});
-										}
+									} else 
+										window.location.href='calendar.php';									
 								 }
 						});
 						
+					} else {
+						$('#notice').text('Event name and description required.').addClass('errorText').css({
+								'visibility':'visible',
+								'opacity':0
+							}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
 					}
-					el.val('');
+					content.val('');
 					return false;
 				});	//end click
 
@@ -75,17 +65,26 @@ $(function() {
 
 <h2>New Event</h2>
 
-<div id="notice" style="visibility:hidden;"></div>
+<div id="notice" style="visibility:hidden;">&nbsp;</div>
 
-		
+<div id="newPost">
+	<form method="post" action="">
+		<input type="text" maxlength="255" id="name" placeholder="Enter event name here"><br>
+		<textarea style='height:6em' id="content" maxlength="4000" placeholder="Enter description here"></textarea><br>	
+				
 		<div id="tagsAsCheckboxes">
-			<? echo getTagsAsCheckbox(); ?>
-		</div>
-		
+			<? echo getTagsAsCheckbox('Tag your event'); ?>
+		</div>		
 		
 		<div style='margin-left:3em'>
 		<span class='addNew' id='createNewTag'></span>
 		<input type="text" id="newTag" placeholder="New tag" style='width: 5em'>
 		</div>
+		
+		<br>
+		<input type="button" id="createNewEvent" value="Publish Event">
+	</form>
+</div>
+
 
 <? include('../include/footer.php'); ?>
