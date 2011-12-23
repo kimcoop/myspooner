@@ -356,8 +356,9 @@
 				$content = $a['content'];
 				$date = toDate($a['post_date']);
 				$title = getArticleTitle($a['id']);
-				$str .= "<div class='latest'><span class='user pinkText' id='$userID'>".$username."</span> wrote a blog post titled $title<span class='datetime'>$date</span>";
-				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div>";			
+				$grav = "<img src='".getGravatar($_SESSION['email'], 40)."'/>";
+				$str .= "<div class='latest'><div>$grav</div><div><span class='user pinkText' id='$userID'>".$username."</span> wrote a blog post titled $title";
+				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div><span class='datetime'>$date</span></div>";			
 			}
 		}
 		return $str;

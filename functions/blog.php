@@ -251,7 +251,8 @@ function formatCommentsForArticle($id) {
 		foreach($comments as $comment) {
 			$author = getUsername($comment['user_id']);
 			$str .= "<div class='comment'>";
-			$str .= "<span>".toDate($comment['post_date']).", ".$author." wrote";
+			$grav = "<img class='grav' src='".getGravatar($_SESSION['email'], 40)."'/>";
+			$str .= "<span>".$grav.toDate($comment['post_date']).", ".$author." wrote";
 			$str .= "</span><br>";
 			$str .= $comment['content']."</div>";
 		}

@@ -178,6 +178,7 @@
 					$row = mysql_fetch_array($result);
 					$_SESSION['last_login'] = $row['last_login'];
 					$_SESSION['username'] = $fname;
+					$_SESSION['email'] = $email;
 					echo json_encode(array('msg'=>'Welcome back!'));	
 				}
 			} else {

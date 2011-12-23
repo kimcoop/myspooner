@@ -66,6 +66,10 @@ div#articles > *:last-child, div#posts > *:last-child {
 div#articles > *:nth-child(odd), div#posts > *:nth-child(odd) {
 	background: #FAFAFA;
 	
+	.comment {
+		border-top: thin solid #eee;
+	}
+	
 	.commentForm {
 	background: #FAFAFA;
 	}
@@ -104,11 +108,13 @@ div.article {
 		span {
 			color: @grey;
 		}
-		
 	}
 	
 	.comment {
-		margin: 1em 0 0 0;
+		clear:both;
+		margin: 1em 0 1em 0;
+		padding-top: .4em;
+		border-top: thin solid #FAFAFA;
 	}
 	
 	.articleComments {
@@ -205,9 +211,18 @@ div.article {
 
 div.latest {
 	.bordered_post;
+	
+	div {
+		float:left;
+		padding: .8em 0em;
+	}
+	
+	div:first-child {
+		margin-right: .4em;
+	}
 
 	.datetime {
-		float:right;
+		float:right !important;
 		.timestamp
 	}
 	
