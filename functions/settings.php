@@ -39,15 +39,18 @@
 			else $str .= "Your upcoming trips:<br></div>";
 		
 				foreach($dates as $date) {
-					$str .= "<div class='spoonerTrip'><span>";
 					$trip_id = $date['id'];
+					$str .= "<div class='spoonerTrip' id='$trip_id'><span>";
 					$arrival = $date['arrival'];
 					$departure = $date['departure'];
 					$notes = $date['notes'];
 					$post_date = toDateWithAgo($date['post_date']);
-					$str .= toDateOnly($arrival)." until ";
-					$str .= toDateOnly($departure);
-					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date</span>";
+					$str .= "<span>".toDateOnly($arrival)." until ";
+					$str .= toDateOnly($departure)."</span>";
+					$str .= "<div class='button_container inline'><span class='delete'></span></div>";
+					$str .= "<div class='button_container inline'><span class='edit'></span></div>";
+					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date";					
+					$str .= "</span>";
 					if (!empty($notes)) $str .= "<br>".$notes;
 					
 				  $query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND spooner_trip_tag.user_id=user.id ORDER BY fname";

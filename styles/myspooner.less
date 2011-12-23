@@ -193,11 +193,23 @@ body {
 	 .clickable;
 }
 
+.button_container.inline {
+	margin: -.3em 0 0 0;	
+}
+
 .button_container:hover {
 	color: @pink;
 	
 	.addNew {
 		background-position: -22px -50px;
+	}
+	
+	.delete {
+		background-position: -22px -150px;
+	}
+	
+	.edit {
+		background-position: -22px -700px;
 	}
 }
 
@@ -212,11 +224,44 @@ body {
 	background-position: 3px -50px;
 	.clickable;
 }
-
 	
 .addNew:hover {
 	background-position: -22px -50px;
 }
+
+.delete {
+	margin: 0 0 0 0;
+	background: transparent url("../images/icons_module.png") no-repeat 0 0;
+	display: inline-block;
+	height: 16px;
+	vertical-align: text-top;
+	 width: 20px;
+	overflow: hidden;
+	background-position: 3px -150px;
+	.clickable;
+}
+
+.delete:hover {
+	background-position: -22px -150px;
+}
+
+.edit {
+	margin: 0 0 0 0;
+	background: transparent url("../images/icons_module.png") no-repeat 0 0;
+	display: inline-block;
+	height: 16px;
+	vertical-align: text-top;
+	 width: 16px;
+	overflow: hidden;
+	background-position: 3px -700px;
+}
+
+.edit:hover {
+	background-position: -22px -700px;
+}
+
+
+
 
 .grey {
 	color: @grey !important;
@@ -252,6 +297,5 @@ body {
 }
 
 .user:hover {
-	.text-shadow;
 	text-decoration:underline;
 }
