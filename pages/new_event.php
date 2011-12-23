@@ -11,8 +11,12 @@
 
 $(function() {
 
-	$('#eventStart').datepicker();
-	$('#eventEnd').datepicker();
+	$('#eventStart').datetimepicker({
+			ampm: true
+		});
+	$('#eventEnd').datetimepicker({
+			ampm: true
+		});
 
 	$('header span').removeClass('active');
 	$('#calendar').addClass('active');

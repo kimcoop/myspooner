@@ -320,7 +320,7 @@ function solidify() {
 		<input type='button' id='cancel' value='Cancel'>
 	
 	
-	<div class='spoonerDates'>
+	<div class='spoonerDates' style='z-index:5000000;'>
 		<h2>Spooner Trips</h2>
 		<div id="dates_notice" style="visibility:hidden;margin-top:-1.5em">&nbsp;</div>
 		

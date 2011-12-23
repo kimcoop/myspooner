@@ -30,8 +30,8 @@
 		
 	
 	function createEvent($name, $content, $userID, $start, $end) {
-		$startDate = date('Y-m-d', strtotime($start));
-		$endDate = date('Y-m-d', strtotime($end));
+		$startDate = date('Y-m-d h:i:s a', strtotime($start));
+		$endDate = date('Y-m-d h:i:s a', strtotime($end));
 	
 		$query = "INSERT INTO event(name, start_date, end_date, description, post_date, user_id)";
 		$query .= " VALUES('$name', '$startDate', '$endDate', '$content', now(), '$userID')";
