@@ -123,7 +123,9 @@
 	function updateUser() {
 		$fname = trim($_POST['fname']); $lname = trim($_POST['lname']); $email = trim($_POST['email']); $id = $_SESSION['user_id'];
 		$phone = trim($_POST['phone']); $mother = trim($_POST['mother']); $father = trim($_POST['father']); $about = trim($_POST['about']);		
-		$query = "UPDATE user SET fname='$fname', lname='$lname', email='$email', phone='$phone', mother='$mother', father='$father', about='$about' WHERE id='$id'";
+		$birthday = date('Y-m-d', strtotime(trim($_POST['birthday'])));
+		
+		$query = "UPDATE user SET fname='$fname', lname='$lname', email='$email', phone='$phone', mother='$mother', father='$father', about='$about', birthday='$birthday' WHERE id='$id'";
 		mysql_query($query);
 	}
 	
@@ -172,6 +174,11 @@
 	function getLastLogin($id) {
 		$row = getUserInfo($id);
 		return $row['last_login'];
+	}
+	
+	function getBirthday($id) {
+		$row = getUserInfo($id);
+		return $row['birthday'];
 	}
 	
 	function getUserByName($name) {

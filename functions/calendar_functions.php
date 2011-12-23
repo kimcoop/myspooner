@@ -90,24 +90,44 @@
 				$start = $row['start_date'];
 				$end = $row['end_date'];
 				
-				$trip = array(
+				$event = array(
 					'id' => $id,
 					'title' => $title,
 					'start' => $start,
 					'end' => $end				
 				);
 				
-				$dates[] = $trip;
+				$dates[] = $event;
 			}
 		return $dates;
-  
   }
-
+  
+  function getAllBirthdays() {
+		$query = "SELECT id, fname, birthday FROM user";
+		$result = mysql_query($query) or die(mysql_error());
+		$dates = array();
+		while($row = mysql_fetch_array($result)){
+				$user = getUsername($row['id']);
+				$id = $row['id'];
+				$title = $user."'s birthday!";
+				$start = $row['birthday'];
+				
+				$bday = array(
+					'id' => $id,
+					'title' => $title,
+					'start' => $start	
+				);
+				
+				$dates[] = $bday;
+			}
+		return $dates;
+  }
 
 	function fetchCalendar() {
 		$trips = getAllTrips();
 		$events = getAllEvents();
-		echo json_encode(array_merge($trips, $events));	
+		$birthdays = getAllBirthdays();
+		echo json_encode(array_merge($trips, $events, $birthdays));	
 	}
 
 ?>

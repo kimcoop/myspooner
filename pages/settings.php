@@ -161,7 +161,8 @@ $(function() {
 			'phone' : $('#phone').val(),
 			'mother' : $('#mother').val(),
 			'father' : $('#father').val(),
-			'about' : $('#about').val()
+			'about' : $('#about').val(),
+			'birthday' : $('#birthday').val()
 	};
 	
 	$('header span').removeClass('active');
@@ -184,13 +185,14 @@ $(function() {
 			var mother = $('#mother').val();
 			var father = $('#father').val();
 			var about = $('#about').val();
+			var birthday = $('#birthday').val();
 			
 			if (fname=='' || lname=='' || email=='') {
 				$('#notice').text('First name, last name, and email are required.').addClass('errorText').css({
 										'visibility':'visible',
 										'opacity':0
 									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
-			} else if (fname==$.originals['fname'] && lname==$.originals['lname'] && email==$.originals['email'] && phone==$.originals['phone'] && mother==$.originals['mother'] && father==$.originals['father'] && about==$.originals['about']) {
+			} else if (fname==$.originals['fname'] && lname==$.originals['lname'] && email==$.originals['email'] && phone==$.originals['phone'] && mother==$.originals['mother'] && father==$.originals['father'] && about==$.originals['about'] && birthday==$.originals['birthday']) {
 				solidify();
 			} else if (!isValidEmail(email)) {
 				$('#notice').text('Invalid email address.').addClass('errorText').css({
@@ -206,6 +208,7 @@ $(function() {
 			$.originals['mother'] = mother;
 			$.originals['father'] = father;
 			$.originals['about'] = about;
+			$.originals['birthday'] = birthday;
 			
 			var dataString = 'action=updateUser&fname='+fname+
 												'&lname='+lname+
@@ -213,7 +216,8 @@ $(function() {
 												'&phone='+phone+
 												'&mother='+mother+
 												'&father='+father+
-												'&about='+about;
+												'&about='+about+
+												'&birthday='+birthday;
 			$.ajax({ 
 						 type: 'post',
 						 dataType: 'json',
@@ -241,6 +245,8 @@ $(function() {
 				el.attr('disabled', true).val(original).removeClass('editing').addClass('editable');
 			});	
 	});
+	
+	$('#birthday').datepicker();
 	
 	
 function removeButtons() {
@@ -289,6 +295,8 @@ function solidify() {
 		echo "<span class='type'>Phone:</span><input type='text' disabled id='phone' class='editable' value='".getPhone($id)."'>";
 		echo "<br><br>";
 		echo "<span class='type'>About:</span><textarea disabled id='about' class='editable'>".getAbout($id)."</textarea>";
+		echo "<br><br>";
+		echo "<span class='type'>Birthday:</span><input type='text' disabled id='birthday' class='editable' value='".getBirthday($id)."'>";
 		echo "<br><br>";
 		$mom = getMother($id);
 		echo "<span class='type'>Mother:</span>".getUsersAsSelect('mother', $mom);
