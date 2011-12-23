@@ -30,7 +30,7 @@ $(function() {
 				parent.prepend(saveButton);
 				parent.prepend(editingIndicator);
 				
-				var el = $(this).parent().siblings('.trip_date').addClass('editingThisTrip').attr('contenteditable',true);
+				var el = parent.find('.trip_date').addClass('editingThisTrip').attr('contenteditable',true);
 				
 			} else {
 					$('#dates_notice').stop();
@@ -42,7 +42,8 @@ $(function() {
 		});
 	
 	$('#cancelTripButton').live('click',function() {
-		$(this).siblings('span').children('.trip_date').removeClass('editingThisTrip').removeAttr('contenteditable');
+		var el = $('.editingThisTrip');
+		el.removeAttr('contenteditable').removeClass('editingThisTrip');
 		removeButtons();
 	}); //end cancelTripButton	
 	
@@ -62,6 +63,7 @@ $(function() {
 						 url: '../functions/settings.php',
 						 data: dataString,
 						 success: function() {
+						 		$('.editingThisTrip').removeAttr('contenteditable').removeClass('editingThisTrip');
 								$('#dates_notice').text('Trip saved.').addClass('errorText').css({
 										'visibility':'visible',
 										'opacity':0
@@ -269,7 +271,7 @@ function solidify() {
 
 <? 
 	 $id = $_SESSION['user_id'];
-	echo "<div class='memberTimestamp'>Member since ".toDate(getJoinDate($id))."</div>";
+	echo "<div class='memberTimestamp'>Member since ".toDateOnly(getJoinDate($id))."</div>";
 	 echo "<br><div class='memberTimestamp'>Last login ".toDate(getLastLogin($id))."</div>"; ?>
 
 <br>
@@ -319,12 +321,9 @@ function solidify() {
 			Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
 			Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
 			Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
-			
-			
-			
+					
 		<? echo getUserTagsAsCheckbox('Tag others on this trip:'); ?>
-			
-			
+						
 			<br><br><br><br><br><br><input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
 			<input id='cancelNewTrip' style='z-index:400000' type='button' value='Cancel'>
 		</div><!-- end div#newTrip-->
