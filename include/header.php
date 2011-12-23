@@ -91,7 +91,7 @@ $(function() {
 		
 		
 			
-			$('.tag').click(function() {
+			$('.tag').live('click',function() {
 				var tag = $(this).text();
 				$('#container').load('filterblog.php', function() {
 					$('#filterOn').text('Displaying blog posts tagged as '+tag);
