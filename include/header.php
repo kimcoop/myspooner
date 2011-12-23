@@ -17,6 +17,7 @@
 <link type="text/css" rel="stylesheet/less" href="../styles/interior-2.less"/>
 <link rel='stylesheet' type='text/css' href='../styles/fullcalendar.css' />
 <link rel="stylesheet" href='../styles/fullcalendar.print.css' type="text/css" media="print"/>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>
 
 <link href='http://fonts.googleapis.com/css?family=Lancelot' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../js/less.min.js"></script>
