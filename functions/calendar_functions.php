@@ -110,15 +110,34 @@
 				$user = getUsername($row['id']);
 				$id = $row['id'];
 				$title = $user."'s birthday!";
-				$start = $row['birthday'];
+				$bday = $row['birthday'];
 				
-				$bday = array(
-					'id' => $id,
-					'title' => $title,
-					'start' => $start	
-				);
+				if (!empty($bday)) {
 				
-				$dates[] = $bday;
+					$d = new DateTime($bday);
+					$bday_m = $d->format('m');
+					$bday_d = $d->format('d');
+					$yr = date('Y');
+					
+					$thisBday = date("Y-m-d", mktime(0, 0, 0, $bday_m, $bday_d, $yr));
+					$nextBday = date("Y-m-d", mktime(0, 0, 0, $bday_m, $bday_d, $yr+1)); //get next year's bday too
+					$start = $bday;
+					
+					$bday = array(
+						'id' => $id,
+						'title' => $title,
+						'start' => $thisBday
+					);
+					$dates[] = $bday;
+					
+					$bday = array(
+						'id' => $id,
+						'title' => $title,
+						'start' => $nextBday
+					);
+					$dates[] = $bday;
+				} //end if
+				
 			}
 		return $dates;
   }
