@@ -30,8 +30,19 @@
 				updateTrip($_POST['tripID'], $_POST['startDate'], $_POST['endDate']);
 				unset($_POST['action']);
 				break;
+			case 'deleteTrip':
+				deleteTrip($_POST['tripID']);
+				unset($_POST['action']);
+				break;
 		}
 	}
+	
+	function deleteTrip($tripID) {
+		$query = "DELETE FROM spooner_date WHERE id='$tripID'";
+		mysql_query($query);
+		$query = "DELETE FROM spooner_trip_tag WHERE trip_id='$tripID'";
+		mysql_query($query);
+	}	
 	
 	function updateTrip($tripID, $newStart, $newEnd) {
 		$arrival = date('Y-m-d', strtotime($newStart));

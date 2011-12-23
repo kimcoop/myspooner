@@ -69,14 +69,34 @@ $(function() {
 						}
 				});
 				return false;
-			
-			
 	}); //end saveTripButton	
 	
 	$('.delete').click(function() {
-		var id = $(this).parent().parent().parent().attr('id');
-		alert('todo');
-	});
+		var conf = confirm('Are you sure you want to delete this trip?');
+		
+		if (conf) {	
+			var parent = $(this).parent().parent().parent();
+			var tripID = parent.attr('id');
+			var dataString = 'action=deleteTrip&tripID='+tripID;
+			
+				$.ajax({ 
+							 type: 'post',
+							 dataType: 'json',
+							 url: '../functions/settings.php',
+							 data: dataString,
+							 success: function() {
+									$('#dates_notice').text('Trip deleted.').addClass('errorText').css({
+											'visibility':'visible',
+											'opacity':0
+										}).fadeTo('slow',1, function() {
+										parent.fadeOut();
+									}).delay(2000).fadeTo('slow',0);
+							}
+					});
+					return false;
+			}	
+				
+	}); //end delete
 
 
 	$('.newTrip').live('click', function() {
