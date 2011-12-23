@@ -34,7 +34,7 @@ $(function() {
 				
 			} else {
 					$('#dates_notice').stop();
-					$('#dates_notice').text('Only one trip may be edited at a time.').addClass('errorText').css({
+					$('#dates_notice').text('Please first save or cancel your changes.').addClass('errorText').css({
 						'visibility':'visible',
 						'opacity':0
 					}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
@@ -42,6 +42,7 @@ $(function() {
 		});
 	
 	$('#cancelTripButton').live('click',function() {
+		$(this).siblings('span').children('.trip_date').removeClass('editingThisTrip').removeAttr('contenteditable');
 		removeButtons();
 	}); //end cancelTripButton	
 	
@@ -61,7 +62,7 @@ $(function() {
 						 url: '../functions/settings.php',
 						 data: dataString,
 						 success: function() {
-								$('#dates_notice').text('Trip altered.').addClass('errorText').css({
+								$('#dates_notice').text('Trip saved.').addClass('errorText').css({
 										'visibility':'visible',
 										'opacity':0
 									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
@@ -96,7 +97,10 @@ $(function() {
 		var notes = $('#notes').val();
 		
 		if (arrival=='' || departure=='') {
-			$('#dates_notice').addClass('errorText').text('Arrival and departure dates must be filled in.').fadeIn().delay(2000).fadeOut();
+			$('#notice').text('Arrival and departure dates must be filled in.').addClass('errorText').css({
+										'visibility':'visible',
+										'opacity':0
+									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
 		} else {
 	
 		var dataString = 'action=setSpoonerDates'+
@@ -127,10 +131,10 @@ $(function() {
 	}); //end click
 
 	$.originals = { 
-			'fname' : $('#fname').text(), 
-			'lname' : $('#lname').text(),
-			'email' : $('#email').text(),
-			'phone' : $('#phone').text(),
+			'fname' : $('#fname').val(), 
+			'lname' : $('#lname').val(),
+			'email' : $('#email').val(),
+			'phone' : $('#phone').val(),
 			'mother' : $('#mother').val(),
 			'father' : $('#father').val(),
 			'about' : $('#about').val()
@@ -158,11 +162,17 @@ $(function() {
 			var about = $('#about').val();
 			
 			if (fname=='' || lname=='' || email=='') {
-				$('#notice').text('First name, last name, and email are required.').addClass('errorText').fadeIn().delay(2000).fadeOut();
+				$('#notice').text('First name, last name, and email are required.').addClass('errorText').css({
+										'visibility':'visible',
+										'opacity':0
+									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
 			} else if (fname==$.originals['fname'] && lname==$.originals['lname'] && email==$.originals['email'] && phone==$.originals['phone'] && mother==$.originals['mother'] && father==$.originals['father'] && about==$.originals['about']) {
 				solidify();
 			} else if (!isValidEmail(email)) {
-				$('#notice').text('Invalid email address.').addClass('errorText').fadeIn().delay(2000).fadeOut();
+				$('#notice').text('Invalid email address.').addClass('errorText').css({
+										'visibility':'visible',
+										'opacity':0
+									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
 			} else {
 			
 			$.originals['fname'] = fname;
@@ -186,7 +196,10 @@ $(function() {
 						 url: '../functions/settings.php',
 						 data: dataString,
 						 success: function() {
-								$('#notice').text('Profile updated.').fadeIn().delay(2000).fadeOut();
+								$('#notice').text('Profile updated.').addClass('errorText').css({
+										'visibility':'visible',
+										'opacity':0
+									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
 								solidify();
 						}
 				});
@@ -212,7 +225,7 @@ function removeButtons() {
 		lineBreak.detach();
 		cancelButton.detach();
 		editingTrip = false;
-	}
+	};
 	
 });
 
@@ -232,7 +245,7 @@ function solidify() {
 
 <h2>Profile Info</h2>
 
-<div id="notice" style="display:none"></div>
+<div id="notice" style="visibility:hidden">&nbsp;</div>
 
 <? 
 	 $id = $_SESSION['user_id'];
