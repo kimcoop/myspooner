@@ -16,7 +16,7 @@ $(function() {
 				window.location.href = 'blogpost.php';
 			});
 				
-		$('.postComment').click(function() {
+		$('.postComment').live('click', function() {
 			var el = $(this);
 			var contentArea = el.siblings('.commentContent');
 			var content = contentArea.val();

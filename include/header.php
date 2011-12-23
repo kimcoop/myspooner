@@ -28,7 +28,7 @@
 
 $(function() {
 
-	$('#createNewTag').click(function() {
+	$('#createNewTag').live('click', function() {
 				var el = $('#newTag');
 				var tag = el.val();
 				var dataString = 'action=addNewTag&tag='+tag;
@@ -63,7 +63,7 @@ $(function() {
 			$(this).next().next('.comments').slideToggle();
 		});
 		
-		$('#logout').click(function(e) {
+		$('#logout').live('click', function(e) {
 			e.preventDefault();
 			$.ajax({ 
 					 type: 'post',
@@ -77,12 +77,12 @@ $(function() {
 			return false;
 		});
 		
-		$('.nav').click(function() {
+		$('.nav').live('click', function() {
 			id = this.id;
 			window.location.href = id + '.php';		
 		});
 		
-		$('.question').click(function() {
+		$('.question').live('click', function() {
 			$(this).next('.answer').css({
         'visibility' : 'visible',
         'opacity' : 0
@@ -91,7 +91,7 @@ $(function() {
 		
 		
 			
-			$('.tag').live('click',function() {
+			$('.tag').live('click', function() {
 				var tag = $(this).text();
 				$('#container').load('filterblog.php', function() {
 					$('#filterOn').text('Displaying blog posts tagged as '+tag);
@@ -107,11 +107,11 @@ $(function() {
 								$('#posts').html(data.articles);
 							}
 					});// end ajax
-				});// end function		
+				});// end function
 			});// end click
 			
 			
-			$('.user').click(function() {
+			$('.user').live('click', function() {
 				var user = $(this).attr('id');
 				var dataString = 'action=getProfile&userID='+user;
 				alert(dataString);
@@ -124,7 +124,6 @@ $(function() {
 						 success: function(data) {}
 					});// end ajax		
 				
-				//window.location.href = 'profile.php';
 			});// end click
 		
 	});

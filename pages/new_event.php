@@ -11,19 +11,26 @@
 
 $(function() {
 
+	$('#eventStart').datepicker();
+	$('#eventEnd').datepicker();
+
 	$('header span').removeClass('active');
 	$('#calendar').addClass('active');
 			
 			$('#createNewEvent').click(function() {
 				var name = $('#name').val();
 				var content = $('#content').val();
+				var start = $('#eventStart').val().trim();
+				var end = $('#eventEnd').val().trim();
 				
 				if (name != '' && content != '') {
 				
 					var tags = $('input.tagForArticle:checked');				
 					
 					var dataString = 'action=createEvent&name='+name
-														+'&content='+content;
+														+'&content='+content
+														+'&start='+start
+														+'&end='+end;
 														
 					$.each(tags, function() {
 						dataString += '&tags[]=' + $(this).val();
@@ -40,10 +47,11 @@ $(function() {
 											'visibility':'visible',
 											'opacity':0
 										}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
-									} else 
-										window.location.href='calendar.php';									
+									} else {
+											window.location.href='calendar.php';
+										}
 								 }
-						});
+						}); //end ajax
 						
 					} else {
 						$('#notice').text('Event name and description required.').addClass('errorText').css({
@@ -51,7 +59,6 @@ $(function() {
 								'opacity':0
 							}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
 					}
-					content.val('');
 					return false;
 				});	//end click
 
@@ -71,7 +78,10 @@ $(function() {
 	<form method="post" action="">
 		<input type="text" maxlength="255" id="name" placeholder="Enter event name here"><br>
 		<textarea style='height:6em' id="content" maxlength="4000" placeholder="Enter description here"></textarea><br>	
-				
+		
+		<label>Start date: </label><input type="text" id="eventStart" class="smaller" placeholder="Like 03/23/2012"><br>
+		<label>End date: </label><input type="text" id="eventEnd" class="smaller" placeholder="Like 03/23/2012"><br>
+		
 		<div id="tagsAsCheckboxes">
 			<? echo getTagsAsCheckbox('Tag your event'); ?>
 		</div>		

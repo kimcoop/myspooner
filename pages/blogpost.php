@@ -13,7 +13,7 @@ $(function() {
 	$('header span').removeClass('active');
 	$('#blog').addClass('active');
 	
-	$('#postBlog').click(function(e) {
+	$('#postBlog').live('click', function(e) {
 				e.preventDefault();
 				var title = $('#title').val();
 				var content = $('#content').val();

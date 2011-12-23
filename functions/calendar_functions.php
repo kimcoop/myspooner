@@ -23,33 +23,22 @@
 				fetchCalendar();
 				break;
 			case 'createEvent':
-				createEvent($_POST['name'], $_POST['content'], $_SESSION['user_id']);
+				createEvent($_POST['name'], $_POST['content'], $_SESSION['user_id'], $_POST['start'], $_POST['end']);
 				break;
 		}
 	}
+		
 	
-	/*
-	$query = "SELECT * FROM spooner_trip_tag, user 
-	 WHERE trip_id='$trip_id' AND user_id=user.id ORDER BY fname ASC";
-		$result = mysql_query($query) or die(mysql_error());
-	'action=createEvent&name='+name
-														+'&content='+content;/*CREATE TABLE `event` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` int(11) DEFAULT NULL,
-  `start_date` datetime DEFAULT NULL,
-  `end_date` datetime DEFAULT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `post_date` datetime DEFAULT NULL,
-  `user_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;*/
+	function createEvent($name, $content, $userID, $start, $end) {
+		$startDate = date('Y-m-d', strtotime($start));
+		$endDate = date('Y-m-d', strtotime($end));
 	
-	
-	
-	function createEvent($name, $content, $userID) {
 		$query = "INSERT INTO event(name, start_date, end_date, description, post_date, user_id)";
-		$query .= " VALUES('$name', now(), now(), '$content', now(), '$userID')";
-		mysql_query($query);	
+		$query .= " VALUES('$name', '$startDate', '$endDate', '$content', now(), '$userID')";
+		$result = mysql_query($query);
+		
+		if (!result) echo json_encode(array('error'=>mysql_error()));
+		else echo json_encode(array('msg'=>'Success'));
 	}
 
   function getAllTrips() {
@@ -74,6 +63,8 @@
 				$title .= ' in Spooner';
 				$start = $row['arrival'];
 				$end = $row['departure'];
+				$notes = $row['notes'];
+				if (!empty($notes)) $title .= ". ".$notes;
 				
 				$trip = array(
 					'id' => $id,
@@ -93,11 +84,11 @@
 		$result = mysql_query($query) or die(mysql_error());
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
-				$user = getUsername($row['user_id'], 'short');
-				$id = $row['s.id'];
-				$title = $user.' in Spooner';
-				$start = $row['arrival'];
-				$end = $row['departure'];
+				$user = getUsername($row['user_id']);
+				$id = $row['id'];
+				$title = "Event: ".$row['name']." ".$row['description'];
+				$start = $row['start_date'];
+				$end = $row['end_date'];
 				
 				$trip = array(
 					'id' => $id,
@@ -110,13 +101,13 @@
 			}
 		return $dates;
   
-  
   }
 
 
 	function fetchCalendar() {
 		$trips = getAllTrips();
-		echo json_encode($trips);	
+		$events = getAllEvents();
+		echo json_encode(array_merge($trips, $events));	
 	}
 
 ?>
