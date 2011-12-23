@@ -27,7 +27,7 @@
 				unset($_POST['action']);
 				break;
 			case 'updateTrip':
-				updateTrip($_POST['tripID'], $_POST['startDate'], $_POST['endDate']);
+				updateTrip($_POST['tripID'], $_POST['startDate'], $_POST['endDate'], $_POST['notes']);
 				unset($_POST['action']);
 				break;
 			case 'deleteTrip':
@@ -44,10 +44,10 @@
 		mysql_query($query);
 	}	
 	
-	function updateTrip($tripID, $newStart, $newEnd) {
+	function updateTrip($tripID, $newStart, $newEnd, $notes) {
 		$arrival = date('Y-m-d', strtotime($newStart));
 		$departure = date('Y-m-d', strtotime($newEnd));
-		$query = "UPDATE spooner_date SET arrival='$arrival', departure='$departure' WHERE id='$tripID'";
+		$query = "UPDATE spooner_date SET arrival='$arrival', departure='$departure', notes='$notes' WHERE id='$tripID'";
 		mysql_query($query);	
 	}
 
@@ -70,7 +70,7 @@
 					$str .= "<div class='button_container inline'><span class='edit'></span></div>";
 					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date";					
 					$str .= "</span>";
-					if (!empty($notes)) $str .= "<br>".$notes;
+					if (!empty($notes)) $str .= "<br><span class='trip_date'>".$notes."</span>";
 					
 				  $query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND spooner_trip_tag.user_id=user.id ORDER BY fname";
 					$result = mysql_query($query) or die(mysql_error());

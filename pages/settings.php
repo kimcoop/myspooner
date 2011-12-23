@@ -52,10 +52,12 @@ $(function() {
 			var startDateObj = $('.editingThisTrip:first');
 			var startDate = startDateObj.text().trim();
 			var endDate = startDateObj.next('.editingThisTrip').text().trim();
+			var notes = $('.editingThisTrip').last().text().trim();
 		
 			var dataString = 'action=updateTrip&tripID='+tripID
 												+'&startDate='+startDate
-												+'&endDate='+endDate;
+												+'&endDate='+endDate
+												+'&notes='+notes;
 	
 			$.ajax({ 
 						 type: 'post',
