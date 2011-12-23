@@ -294,18 +294,14 @@
 	}
 	
 	function formatOthersForTrip($trip_id) {
-	
-		$query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND user_id=user.id ORDER BY fname ASC";
+		$str = "";
+		$query = "SELECT * FROM spooner_trip_tag WHERE trip_id='$trip_id'";
 		$result = mysql_query($query) or die(mysql_error());
-		if (mysql_num_rows($result) > 0) $str = "<br>";
+		if (mysql_num_rows($result) > 0) $str .= "<br>";
 		while($row = mysql_fetch_array($result)){
-				$str .= "<span class='tag user' style='font-weight:normal'>".$row['fname']."</span>";
+				$str .= "<span class='tag user' style='font-weight:normal'>".getUsername($row['user_id'])."</span>";
 			}
 		return $str;
-		/*
-		$str .= "<div class='notification'>$tagger tagged you in a post called $post. <span class='timestamp'>$date</span>";
-		$str .= "<span class='checkboxes'><input type='checkbox' class='notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
-		*/	
 	}
 	
 	function getSpoonerDates() {

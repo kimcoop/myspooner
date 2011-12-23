@@ -1,6 +1,7 @@
 <? 
 	session_start();
-	include('functions/functions.php') 
+	include('functions/functions.php');
+	include('functions/latest_activity.php');
 
 ?>
 

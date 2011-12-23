@@ -53,9 +53,43 @@
 	}
 
   function getAllTrips() {
-		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t";
-		$query .= " WHERE s.id = t.trip_id";
+		$query = "SELECT * FROM spooner_date";
 		$query .= " ORDER BY arrival";
+		$result = mysql_query($query) or die(mysql_error());
+		$dates = array();
+		while($row = mysql_fetch_array($result)){
+				//$user = getUsername($row['user_id'], 'short');
+				$id = $row['id'];
+				$originator = getUsername($row['user_id']);
+				$title = $originator;
+				
+				$query2 = "SELECT * FROM spooner_trip_tag";
+				$query2 .= " WHERE trip_id='$id'";
+				$result2 = mysql_query($query2);
+				while($row2 = mysql_fetch_array($result2)) {
+					$joiner = getUsername($row2['user_id']);
+					$title .= ', '.$joiner;
+				}
+				
+				$title .= ' in Spooner';
+				$start = $row['arrival'];
+				$end = $row['departure'];
+				
+				$trip = array(
+					'id' => $id,
+					'title' => $title,
+					'start' => $start,
+					'end' => $end				
+				);
+				
+				$dates[] = $trip;
+			}
+		return $dates;
+  }
+  
+  function getAllEvents() {
+		$query = "SELECT * FROM event";
+		$query .= " ORDER BY start_date";
 		$result = mysql_query($query) or die(mysql_error());
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
@@ -75,6 +109,8 @@
 				$dates[] = $trip;
 			}
 		return $dates;
+  
+  
   }
 
 

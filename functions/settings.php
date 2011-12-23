@@ -35,11 +35,12 @@
 		
 		if (!empty($dates)) {
 			$str .= "<div id='trips'><div class='greenText'>";
-			if (count($dates)==1) $str .= "Your upcoming trip:</div>";
-			else $str .= "Your upcoming trips:</div>";
+			if (count($dates)==1) $str .= "Your upcoming trip:<br></div>";
+			else $str .= "Your upcoming trips:<br></div>";
 		
 				foreach($dates as $date) {
 					$str .= "<div class='spoonerTrip'><span>";
+					$trip_id = $date['id'];
 					$arrival = $date['arrival'];
 					$departure = $date['departure'];
 					$notes = $date['notes'];
@@ -48,7 +49,15 @@
 					$str .= toDateOnly($departure);
 					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date</span>";
 					if (!empty($notes)) $str .= "<br>".$notes;
-					$str .= "</div><br>";
+					
+				  $query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND spooner_trip_tag.user_id=user.id ORDER BY fname";
+					$result = mysql_query($query) or die(mysql_error());
+					if (mysql_num_rows($result) > 0) $str .= "<br>";
+					while($row = mysql_fetch_array($result)){
+							$str .= "<span class='tag user' style='font-weight:normal'>".$row['fname']."</span>";
+						}
+					
+					$str .= "<br><br></div>";
 				}
 				
 		$str .= "</div>";
@@ -57,7 +66,7 @@
 	}
 
 	function getSpoonerDates($id) {
-		$query = "SELECT * FROM spooner_date WHERE user_id='$id' ORDER BY post_date DESC";
+		$query = "SELECT * FROM spooner_date WHERE user_id='$id' AND active=1 ORDER BY post_date DESC";
 		$result = mysql_query($query);
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
