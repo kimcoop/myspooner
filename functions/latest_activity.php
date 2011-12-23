@@ -351,7 +351,7 @@
 		$activities = getLatest();
 		if (!empty($activities)) {
 			foreach($activities as $a) {
-				$userID = $a['id'];
+				$userID = $a['user_id'];
 				$username = getUsername($userID);
 				$content = $a['content'];
 				$date = toDate($a['post_date']);
