@@ -284,13 +284,16 @@ function solidify() {
 
 <br>
 <div class='settings'>
-	<?
+	<? 
+		$email = getEmail($id);
+		echo "<img src='".getGravatar($email, 80)."'/><br><br>";
+			
 		echo "<input type='hidden' value='$id' id='user_id'>";
 		echo "<span class='type'>First name:</span><input type='text' disabled id='fname' class='editable' value='".getUsername($id)."'>";
 		echo "<br><br>";
 		echo "<span class='type'>Last name:</span><input type='text' disabled id='lname' class='editable' value='".getLastName($id)."'>";
 		echo "<br><br>";
-		echo "<span class='type'>Email:</span><input type='text' disabled id='email' class='editable' value='".getEmail($id)."'>";
+		echo "<span class='type'>Email:</span><input type='text' disabled id='email' class='editable' value='".$email."'>";
 		echo "<br><br>";
 		echo "<span class='type'>Phone:</span><input type='text' disabled id='phone' class='editable' value='".getPhone($id)."'>";
 		echo "<br><br>";

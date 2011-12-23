@@ -31,6 +31,19 @@
 		}
 	}
 	
+	function getGravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+		$url = 'http://www.gravatar.com/avatar/';
+		$url .= md5( strtolower( trim( $email ) ) );
+		$url .= "?s=$s&d=$d&r=$r";
+		if ( $img ) {
+			$url = '<img src="' . $url . '"';
+			foreach ( $atts as $key => $val )
+				$url .= ' ' . $key . '="' . $val . '"';
+			$url .= ' />';
+		}
+		return $url;
+	}
+	
 	function getAddPost() {
 		$str = "<div class='write buttonContainer' style='float:right'>";
 		$str .= "Write a wall post <span class='addNew'></span>";
@@ -71,8 +84,7 @@
  }
 	
 	function getUsername($id, $option=null) {
-		if ($option != null) $query = "SELECT fname,lname FROM user WHERE id = '$id'";
-		else $query = "SELECT fname FROM user WHERE id = '$id'";
+		$query = "SELECT fname,lname FROM user WHERE id = '$id'";
 		$result = mysql_query($query) or die(mysql_error());
 		$row = mysql_fetch_array($result);
 		if ($option == 'full') return $row['fname'].' '.$row['lname'];
@@ -85,8 +97,6 @@
 		$r = strtotime($date);
 		
 		return ago($r);
-		//$return = $r->format('l, m-d-Y @ g:i a');
-		//return $return;
 	}	
 	
 	function toDateWithAgo($date) {
