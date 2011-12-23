@@ -167,19 +167,25 @@ function queryArticles() {
 	return $articles;
 }
 
+
 function queryArticlesByTag($tag) {
-	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content FROM article, article_tag, tag WHERE tag.name= '$tag'";
-	$query .= " AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id";
-	
-	//$query .= " OR user.fname='$tag' AND user.id = article_user_tag.user_id AND article_user_tag.article_id = article.id";
-	
-	$query .= " ORDER BY post_date DESC";
+	$tag = trim($tag);
+	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, user.fname FROM article, article_user_tag, user WHERE user.fname='$tag' AND user.id = article_user_tag.user_id AND article_user_tag.article_id = article.id ORDER BY article.post_date DESC";
+
 	$result = mysql_query($query) or die(mysql_error());
 	$articles = array();
 	while($row = mysql_fetch_array($result)){
 			$articles[] = $row;
 		}
-	return $articles;
+
+	$query2 = "SELECT  article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE tag.name= '$tag' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id ORDER BY article.post_date DESC";
+
+	$result2 = mysql_query($query2) or die(mysql_error());
+	$articles2 = array();
+	while($row = mysql_fetch_array($result2)){
+			$articles2[] = $row;
+		}
+	return array_merge($articles, $articles2);
 }
 
 function getArticlesByTag($tag) {
