@@ -26,7 +26,18 @@
 				setSpoonerDates();
 				unset($_POST['action']);
 				break;
+			case 'updateTrip':
+				updateTrip($_POST['tripID'], $_POST['startDate'], $_POST['endDate']);
+				unset($_POST['action']);
+				break;
 		}
+	}
+	
+	function updateTrip($tripID, $newStart, $newEnd) {
+		$arrival = date('Y-m-d', strtotime($newStart));
+		$departure = date('Y-m-d', strtotime($newEnd));
+		$query = "UPDATE spooner_date SET arrival='$arrival', departure='$departure' WHERE id='$tripID'";
+		mysql_query($query);	
 	}
 
 	function formatSpoonerDates($id) {
@@ -34,9 +45,6 @@
 		$dates = getSpoonerDates($id);
 		
 		if (!empty($dates)) {
-			$str .= "<div id='trips'><div class='greenText'>";
-			if (count($dates)==1) $str .= "Your upcoming trip:<br></div>";
-			else $str .= "Your upcoming trips:<br></div>";
 		
 				foreach($dates as $date) {
 					$trip_id = $date['id'];
@@ -45,8 +53,8 @@
 					$departure = $date['departure'];
 					$notes = $date['notes'];
 					$post_date = toDateWithAgo($date['post_date']);
-					$str .= "<span>".toDateOnly($arrival)." until ";
-					$str .= toDateOnly($departure)."</span>";
+					$str .= toDateOnly($arrival, 1)." until "; //the '1' means put spans around the dates
+					$str .= toDateOnly($departure, 1);
 					$str .= "<div class='button_container inline'><span class='delete'></span></div>";
 					$str .= "<div class='button_container inline'><span class='edit'></span></div>";
 					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date";					

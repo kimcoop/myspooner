@@ -99,9 +99,14 @@
 		//return $return;
 	}
 	
-	function toDateOnly($date){
+	function toDateOnly($date, $spans=false){
 		$r = new DateTime($date);
-		$return = $r->format('l, m-d-Y');
+		if (!$spans) $return = $r->format('l, m-d-Y');
+		else {
+			$weekday = $r->format('l,');
+			$spannedDate = "<span class='trip_date'>&nbsp;".$r->format('m/d/Y')."</span>";
+			$return = $weekday . $spannedDate;
+		}
 		return $return;
 	}
 	

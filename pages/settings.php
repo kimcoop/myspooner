@@ -8,6 +8,75 @@
 
 $(function() {
 
+	var editingTrip = false;
+	var tripID;
+	
+	var editingIndicator = $('<span class="greenText"></span>').html('<strong>Editing trip. Doubleclick a date to change it. </strong>');
+	var saveButton = $('<input type="button" style="margin-right:.4em" value="Save" id="saveTripButton">');
+	var cancelButton = $('<input type="button" value="Cancel" id="cancelTripButton">');
+	var lineBreak = $('<div></div>').html('<br>');
+	
+	$('.edit').click(function() {
+	
+		if (!editingTrip) { //ensure we're not already editing a trip
+				var noticeSpace = $('#dates_notice');
+				noticeSpace.stop();
+				editingTrip = true;
+				parent = $(this).parent().parent().parent();
+				tripID = parent.attr('id');
+				
+				parent.prepend(lineBreak);
+				parent.prepend(cancelButton);
+				parent.prepend(saveButton);
+				parent.prepend(editingIndicator);
+				
+				var el = $(this).parent().siblings('.trip_date').addClass('editingThisTrip').attr('contenteditable',true);
+				
+			} else {
+					$('#dates_notice').stop();
+					$('#dates_notice').text('Only one trip may be edited at a time.').addClass('errorText').css({
+						'visibility':'visible',
+						'opacity':0
+					}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+			}
+		});
+	
+	$('#cancelTripButton').live('click',function() {
+		removeButtons();
+	}); //end cancelTripButton	
+	
+	$('#saveTripButton').live('click',function() {
+	
+			var startDateObj = $('.editingThisTrip:first');
+			var startDate = startDateObj.text().trim();
+			var endDate = startDateObj.next('.editingThisTrip').text().trim();
+		
+			var dataString = 'action=updateTrip&tripID='+tripID
+												+'&startDate='+startDate
+												+'&endDate='+endDate;
+	
+			$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/settings.php',
+						 data: dataString,
+						 success: function() {
+								$('#dates_notice').text('Trip altered.').addClass('errorText').css({
+										'visibility':'visible',
+										'opacity':0
+									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+						}
+				});
+				return false;
+			
+			
+	}); //end saveTripButton	
+	
+	$('.delete').click(function() {
+		var id = $(this).parent().parent().parent().attr('id');
+		alert('todo');
+	});
+
 
 	$('.newTrip').live('click', function() {
 		$('#newTrip').slideToggle();	
@@ -136,6 +205,15 @@ $(function() {
 			});	
 	});
 	
+	
+function removeButtons() {
+		editingIndicator.detach();
+		saveButton.detach();
+		lineBreak.detach();
+		cancelButton.detach();
+		editingTrip = false;
+	}
+	
 });
 
 function solidify() {
@@ -146,7 +224,6 @@ function solidify() {
 			el.attr('disabled', true).removeClass('editing').addClass('editable');
 		});
 	};
-
 
 </script>
 
@@ -197,11 +274,11 @@ function solidify() {
 	
 	<div class='spoonerDates'>
 		<h2>Spooner Trips</h2>
-		<div id="dates_notice" style="display:none"></div>
+		<div id="dates_notice" style="visibility:hidden;margin-top:-1.5em">&nbsp;</div>
 		
 		<div class='button_container'>
-			<span class='newTrip'>Ready to post a Spooner trip?
-			<div class='addNew'></div></span>
+			<div class='newTrip'>Ready to post a Spooner trip?
+			<span class='addNew'></span></div>
 		</div>
 		
 		<div id='newTrip' style='display:none'>
