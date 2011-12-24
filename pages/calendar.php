@@ -74,10 +74,6 @@ $(function() {
     }// end eventClick
     
 	}); //end fullCalendar
-	
-	$('#createAnEvent').click(function() {	
-		window.location.href='new_event.php';
-	});
 
 });
 
@@ -87,8 +83,6 @@ $(function() {
 
 <div id="container">
 <a href="javascript:window.print()">Click to print</a>
-
-<span class='button_container' id='createAnEvent'>Create an event<span class='addNew'></span></span>
 
 <div id="big_calendar"></div>
 

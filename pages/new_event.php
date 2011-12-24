@@ -75,7 +75,7 @@ $(function() {
 
 <div id="container">
 
-<a class="back" href="calendar.php">&laquo;&nbsp;Back to calendar</a>
+<a class="back" href="trips_events.php">&laquo;&nbsp;Back to Trips & Events</a>
 
 <h2>New Event</h2>
 

@@ -19,8 +19,8 @@ $(function() {
 <div id="container">
 
 
-<h2>photos</h2>
+<h2>Photos</h2>
 
-
+This section coming soon!
 
 <? include('../include/footer.php') ?>

@@ -148,7 +148,7 @@ function isValidEmail(email) {
 	<span id="username"><? echo $_SESSION['username'] ?></span>
 	<span id="logout">Logout</span>
 
-<span class="nav" id="calendar">Calendar</span>
+<span class="nav" id="trips_events">Trips & Events</span>
 <span class="nav" id="blog">Blog</span>
 <span class="nav" id="settings">Settings</span>
 <span class="nav" id="photos">Photos</span>
