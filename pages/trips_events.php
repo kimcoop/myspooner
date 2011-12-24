@@ -162,6 +162,10 @@ $(function() {
 		}
 	}); //end click
 	
+	$('#viewEventCal').click(function() {
+		window.location.href = 'calendar.php';
+	});
+	
 	$('#createAnEvent').click(function() {
 		window.location.href = 'new_event.php';
 	});
@@ -185,6 +189,10 @@ $(function() {
 
 	<div id='createAnEvent' class='button_container' style='float:none;margin-top:0em'>Create an event
 		<span class='addNew'></span>
+	</div>
+	
+	<div id='viewEventCal' class='button_container' style='float:none;margin-top:0em'>View calendar
+		<span class='next'></span>
 	</div>
 	
 	<div class='spoonerDates'>

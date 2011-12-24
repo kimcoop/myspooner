@@ -282,12 +282,14 @@
 			$arrival = toDateOnly($d['arrival']);
 			$departure = toDateOnly($d['departure']);			
 			$notes = $d['notes'];
-			$str .= "<div class='announcedTrip'>";
-			$str .= "<span class='memberTimestamp'>$date</span>";
-			$str .= "<div class='greenText'><span class='user' id='$userID'>".$username."</span> posted a Spooner trip!</div>";
+			$grav = "<img class='grav' src='".getGravatar($_SESSION['email'], 40)."'/>";
+			$str .= "<div class='latest'>";
+			$str .= "<div>$grav</div>";
+			$str .= "<div><span class='pinkText user' id='$userID'>".$username."</span> posted a Spooner trip: ";
 			$str .= "$arrival until $departure.";
 			if (!empty($notes)) $str .= "<br>".$notes;
 			$str .= formatOthersForTrip($id);
+			$str .= "</div><span class='memberTimestamp'>$date</span>";
 			$str .= "</div>";
 		}
 		return $str;	
@@ -330,11 +332,16 @@
 	function formatJoiners() {
 		$str = "";
 		$joins = getJoiners();
-		foreach($joins as $j) {
-			$userID = $j['id'];
-			$username = getUsername($userID);
-			$date = toDate($j['join_date']);
-			$str .= "<div class='latest'><span class='user pinkText' id='$userID'>".$username."</span> joined MySpooner!<span class='datetime'>$date</span></div>";
+		if (!empty($joins)) {
+			$str .= "<div class='latest'>";
+			foreach($joins as $j) {
+				$userID = $j['id'];
+				$username = getUsername($userID);
+				$str .= "<span class='user pinkText' id='$userID'>".$username.", </span>";
+			}//end foreach
+			$str = substr($str, 0, -9);
+			$str .= "</span>";
+			$str .= " joined MySpooner!<span class='datetime'>Since you last logged out</span></div>";
 		}
 		return $str;	
 	}
