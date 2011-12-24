@@ -92,7 +92,7 @@
 	}
 
 	function getSpoonerDates($id) {
-		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t WHERE active=1 AND s.id = t.trip_id AND t.user_id='$id' OR t.tagger_id='$id' ORDER BY post_date DESC";
+		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t WHERE active=1 AND s.id = t.trip_id AND t.user_id='$id' OR s.user_id='$id' ORDER BY post_date DESC";
 		$result = mysql_query($query);
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
