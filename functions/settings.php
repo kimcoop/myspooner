@@ -74,7 +74,7 @@
 					$str .= "<div class='button_container inline'><span class='edit'></span></div>";
 					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted by $posted_by $post_date";					
 					$str .= "</span>";
-					if (!empty($notes)) $str .= "<br><span class='trip_date'>".$notes."</span>";
+					if (!empty($notes)) $str .= "<br>Trip notes: <span class='trip_date'>".$notes."</span>";
 					
 				  $query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND spooner_trip_tag.user_id=user.id ORDER BY fname";
 					$result = mysql_query($query) or die(mysql_error());
@@ -92,7 +92,7 @@
 	}
 
 	function getSpoonerDates($id) {
-		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t WHERE active=1 AND s.id = t.trip_id AND t.user_id='$id' OR s.user_id='$id' ORDER BY post_date DESC";
+		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t WHERE active=1 AND s.id = t.trip_id AND t.user_id='$id' OR t.user_id='$id' GROUP BY trip_id ORDER BY post_date DESC";
 		$result = mysql_query($query);
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
