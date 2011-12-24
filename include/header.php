@@ -1,8 +1,8 @@
 <? 
 	session_start();
 	include('functions/functions.php');
-	include('functions/latest_activity.php');
 	include('functions/settings.php');
+	//include_once('functions/latest_activity.php');
 
 ?>
 

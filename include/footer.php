@@ -1,10 +1,8 @@
-<? //footer
-
-?>
-
 </div> <!-- end #container -->
 
 <footer>
+
+
 
 </footer>
 

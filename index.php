@@ -2,7 +2,7 @@
 
 	session_start();
 	
-	if (isset($_SESSION['user_id'])) header('Location: /pages/home.php');
+	if (isset($_SESSION['user_id'])) header('Location: pages/home.php');
 	include('include/header.php');
 
 ?>
@@ -83,6 +83,7 @@ $(function() {
 		
 		$('#linkRegister').click(function() {
 			$('#access').html( $('#reg').html() );
+			$('#email').attr('autofocus',true);
 			$('#reg').detach();
 		});
 		
@@ -90,41 +91,41 @@ $(function() {
 
 </script>
 
-<div id="container">
-
-<div id="wrapper">
-	<fieldset id="front">
-	<legend><h1>MySpooner</h1></legend>
+	<div id="container">
 	
-	<div id="notice" style="visibility:hidden;height:1em;padding-top:.2em"></div>
-	
-	<div id='access'>
-	<form class="main" method="post" id="loginForm" action="">
-		<table>
-			<tr><th><label for=email1>Email:&nbsp;</label></th><td><input required autofocus name="email1" id="email1" type="email"/></td></tr>
-			<tr><th><label for=password1>Password:&nbsp;</label></th><td><input class="clear" required name="password1" id="password1" type="password"/></td></tr>
-			<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
-		</table>
-	</form>
-	<a href='return:false' style='float:right;margin:0 .5em .2em 0;' id='linkRegister'>New? Click here to register.</a>
-	</div>	
-			
-	</fieldset>
-	
-	<div id='reg' style="display:none">
-	<p>Sign up by filling out these fields.<br>Once your account is verified, you'll be notified via email.</p>
-	<form class="main" method="post" id="registerForm">
-		<table>
-			<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
-			<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>
-			<tr><th><label for=fname>First name*:&nbsp;</label></th><td><input class="clear" required name="fname" id="fname" type="text"/></td></tr>
-			<tr><th><label for=lname>Last name*:&nbsp;</label></th><td><input class="clear" required name="lname" id="lname" type="text"/></td></tr>
-			<tr><th><label for=lname>About*:&nbsp;</label></th><td><input class="clear" required name="about" id="about" type="text"/></td></tr>
-			<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
-		</table>
-	</form>
-	</div>
-	
-</div><!-- end wrapper -->
+	<div id="wrapper">
+		<fieldset id="front">
+		<legend><h1>MySpooner</h1></legend>
+		
+		<div id="notice" style="visibility:hidden;height:1em;padding-top:.2em"></div>
+		
+		<div id='access'>
+		<form class="main" method="post" id="loginForm" action="">
+			<table>
+				<tr><th><label for=email1>Email:&nbsp;</label></th><td><input required autofocus name="email1" id="email1" type="email"/></td></tr>
+				<tr><th><label for=password1>Password:&nbsp;</label></th><td><input class="clear" required name="password1" id="password1" type="password"/></td></tr>
+				<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
+			</table>
+		</form>
+		<a href='return:false' style='float:right;margin:0 .5em .2em 0;' id='linkRegister'>New? Click here to register.</a>
+		</div>	
+				
+		</fieldset>
+		
+		<div id='reg' style="display:none">
+		<p>Sign up by filling out these fields.<br>Once your account is verified, you'll be notified via email.</p>
+		<form class="main" method="post" id="registerForm">
+			<table>
+				<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
+				<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>
+				<tr><th><label for=fname>First name*:&nbsp;</label></th><td><input class="clear" required name="fname" id="fname" type="text"/></td></tr>
+				<tr><th><label for=lname>Last name*:&nbsp;</label></th><td><input class="clear" required name="lname" id="lname" type="text"/></td></tr>
+				<tr><th><label for=lname>About*:&nbsp;</label></th><td><input class="clear" required name="about" id="about" type="text"/></td></tr>
+				<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
+			</table>
+		</form>
+		</div>
+		
+	</div><!-- end wrapper -->
 
 <? include('include/footer.php'); ?>

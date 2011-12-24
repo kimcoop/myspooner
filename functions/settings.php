@@ -63,12 +63,16 @@
 					$arrival = $date['arrival'];
 					$departure = $date['departure'];
 					$notes = $date['notes'];
+					
+					if ($_SESSION['user_id'] == $date['tagger_id']) $posted_by = "you";
+					else $posted_by = getUsername($date['tagger_id']);
+					
 					$post_date = toDateWithAgo($date['post_date']);
 					$str .= toDateOnly($arrival, 1)." until "; //the '1' means put spans around the dates
 					$str .= toDateOnly($departure, 1);
 					$str .= "<div class='button_container inline'><span class='delete'></span></div>";
 					$str .= "<div class='button_container inline'><span class='edit'></span></div>";
-					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted $post_date";					
+					$str .= "</span><span class='memberTimestamp' style='float:right;'>Posted by $posted_by $post_date";					
 					$str .= "</span>";
 					if (!empty($notes)) $str .= "<br><span class='trip_date'>".$notes."</span>";
 					
@@ -88,7 +92,7 @@
 	}
 
 	function getSpoonerDates($id) {
-		$query = "SELECT * FROM spooner_date WHERE user_id='$id' AND active=1 ORDER BY post_date DESC";
+		$query = "SELECT * FROM spooner_date as s, spooner_trip_tag as t WHERE active=1 AND s.id = t.trip_id AND t.user_id='$id' OR t.tagger_id='$id' ORDER BY post_date DESC";
 		$result = mysql_query($query);
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
