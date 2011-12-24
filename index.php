@@ -83,7 +83,7 @@ $(function() {
 		
 		$('#linkRegister').click(function() {
 			$('#access').html( $('#reg').html() );
-			$('#email').attr('autofocus',true);
+			$('#email').focus();
 			$('#reg').detach();
 		});
 		
