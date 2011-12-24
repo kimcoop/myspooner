@@ -26,6 +26,8 @@ $(function() {
 				var content = $('#content').val();
 				var start = $('#eventStart').val().trim();
 				var end = $('#eventEnd').val().trim();
+				var loc = $('#location').val().trim();
+				
 				
 				if (name != '' && content != '') {
 				
@@ -34,7 +36,8 @@ $(function() {
 					var dataString = 'action=createEvent&name='+name
 														+'&content='+content
 														+'&start='+start
-														+'&end='+end;
+														+'&end='+end
+														+'&location='+loc;
 														
 					$.each(tags, function() {
 						dataString += '&tags[]=' + $(this).val();
@@ -81,10 +84,11 @@ $(function() {
 <div id="newPost">
 	<form method="post" action="">
 		<input type="text" maxlength="255" id="name" placeholder="Enter event name here"><br>
+		<input type="text" maxlength="255" id="location" placeholder="Enter location of event here"><br>
 		<textarea style='height:6em' id="content" maxlength="4000" placeholder="Enter description here"></textarea><br>	
 		
-		<label>Start date: </label><input type="text" id="eventStart" class="smaller" placeholder="Like 03/23/2012"><br>
-		<label>End date: </label><input type="text" id="eventEnd" class="smaller" placeholder="Like 03/23/2012"><br>
+		<label>Start date: </label><input type="text" id="eventStart" class="smaller" placeholder="Click for datepicker"><br>
+		<label>End date: </label><input type="text" id="eventEnd" class="smaller" placeholder="Click for datepicker"><br>
 		
 		<div id="tagsAsCheckboxes">
 			<? echo getTagsAsCheckbox('Tag your event'); ?>

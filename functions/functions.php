@@ -99,6 +99,12 @@
 		return ago($r);
 	}	
 	
+	function toDatetime($date) {
+		$d = new DateTime($date);
+		$d = $d->format('D, m-d-Y @ g:i a');
+		return $d;
+	}
+	
 	function toDateWithAgo($date) {
 		$d = new DateTime($date);
 		$d = $d->format('D, m-d-y');

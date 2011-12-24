@@ -23,18 +23,58 @@
 				fetchCalendar();
 				break;
 			case 'createEvent':
-				createEvent($_POST['name'], $_POST['content'], $_SESSION['user_id'], $_POST['start'], $_POST['end']);
+				createEvent($_POST['name'], $_POST['content'], $_SESSION['user_id'], $_POST['start'], $_POST['end'], $_POST['location']);
+				break;
+			case 'getSpoonerTripDetails':
+				getSpoonerTripDetails($_POST['id']);
+				break;
+			case 'getBirthdayDetails':
+				getBirthdayDetails($_POST['id']);
+				break;
+			case 'getEventDetails':
+				getEventDetails($_POST['id']);
 				break;
 		}
 	}
 		
+	function getEventDetails($eventID) {
+		$query = "SELECT * FROM event WHERE id='$eventID'";
+		$result = mysql_query($query);
+		$row = mysql_fetch_array($result);
+		$details = $row['description'];
+		$start = toDatetime($row['start_date']);
+		$end = toDatetime($row['end_date']);
+		$user = getUsername($row['user_id'], 'short');
+		$posted = toDateOnly($row['post_date']);
+		$loc = $row['location'];
+		
+		if (empty($loc)) $loc = "Not specified.";
+		
+		$details .= "<br><br>Begins ".$start."<br>Ends ".$end;
+		$details .= "<br><br>Location: ".$loc;
+		$details .= "<br><br>Posted on ".$posted;
+		$details .= "<br>by ".$user;
+		echo json_encode(array('details'=>$details));
+	}		
 	
-	function createEvent($name, $content, $userID, $start, $end) {
+	function getBirthdayDetails($id) {
+		$query = "SELECT * FROM user WHERE id='$id'";
+		$row = mysql_fetch_array($result);
+		echo $row[0];
+	}		
+	
+	function getSpoonerTripDetails($tripID) {
+		$query = "SELECT * FROM spooner_date WHERE id='$tripID'";
+		$row = mysql_fetch_array($result);
+		echo $row[0];	
+	}	
+	
+	function createEvent($name, $content, $userID, $start, $end, $loc) {
 		$startDate = date('Y-m-d h:i:s a', strtotime($start));
 		$endDate = date('Y-m-d h:i:s a', strtotime($end));
 	
-		$query = "INSERT INTO event(name, start_date, end_date, description, post_date, user_id)";
-		$query .= " VALUES('$name', '$startDate', '$endDate', '$content', now(), '$userID')";
+		$query = "INSERT INTO event(name, start_date, end_date, description, post_date, user_id, location)";
+		$query .= " VALUES('$name', '$startDate', '$endDate', '$content', now(), '$userID', '$loc')";
 		$result = mysql_query($query);
 		
 		if (!result) echo json_encode(array('error'=>mysql_error()));
@@ -48,7 +88,7 @@
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
 				//$user = getUsername($row['user_id'], 'short');
-				$id = $row['id'];
+				$id = "spooner_".$row['id'];
 				$originator = getUsername($row['user_id']);
 				$title = $originator;
 				
@@ -85,8 +125,8 @@
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
 				$user = getUsername($row['user_id']);
-				$id = $row['id'];
-				$title = "Event: ".$row['name']." ".$row['description'];
+				$id = "event_".$row['id'];
+				$title = "Event: ".$row['name'];
 				$start = $row['start_date'];
 				$end = $row['end_date'];
 				
@@ -108,7 +148,7 @@
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
 				$user = getUsername($row['id']);
-				$id = $row['id'];
+				$id = "user_".$row['id'];
 				$title = $user."'s birthday!";
 				$bday = $row['birthday'];
 				
@@ -146,6 +186,10 @@
 		$trips = getAllTrips();
 		$events = getAllEvents();
 		$birthdays = getAllBirthdays();
+		
+		
+		
+		
 		echo json_encode(array_merge($trips, $events, $birthdays));	
 	}
 

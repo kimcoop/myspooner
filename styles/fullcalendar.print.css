@@ -20,6 +20,10 @@
  header {
  	display: none !important;
  }
+ 
+ #details {
+ 	display: none !important;
+ }
  	
 .fc-event-skin {
 	background: none !important;

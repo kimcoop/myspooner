@@ -45,6 +45,26 @@
 	box-shadow: 0 @depth @depth rgba(0, 0, 0, 0.4);
 }
 
+ 
+ #details {
+	 position:absolute;
+	 z-index:50000;
+	 min-height:120px;
+	 width:260px;
+	 background:white;
+	 border:thin solid black;
+	 padding: .5em;
+		opacity:.8; /* FX/Opera/Safari/Chrome */
+		-ms-filter:"alpha(opacity=80)"; /* IE8 */
+		filter:alpha(opacity=80); /* IE6/IE7 */
+	 .shadow;
+	 .rounded;
+	 
+	 h2 {
+	 	margin: 0 0 0 0;
+	 }
+ }
+
 fieldset#front {
 	border: medium solid @lgreen;
 	width: 450px;
