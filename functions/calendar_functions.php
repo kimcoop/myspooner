@@ -59,14 +59,27 @@
 	
 	function getBirthdayDetails($id) {
 		$query = "SELECT * FROM user WHERE id='$id'";
-		$row = mysql_fetch_array($result);
-		echo $row[0];
+		
+		echo json_encode(array('details'=>''));
 	}		
 	
 	function getSpoonerTripDetails($tripID) {
 		$query = "SELECT * FROM spooner_date WHERE id='$tripID'";
+		$result = mysql_query($query);
 		$row = mysql_fetch_array($result);
-		echo $row[0];	
+		
+		$start = toDateOnly($row['arrival']);
+		$end = toDateOnly($row['departure']);
+		
+		$details = "Arriving ".$start."<br>";
+		$details .= "Departing ".$end."<br><br>";
+		
+		$notes = $row['notes'];
+		if (!empty($notes)) $details .= $notes."<br><br>";
+		$user = getUsername($row['user_id'], 'short');
+		$details .= "Trip posted on ".toDateOnly($row['post_date']);
+		$details .= "<br>by ".$user;
+		echo json_encode(array('details'=>$details));
 	}	
 	
 	function createEvent($name, $content, $userID, $start, $end, $loc) {
@@ -104,7 +117,6 @@
 				$start = $row['arrival'];
 				$end = $row['departure'];
 				$notes = $row['notes'];
-				if (!empty($notes)) $title .= ". ".$notes;
 				
 				$trip = array(
 					'id' => $id,
