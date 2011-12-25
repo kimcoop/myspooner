@@ -59,8 +59,10 @@
 	
 	function getBirthdayDetails($id) {
 		$query = "SELECT * FROM user WHERE id='$id'";
-		
-		echo json_encode(array('details'=>''));
+		$result = mysql_query($query);
+		$row = mysql_fetch_array($result);
+		$details = $row['fname']." was born<br>".toDateWithAgo($row['birthday'], 'fullyear');
+		echo json_encode(array('details'=>$details));
 	}		
 	
 	function getSpoonerTripDetails($tripID) {
@@ -101,7 +103,8 @@
 		$dates = array();
 		while($row = mysql_fetch_array($result)){
 				//$user = getUsername($row['user_id'], 'short');
-				$id = "spooner_".$row['id'];
+				$id = $row['id'];
+				$formattedID = "spooner_".$id;
 				$originator = getUsername($row['user_id']);
 				$title = $originator;
 				
@@ -119,7 +122,7 @@
 				$notes = $row['notes'];
 				
 				$trip = array(
-					'id' => $id,
+					'id' => $formattedID,
 					'title' => $title,
 					'start' => $start,
 					'end' => $end				

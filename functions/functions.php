@@ -105,14 +105,13 @@
 		return $d;
 	}
 	
-	function toDateWithAgo($date) {
+	function toDateWithAgo($date, $fullyear=null) {
 		$d = new DateTime($date);
-		$d = $d->format('D, m-d-y');
+		if ($fullyear == 'fullyear') $d = $d->format('D, m-d-Y');
+		else  $d = $d->format('D, m-d-y');
 		$r = strtotime($date);
 		
 		return ago($r)." on $d";
-		//$return = $r->format('l, m-d-Y @ g:i a');
-		//return $return;
 	}
 	
 	function toDateOnly($date, $spans=false){
