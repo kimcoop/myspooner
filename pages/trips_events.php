@@ -1,4 +1,5 @@
 <?
+	session_start();
 	include_once('../functions/blog.php');
 	include_once('../functions/settings.php');
 	include_once('../include/header.php');	
@@ -129,7 +130,7 @@ $(function() {
 		var notes = $('#notes').val();
 		
 		if (arrival=='' || departure=='') {
-			$('#notice').text('Arrival and departure dates must be filled in.').addClass('errorText').css({
+			$('#dates_notice').text('Arrival and departure dates must be filled in.').addClass('errorText').css({
 										'visibility':'visible',
 										'opacity':0
 									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
@@ -155,7 +156,7 @@ $(function() {
 					 success: function(data) {
 							$('#dates_notice').addClass('greenText').text(data.msg).fadeIn().delay(2000).fadeOut();
 							$('#newTrip').fadeOut('slow');
-							$('#trips').delay(1000).replaceWith( data.trips );
+							$('#userTrips').delay(1000).replaceWith( data.trips );
 					}
 			});
 			return false;
@@ -184,6 +185,9 @@ $(function() {
 
 <div id="container">
 
+<? $id = $_SESSION['user_id'];
+	 echo "<input type='hidden' value='$id' id='user_id'>";
+?>
 
 <h2>Trips & Events</h2>
 
@@ -217,8 +221,8 @@ $(function() {
 		</div><!-- end div#newTrip-->
 		
 		<br>
-			<div id='trips'>
-				<? echo formatSpoonerDates($_SESSION['user_id']); ?>
+			<div id="userTrips">
+				<? echo formatSpoonerDates($id); ?>
 			</div>
 	</div><!-- end div.spoonerDates -->
 

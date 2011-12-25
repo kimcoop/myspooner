@@ -124,7 +124,9 @@ function solidify() {
 
 <? 
 	 $id = $_SESSION['user_id'];
-	echo "<div class='memberTimestamp'>Member since ".toDateOnly(getJoinDate($id))."</div>";
+	 echo "<input type='hidden' value='$id' id='user_id'>";
+
+   echo "<div class='memberTimestamp'>Member since ".toDateOnly(getJoinDate($id))."</div>";
 	 echo "<br><div class='memberTimestamp'>Last login ".toDate(getLastLogin($id))."</div>"; ?>
 
 <br>
@@ -133,7 +135,6 @@ function solidify() {
 		$email = getEmail($id);
 		echo "<img src='".getGravatar($email, 80)."'/><br><br>";
 			
-		echo "<input type='hidden' value='$id' id='user_id'>";
 		echo "<span class='type'>First name:</span><input type='text' disabled id='fname' class='editable' value='".getUsername($id)."'>";
 		echo "<br><br>";
 		echo "<span class='type'>Last name:</span><input type='text' disabled id='lname' class='editable' value='".getLastName($id)."'>";

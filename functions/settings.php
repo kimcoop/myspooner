@@ -58,7 +58,7 @@
 		if (!empty($dates)) {
 		
 				foreach($dates as $date) {
-					$trip_id = $date['id'];
+					$trip_id = $date['trip_id'];
 					$str .= "<div class='spoonerTrip' id='$trip_id'><span>";
 					$arrival = $date['arrival'];
 					$departure = $date['departure'];
@@ -76,7 +76,7 @@
 					$str .= "</span>";
 					if (!empty($notes)) $str .= "<br>Trip notes: <span class='trip_date'>".$notes."</span>";
 					
-				  $query = "SELECT * FROM spooner_trip_tag, user WHERE trip_id='$trip_id' AND spooner_trip_tag.user_id=user.id ORDER BY fname";
+				  $query = "SELECT fname FROM spooner_trip_tag as t, user WHERE t.trip_id='$trip_id' and user.id = t.user_id ORDER BY fname";
 					$result = mysql_query($query) or die(mysql_error());
 					if (mysql_num_rows($result) > 0) $str .= "<br>";
 					while($row = mysql_fetch_array($result)){
