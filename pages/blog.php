@@ -52,6 +52,30 @@ $(function() {
 		$('.addComment').live('click', function() {
 			$(this).children('.commentForm').slideDown();
 		});
+		
+		$('#do_search').live('click', function() {
+			criteria = $('#criteria').val();
+			
+			if (criteria != '') {
+				
+				var dataString = 'action=searchBlog&criteria='+criteria;
+				$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/blog.php',
+						 data: dataString,
+						 success: function(data) {							 
+								$('#container').load('filterblog.php', function() {
+									$('#filterOn').text('Displaying results for search: '+criteria);
+									$('#posts').html(data.results);
+								});// end function							 
+						 }
+				});
+							
+				return false;
+			}
+			
+		});
 			
 });
 </script>
@@ -66,11 +90,9 @@ $(function() {
 	<div class="addNew"></div>
 </div>
 
-<!--<div id="searchResults"></div>
-
-<form id="searchBlog" action="" method="post">
-<input id="search" type="search"><input type="submit" id="doSearch" value="Search">
-</form>-->
+<div id="search_container">
+	<input id="criteria" type="search">&nbsp;<input type="button" id="do_search" value="Search">
+</div>
 
 <div id="articles">
 <? echo getAllArticles(); ?>

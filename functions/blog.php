@@ -22,8 +22,8 @@
 			case 'createArticle':
 				createArticle();
 				break;
-			case 'search':
-				search();
+			case 'searchBlog':
+				formatSearchResults($_POST['criteria']);
 				break;
 			case 'getArticlesByTag':
 				$articles = getArticlesByTag($_POST['tag']);
@@ -40,6 +40,31 @@
 				break;
 			}
 	}
+	
+function formatSearchResults($val) {
+	$results = searchBlog($val);
+	$str = "";
+	
+	if (!empty($results)) {
+	
+		$str .= formatArticles($results);
+	} else { // no matches
+		$str .= "No results found.";
+	}
+	
+	echo json_encode(array('results'=>$str));
+}
+	
+function searchBlog($val) {
+	$query = "SELECT * FROM article WHERE title LIKE '%$val%'";
+	$result = mysql_query($query) or die(mysql_error());
+	$results = array();
+	while($row = mysql_fetch_array($result)){
+			$results[] = $row;
+		}
+	return $results;
+}
+
 	
  function postComment($artID, $content, $user_id) {
 	$query = sprintf("INSERT INTO article_comment(post_date, content, article_id, user_id) VALUES(now(), '%s', '%s', '%s')", $content, $artID, $user_id);
@@ -144,18 +169,6 @@
  	$str .= "</div></div>";
  	return $str;
  }
-	/*
-function search() {
-	$val = $_POST['value'];
-	$query = "SELECT * FROM article WHERE title LIKE '%$val%' OR content LIKE '%$val%'";
-	$result = mysql_query($query) or die(mysql_error());
-	$articles = array();
-	while($row = mysql_fetch_array($result)){
-			$articles[] = $row;
-		}
-	echo json_encode(array('results'=>$articles));	
-
-}*/
 
 function queryArticles() {
 	$query = "SELECT * FROM article ORDER BY post_date DESC";
