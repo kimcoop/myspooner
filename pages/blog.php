@@ -56,7 +56,7 @@ $(function() {
 		$('#do_search').live('click', function() {
 			criteria = $('#criteria').val();
 			
-			if (criteria != '') {
+			if (criteria != '' && criteria.length >= 3) {
 				
 				var dataString = 'action=searchBlog&criteria='+criteria;
 				$.ajax({ 
@@ -73,6 +73,11 @@ $(function() {
 				});
 							
 				return false;
+			} else {
+				$('#search_error').addClass('errorText').text('Search term(s) must be at least 2 characters.').css({
+					'visibility':'visible',
+					'opacity':0
+				}).fadeTo('slow', 1).delay(2000).fadeTo('slow',0);
 			}
 			
 		});
@@ -91,6 +96,7 @@ $(function() {
 </div>
 
 <div id="search_container">
+	<span id="search_error" style="visibility:none;width:10em;">&nbsp;</span>
 	<input id="criteria" type="search">&nbsp;<input type="button" id="do_search" value="Search">
 </div>
 
