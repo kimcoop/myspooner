@@ -56,7 +56,7 @@ function formatSearchResults($val) {
 }
 	
 function searchBlog($val) {
-	$query = "SELECT * FROM article WHERE title LIKE '%$val%'";
+	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE title LIKE '%$val%' OR (tag.name LIKE '%$val%' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id)";
 	$result = mysql_query($query) or die(mysql_error());
 	$results = array();
 	while($row = mysql_fetch_array($result)){
@@ -191,7 +191,7 @@ function queryArticlesByTag($tag) {
 			$articles[] = $row;
 		}
 
-	$query2 = "SELECT  article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE tag.name= '$tag' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id ORDER BY article.post_date DESC";
+	$query2 = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE tag.name= '$tag' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id ORDER BY article.post_date DESC";
 
 	$result2 = mysql_query($query2) or die(mysql_error());
 	$articles2 = array();
@@ -281,17 +281,6 @@ function getAllArticles() {
 	$str .= formatArticles($articles);
 	return $str;
 }
-/*
-
-function getTagsForTrip($id) {
-	$query = "SELECT fname FROM spooner_trip_tag, user WHERE trip_id = '$id' AND user.id = spooner_trip_tag.user_id";
-	$result = mysql_query($query);
-	$tags = array();
-	while($row = mysql_fetch_array($result)){
-			$tags[] = $row;
-		}
-	return $tags;
-}*/
 
 function getUserTagsForArticle($id) {
 	$query = "SELECT user.id, fname FROM article_user_tag, user WHERE article_id = '$id' AND user.id = article_user_tag.user_id";
