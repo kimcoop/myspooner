@@ -123,7 +123,7 @@
 				
 				$id = $message['id'];
 				
-				if ($message['is_reply'])	$id = getRootMessage($id);
+				//if ($message['is_reply'])	$id = getRootMessage($id);
 				
 				$subject = $message['subject'];
 				if ($subject==null) $subject = 'No subject';

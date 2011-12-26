@@ -125,7 +125,7 @@
  	$str .= "<div class='tagSelect'><span>$phrase</span><div>";
  	foreach($tags as $tag) {
  		$id = $tag['id'];
- 		$name = getUsername($id, 'full');
+ 		if ($id != $_SESSION['user_id']) $name = getUsername($id, 'full');
  		$str .= "<input type='checkbox' value='$id' class='userTag' name='userTags[]'>&nbsp;<label>$name</label><br>";
  	}
  	$str .= "</div></div>";
