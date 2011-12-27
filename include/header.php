@@ -18,6 +18,7 @@
 <link rel='stylesheet' type='text/css' href='../styles/fullcalendar.css' />
 <link rel="stylesheet" href='../styles/fullcalendar.print.css' type="text/css" media="print"/>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"/>
+<link type="text/css" rel="stylesheet" href="../js/galleria/themes/classic/galleria.classic.css">
 
 <link href='http://fonts.googleapis.com/css?family=Lancelot' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../js/less.min.js"></script>
@@ -26,8 +27,10 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 <script type='text/javascript' src='../js/fullcalendar.js'></script>
 <script type='text/javascript' src='../js/jquery-ui-timepicker-addon.js'></script>
-<script type='text/javascript' src='../js/jquery.cycle.lite.js'></script>
 
+<script type='text/javascript' src="../js/galleria/galleria-1.2.6.min.js"></script>
+<script type='text/javascript' src="../js/galleria/plugins/flickr/galleria.flickr.min.js"></script>
+<script type='text/javascript' src="../js/galleria/themes/classic/galleria.classic.min.js"></script>
 
 <script type="text/javascript">
 
