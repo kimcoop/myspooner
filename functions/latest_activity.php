@@ -285,7 +285,7 @@
 			$grav = "<img class='grav' src='".getGravatar($_SESSION['email'], 40)."'/>";
 			$str .= "<div class='latest'>";
 			$str .= "<div>$grav</div>";
-			$str .= "<div><span class='pinkText user' id='$userID'>".$username."</span> posted a Spooner trip: ";
+			$str .= "<div><span class='user' id='$userID'>".$username."</span> posted a Spooner trip: ";
 			$str .= "$arrival until $departure.";
 			if (!empty($notes)) $str .= "<br>".$notes;
 			$str .= formatOthersForTrip($id);
@@ -337,7 +337,7 @@
 			foreach($joins as $j) {
 				$userID = $j['id'];
 				$username = getUsername($userID);
-				$str .= "<span class='user pinkText' id='$userID'>".$username.", </span>";
+				$str .= "<span class='user' id='$userID'>".$username.", </span>";
 			}//end foreach
 			$str = substr($str, 0, -9);
 			$str .= "</span>";
@@ -364,7 +364,7 @@
 				$date = toDate($a['post_date']);
 				$title = getArticleTitle($a['id']);
 				$grav = "<img class='grav' src='".getGravatar($_SESSION['email'], 40)."'/>";
-				$str .= "<div class='latest'><div>$grav</div><div><span class='user pinkText' id='$userID'>".$username."</span> wrote a blog post titled $title";
+				$str .= "<div class='latest'><div>$grav</div><div><span class='user' id='$userID'>".$username."</span> wrote a blog post titled $title";
 				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div><span class='datetime'>$date</span></div>";			
 			}
 		}

@@ -75,6 +75,7 @@ $(function() {
 
 <div id="container">
 
+<br>
 <a class="back" href="trips_events.php">&laquo;&nbsp;Back to Trips & Events</a>
 
 <h2>New Event</h2>
@@ -91,7 +92,8 @@ $(function() {
 		<label>End date: </label><input type="text" id="eventEnd" class="smaller" placeholder="Click for datepicker"><br>
 		
 		<div id="tagsAsCheckboxes">
-			<? echo getTagsAsCheckbox('Tag your event'); ?>
+			<span id='tagError' style='visibility:hidden'>&nbsp;</span>
+			<? echo getTagsAsCheckbox(); ?>
 		</div>		
 		
 		<div style='margin-left:3em'>

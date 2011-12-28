@@ -66,6 +66,7 @@ $(function() {
 		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
 		
 		<div id="tagsAsCheckboxes">
+			<span id='tagError' style='visibility:hidden'>&nbsp;</span>
 			<? echo getTagsAsCheckbox(); ?>
 		</div>
 		

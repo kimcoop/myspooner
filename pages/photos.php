@@ -94,7 +94,7 @@ $(function() {
             loader.text('Loading '+$(this).text()).show();
 
             // load the set
-            flickr.set(set, function(data) {
+            flickr.user('72827301@N02', function(data) {
 
                 // hide the loader
                 loader.fadeOut('fast');
@@ -138,7 +138,7 @@ $(function() {
  
 body { background:#111;}
 #gallery_container { width:960px; margin:20px auto; position:relative; padding-top: 5em}
-#gallery { width:780px; height:650px; float:right; position:relative; border:10px solid #141414 }
+#gallery { width:780px; height:630px; float:right; position:relative; border:10px solid #141414 }
 #galleria { width:100%; height:100%; background:#000 }
 #loader { width:200px; height:100px; margin:-50px 0 0 -100px; position:absolute; left:50%; top:50%; color:#fff; text-align:center;
     z-index:4; display:none; background:#000 url('loader.gif') no-repeat 50% 25px; opacity:.8; line-height:150px; border-radius:6px }

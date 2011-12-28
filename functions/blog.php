@@ -144,10 +144,10 @@ function searchBlog($val) {
  	return $str;
  }
  
- function getUserTagsAsCheckbox($phrase = 'Tag users in your post:') {
+ function getUserTagsAsCheckbox($phrase) {
  	$tags = getAllUsers();
  	$str = "";
- 	$str .= "<div class='tagSelect'><span>$phrase</span><div>";
+ 	$str .= "<div class='tagSelect'><div>";
  	foreach($tags as $tag) {
  		$id = $tag['id'];
  		if ($id != $_SESSION['user_id']) $name = getUsername($id, 'full');
@@ -157,10 +157,10 @@ function searchBlog($val) {
  	return $str; 
  }
  
- function getTagsAsCheckbox($phrase='Tag your blog post') {
+ function getTagsAsCheckbox($phrase) {
  	$tags = getAllTags();
  	$str = "";
- 	$str .= "<div class='tagSelect'><span>$phrase:</span><span id='tagError' style='visibility:hidden;margin-left:3em'></span><div>";
+ 	$str .= "<div class='tagSelect'><div>";
  	foreach($tags as $tag) {
  		$name = $tag['name'];
  		$id = $tag['id'];

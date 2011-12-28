@@ -9,6 +9,7 @@ $(function() {
 
 </script>
 
+<br>
 <a class="back" href="blog.php">&laquo;&nbsp;Back to blog</a>
 
 <h2 id="filterOn"></h2>
