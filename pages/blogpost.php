@@ -53,7 +53,7 @@ $(function() {
 </script>
 
 <div id="container">
-
+<br>
 <a class="back" href="blog.php">&laquo;&nbsp;Back to blog</a>
 
 <h2>New Blog Post</h2>

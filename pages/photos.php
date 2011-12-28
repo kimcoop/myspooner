@@ -39,15 +39,26 @@ $(function() {
 							}));
 					}
 			});
+		});*/
+		
+		$('#stop_slideshow').click(function() {
+			Galleria.get(0).pause();
+			$('#slideshow_playing').fadeTo('slow',0);
+			$(this).hide();
+			$('#play_slideshow').show();
 		});
 		
-		
-		$('#slideshow').click(function() {
-
+		$('#play_slideshow').click(function() {
 			var gallery = Galleria.get(0);
 			gallery.play();
-
-		});*/// create a flickr instance
+			$('#slideshow_playing').css({
+				'visibility':'visible',
+				'opacity':0			
+			}).fadeTo('slow',1);
+			$(this).hide();
+			$('#stop_slideshow').show();
+		});
+		// create a flickr instance
         var flickr = new Galleria.Flickr();
 
         // cache the gallery
@@ -124,48 +135,37 @@ $(function() {
 </script>
 
 <style>
-/*
- #galleria {
- 	height:600px; 
-	-moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
-	-webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
-	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
- }*/
  
- html,
-body { background:#111; font:13px/1.3 arial,sans-serif }
-a { color:#823; text-decoration:none }
-#containerr { width:960px; margin:20px auto; position:relative}
-#gallery { width:780px; height:500px; float:right; position:relative; border:10px solid #141414 }
+body { background:#111;}
+#gallery_container { width:960px; margin:20px auto; position:relative; padding-top: 5em}
+#gallery { width:780px; height:650px; float:right; position:relative; border:10px solid #141414 }
 #galleria { width:100%; height:100%; background:#000 }
 #loader { width:200px; height:100px; margin:-50px 0 0 -100px; position:absolute; left:50%; top:50%; color:#fff; text-align:center;
     z-index:4; display:none; background:#000 url('loader.gif') no-repeat 50% 25px; opacity:.8; line-height:150px; border-radius:6px }
-#menu { width:140px; float:left; border-top:1px solid #2b2b2b }
-#menu a { display:block; padding:10px 6px; border-bottom:1px solid #2b2b2b }
+#menu { width:140px; float:left; }
+#menu a { clear:both;width:140px; display:block; padding:10px 6px; border-top:1px solid #2b2b2b }
 #menu a:hover { background:#151515; background:rgba(0,0,0,.1); }
 #menu a.active { background:#111; background:rgba(0,0,0,.3); color:#fff }
-#fullscreen { position:absolute; top:500px; left:0 }
-#fullscreen:hover { color:#fff }
+#fullscreen, #play_slideshow, #stop_slideshow, #slideshow_playing { position:absolute; top:500px; left:0 }
+#play_slideshow, #stop_slideshow { top: 550px; }
+#slideshow_playing { top: 580px; }
  
 </style>
 
-<div id="container">
+<div>
 
 
-<!--<h2>Photos</h2>
-
-<div id="slideshow" class="clickable">Play slideshow</div><br>
-<div id="fullscreen" class="clickable">Enter fullscreen mode</div><br>
-
-<div id="galleria"></div>
--->
-
-<div id="containerr">
+<div id="gallery_container">
     <div id="menu">
         <a href="http://flickr.com/photos/davidhellsing/sets/72057594078378762/">Asia</a>
         <a href="http://flickr.com/photos/davidhellsing/sets/72057594102602315/">Asia 2</a>
     </div>
-    <a id="fullscreen" href="#">Enter fullscreen</a>
+    <a id="fullscreen" href="#" class="clickable">Enter fullscreen</a>
+    <br>
+    <span id="play_slideshow">Play slideshow</span>
+    <span id="stop_slideshow" style="display:none">Stop slideshow</span>
+  	<div id="slideshow_playing" style="visibility:hidden">Slideshow playing</div>
+
     <div id="gallery">
         <div id="galleria"></div>
     </div>
