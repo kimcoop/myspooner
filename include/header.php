@@ -150,7 +150,7 @@ function isValidEmail(email) {
 
 <header>
 
-	<span id="username"><? echo $_SESSION['username']." ".$_SESSION['user_id']; ?></span>
+	<span id="username">Signed in as <? echo $_SESSION['email'] ?></span>
 	<span id="logout">Logout</span>
 
 <span class="nav" id="trips_events">Trips & Events</span>

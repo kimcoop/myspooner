@@ -189,18 +189,17 @@ $(function() {
 	 echo "<input type='hidden' value='$id' id='user_id'>";
 ?>
 
-<h2>Trips & Events</h2>
+	<h2>Trips & Events</h2>
 
 	<div id='createAnEvent' class='button_container' style='float:none;margin-top:0em'>Create an event
 		<span class='addNew'></span>
 	</div>
-	
+	<br>
 	<div id='viewEventCal' class='button_container' style='float:none;margin-top:0em'>View calendar
 		<span class='next'></span>
 	</div>
-	
+	<br>
 	<div class='spoonerDates'>
-		<h2>Spooner Trips</h2>
 		
 		<div>
 			<div class='newTrip button_container' style='float:none;margin-top:0em'>Post a Spooner trip
