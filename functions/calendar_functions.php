@@ -202,9 +202,6 @@
 		$events = getAllEvents();
 		$birthdays = getAllBirthdays();
 		
-		
-		
-		
 		echo json_encode(array_merge($trips, $events, $birthdays));	
 	}
 

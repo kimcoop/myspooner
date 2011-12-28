@@ -30,7 +30,7 @@ $(function() {
         error: function() {
             alert('Error fetching events.');
         },
-        color: '#74E8D5',   // a non-ajax option
+        color: '#00C8D6',   // a non-ajax option
         textColor: '#333' // a non-ajax option
     }, //end events
     
@@ -79,6 +79,7 @@ $(function() {
 
 </script>
 
+<br>
 <div id="details" style="display:none"></div>
 
 <div id="container">

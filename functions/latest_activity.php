@@ -122,9 +122,6 @@
 			foreach($messages as $message) {
 				
 				$id = $message['id'];
-				
-				//if ($message['is_reply'])	$id = getRootMessage($id);
-				
 				$subject = $message['subject'];
 				if ($subject==null) $subject = 'No subject';
 				$fromID = $message['written_by'];
@@ -135,8 +132,6 @@
 				$str .= "<span class='next' style='margin:.1em .5em 0 0'></span>";
 				$str .= "<span class='timestamp'>$date</span></span><span class='checkboxes'><input type='checkbox' class='message' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 				$str .= "<div class='full_message' style='display:none'><div class='subject'>Subject: $subject</div><div class='content'>$content.</div>";
-				
-				$str .= formatThreadedMessages($id);
 				
 				$str .= formatReply($id, $fromID); //$fromID becomes $to
 				$str .= "</div>";
