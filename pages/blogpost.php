@@ -65,20 +65,19 @@ $(function() {
 		<input type="text" maxlength="255" id="title" placeholder="Enter title here"><br>
 		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
 		
+		<br>Tag your post to make it more searchable:
 		<div id="tagsAsCheckboxes">
 			<span id='tagError' style='visibility:hidden'>&nbsp;</span><br>
-			Tag your post to make it more searchable:<br>
 			<? echo getTagsAsCheckbox(); ?>
 		</div>
 		
 		
-		<div style='margin-left:3em'>
-		<span class='addNew' id='createNewTag'></span>
-		<input type="text" id="newTag" placeholder="New tag" style='width: 5em'>
+		<div>
+			<span class='addNew' id='createNewTag'></span>
+			<input type="text" id="newTag" placeholder="New tag" style='width: 5em'>
 		</div>
 		
-		<br>
-		Tag people in this post:
+		<br>Tag people in this post:
 		<? echo getUserTagsAsCheckbox(); ?>
 		<br>
 		<input type="submit" id="postBlog" value="Publish Post">
