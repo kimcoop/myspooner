@@ -209,14 +209,16 @@ $(function() {
 		<div id="dates_notice" style="visibility:hidden;">&nbsp;</div>
 		<div id='newTrip' style='display:none'>
 			<br>
+			<input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
+			<input id='cancelNewTrip' style='z-index:400000' type='button' value='Cancel'>
+			<br><br><br>
 			Arriving:&nbsp;<input type='text' placeholder='When are you coming?' id='arrival' value=''><br><br>
 			Leaving:&nbsp;<input type='text' placeholder='When are you leaving?' id='departure' value=''><br><br>
 			Trip notes:&nbsp;<input type='text' placeholder='Any other details' id='notes' style='z-index:4000' value=''><br><br>
-					
-		<? echo getUserTagsAsCheckbox('Tag others on this trip:'); ?>
-						
-			<br><br><br><br><br><br><input id='saveSpoonerDates' style='z-index:400000' type='button' value='Announce!'>
-			<input id='cancelNewTrip' style='z-index:400000' type='button' value='Cancel'>
+		
+			Tag others on your trip:
+		<? echo getUserTagsAsCheckbox(); ?>
+		
 		</div><!-- end div#newTrip-->
 		
 		<br>

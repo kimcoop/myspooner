@@ -66,7 +66,8 @@ $(function() {
 		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
 		
 		<div id="tagsAsCheckboxes">
-			<span id='tagError' style='visibility:hidden'>&nbsp;</span>
+			<span id='tagError' style='visibility:hidden'>&nbsp;</span><br>
+			Tag your post to make it more searchable:<br>
 			<? echo getTagsAsCheckbox(); ?>
 		</div>
 		
@@ -76,6 +77,8 @@ $(function() {
 		<input type="text" id="newTag" placeholder="New tag" style='width: 5em'>
 		</div>
 		
+		<br>
+		Tag people in this post:
 		<? echo getUserTagsAsCheckbox(); ?>
 		<br>
 		<input type="submit" id="postBlog" value="Publish Post">

@@ -92,7 +92,8 @@ $(function() {
 		<label>End date: </label><input type="text" id="eventEnd" class="smaller" placeholder="Click for datepicker"><br>
 		
 		<div id="tagsAsCheckboxes">
-			<span id='tagError' style='visibility:hidden'>&nbsp;</span>
+			<span id='tagError' style='visibility:hidden'>&nbsp;</span><br>
+			Tag your event:
 			<? echo getTagsAsCheckbox(); ?>
 		</div>		
 		
