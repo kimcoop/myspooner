@@ -12,11 +12,27 @@
 $(function() {
 
 	$('#viewSent').click(function() {
-		alert('todo view sent messages');
+	
+		user = $('#user').val();
+		dataString = 'action=getSentMessages&user='+user;
+		
+		$.ajax({ 
+					 type: 'post',
+					 dataType: 'json',
+					 url: '../functions/latest_activity.php',
+					 data: dataString,
+					 success: function(data) {
+						if (data.error) {
+							notice(data.error, 1);
+						} else {
+							$('#sentMessagesContainer').html(data.results).slideDown();
+						} // end else
+					 }
+			});// end ajax
 	});
 
 	$('#newMessage').click(function() {
-		$('#newMessageContainer').slideDown();
+		$('#newMessageContainer').slideToggle();
 	
 	});
 	
@@ -49,9 +65,7 @@ $(function() {
 							notice(data.msg, 0);
 						} // end else
 					 }
-			});// end ajax
-			
-			
+			});// end ajax			
 		}// end else
 	
 	});
@@ -60,6 +74,8 @@ $(function() {
 </script>
 
 <div id="container">
+
+<input type='hidden' value='<? echo $_SESSION['user_id'] ?>' id='user'>
 
 <div id="notifications">
 	<h2>Notifications: <span class='georgia'><? echo getNotifications('count') + getTripNotifications('count') + getRequests('count'); ?></span> new</h2>
@@ -76,7 +92,6 @@ $(function() {
 	<br>
 	<div id='viewSent' class='button_container' style=''>View sent messages
 	<span class='next'></span></div><br>
-	
 	<div id='newMessage' class='button_container' style=''>Write a message
 	<span class='addNew'></span></div>
 	
@@ -87,6 +102,8 @@ $(function() {
 		<input type='button' value='Send' id='sendNewMessage'>
 	</div>
 	
+	<div id='sentMessagesContainer' style='display:none'></div>
+
 	<? echo formatMessages() ?>
 </div>
 

@@ -39,9 +39,40 @@
 				newMessage($_POST['recipient'], $_POST['subject'], $_POST['content']);
 				unset($_POST['action']);
 				break;
+			case 'getSentMessages':
+				getSentMessagesAsJSON($_POST['user']);
+				unset($_POST['action']);
+				break;
 		}
-	}	
+	}
 	
+	function getSentMessagesAsJSON($writer) {
+	
+		$str = getSentMessages($writer);
+		echo json_encode(array('results'=>$str));
+	
+	}
+	
+	function getSentMessages($writer) {
+		$writer = $_SESSION['user_id'];
+	
+		$query = "SELECT * FROM message WHERE written_by = '$writer' ORDER BY post_date";
+		$result = mysql_query($query);
+		$str = "";
+		while($row = mysql_fetch_array($result)){
+				$events[] = $row;
+				$recip=getUsername($row['recipient'], 'short');
+				$date=toDateWithAgo($row['post_date']);
+				$content=$row['content'];
+				$subject=$row['subject'];
+				$received=$row['received'];
+				$str .= "<div class='full_message'>";
+				$str .= "<div class='subject'>To $recip $subject <span class='memberTimestamp'>$date</span></div>";
+				$str .= $content;
+				$str .= "</div>";				
+			}
+		return $str;	
+	}
 	
 	function newMessage($to, $subject, $content) {
 		$writer = $_SESSION['user_id'];

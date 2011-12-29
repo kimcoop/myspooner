@@ -68,6 +68,7 @@ $(function() {
 								$('#container').load('filterblog.php', function() {
 									$('#filterOn').text('Displaying results for search: '+criteria);
 									$('#posts').html(data.results);
+									//does it work? if (data.results == '') $('#posts').html('No results found.');
 								});// end function							 
 						 }
 				});
