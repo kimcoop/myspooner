@@ -82,15 +82,43 @@ $(function() {
 			}
 			
 		});
+		
+		$('#view_edit_posts').click(function() {
+		
+			//filter all posts written by user
+			//make editable
+			user = $('#user').val();
+			
+			var dataString = 'action=getMyPosts&user='+user;
+				$.ajax({ 
+						 type: 'post',
+						 dataType: 'json',
+						 url: '../functions/blog.php',
+						 data: dataString,
+						 success: function(data) {							 
+								$('#container').load('filterblog.php', function() {
+									$('#filterOn').text('Posts you\'ve written');
+									$('#posts').html(data.articles);
+								});// end function							 
+						 }
+				});// end ajax
+		
+		});
 			
 });
 </script>
 
-<div id="container">
+<input type='hidden' id='user' value='<? echo $_SESSION['user_id'] ?>'>
 
+<div id="container">
 
 <h2>Blog</h2>
 
+<div id='view_edit_posts' class='button_container'>
+	View/edit my blog posts
+	<div class="next"></div>
+</div>
+<br>
 <div class='button_container addNewPost'>
 	Create a blog post
 	<div class="addNew"></div>

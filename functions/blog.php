@@ -38,8 +38,23 @@
 			case 'addNewTag':
 				addNewTag($_POST['tag']);
 				break;
-			}
+			case 'getMyPosts':
+				getMyPosts($_POST['user']);
+				unset($_POST['action']);
+				break;
+		}
 	}
+	
+	function getMyPosts($user) {
+		$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE article.user_id='$user' AND article.id=article_tag.article_id AND article_tag.tag_id=tag.id GROUP BY article.id ORDER BY article.post_date";
+		$result = mysql_query($query) or die(mysql_error());
+		$results = array();
+		while($row = mysql_fetch_array($result)){
+				$results[] = $row;
+			}
+		$str = formatArticles($results, true);
+		echo json_encode(array('articles'=>$str));
+}
 	
 function formatSearchResults($val) {
 	$results = searchBlog($val);
@@ -231,13 +246,21 @@ function formatUserTagsForArticle($id) {
 	return $str;
 }
 
-function formatArticles($articles) {
+function formatArticles($articles, $editable = false) {
 	$str = "";
 	foreach($articles as $a) {
 		$str .= "<div class='article'>";
+		$str .= "<input type='hidden' class='article_id' value='".$a['id']."'>";
+		
+		if ($editable) {
+			$str .= "<div class='button_container inline' style='float:left;margin-top:.7em'><span class='delete'></span></div>";
+			$str .= "<div class='button_container inline' style='float:left;margin-top:.7em'><span class='edit'></span></div>";
+			$str .= "&nbsp;";
+		}
+		
 		$str .= "<h3>".$a['title']."</h3>";
-		$str .= "<span class='author'>by ".getUsername($a['user_id']);
-		$str .= "</span><span class='memberTimestamp'>".toDateWithAgo($a['post_date'])."</span><br>";
+		$str .= "<span class='author'>by ".getUsername($a['user_id'])."</span>";
+		$str .= "<span class='memberTimestamp'>".toDateWithAgo($a['post_date'])."</span><br>";
 		$str .= $a['content'];
 		$str .= "<div class='tags'>";
 		$str .= formatUserTagsForArticle($a['id']);		
