@@ -50,10 +50,7 @@ $(function() {
 								 data: dataString,
 								 success: function(data) {
 								 	if (data.error) {
-										$('#notice').text(data.error).addClass('errorText').css({
-											'visibility':'visible',
-											'opacity':0
-										}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+										notice(data.error, 1);
 									} else {
 											window.location.href='calendar.php';
 										}
@@ -61,10 +58,7 @@ $(function() {
 						}); //end ajax
 						
 					} else {
-						$('#notice').text('Event name and description required.').addClass('errorText').css({
-								'visibility':'visible',
-								'opacity':0
-							}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+						notice('Event name and description required.', 1);
 					}
 					return false;
 				});	//end click

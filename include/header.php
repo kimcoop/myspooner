@@ -141,6 +141,15 @@ function isValidEmail(email) {
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
     return pattern.test(email);
 };
+	
+function notice(msg, error) {
+	whichClass = (error? 'errorText' : 'greenText');
+
+	$('#notice').text(msg).addClass(whichClass).css({
+		'visibility':'visible',
+		'opacity':0
+	}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+};
 		
 </script>		
 

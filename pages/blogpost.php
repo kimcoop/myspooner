@@ -43,7 +43,7 @@ $(function() {
 								window.location.href = 'blog.php';
 							}
 						 }
-				});
+				});// end ajax
 				
 				return false;
 			});

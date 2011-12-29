@@ -35,9 +35,23 @@
 				markAsReceived('spooner_trip_tag', $_POST['tripID']);
 				unset($_POST['action']);
 				break;
+			case 'newMessage':
+				newMessage($_POST['recipient'], $_POST['subject'], $_POST['content']);
+				unset($_POST['action']);
+				break;
 		}
 	}	
 	
+	
+	function newMessage($to, $subject, $content) {
+		$writer = $_SESSION['user_id'];
+	
+		$query = "INSERT INTO message(written_by, recipient, post_date, content) ";
+		$query .= " VALUES('$writer', '$to', now(), '$content')";
+		mysql_query($query);
+		
+		echo json_encode(array('msg'=>'Message sent.'));		
+	}
 	
 	function validateUser($user_id, $validator) {
 		$query = "UPDATE user SET validated=1, validator='$validator', join_date=now() WHERE id='$user_id'";

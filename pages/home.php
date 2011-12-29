@@ -19,8 +19,42 @@ $(function() {
 		$('#newMessageContainer').slideDown();
 	
 	});
-
-
+	
+	$('#sendNewMessage').click(function() {
+		recipient = $('#recipient').val();
+		subject = $('#message_subject').val();
+		content = $('#message_content').val();
+		
+		if (recipient < 1 || content=='') {
+			alert('error');
+		} else { //ping db
+			
+			dataString = 'action=newMessage&recipient='+recipient
+										+'&subject='+subject
+										+'&content='+content;
+			
+			$.ajax({ 
+					 type: 'post',
+					 dataType: 'json',
+					 url: '../functions/latest_activity.php',
+					 data: dataString,
+					 success: function(data) {
+						if (data.error) {
+							notice('error');
+						} else {
+							$('#newMessageContainer').slideUp();
+							$('#recipient').val(0);
+							$('#message_subject').val('');
+							$('#message_content').val('');
+							notice(data.msg, 0);
+						} // end else
+					 }
+			});// end ajax
+			
+			
+		}// end else
+	
+	});
 });
 
 </script>
@@ -36,6 +70,7 @@ $(function() {
 
 <div id="messages">
 	<h2>Messages: <? echo getNewMessages('count'); ?></h2>
+	<div id="notice" style="visibility:hidden">&nbsp;</div>
 	
 	<div id='viewSent' class='button_container' style=''>View sent messages
 	<span class='next'></span></div><br>
