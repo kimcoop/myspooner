@@ -3,6 +3,7 @@
 	include('../include/header.php');
 	include_once('../functions/blog.php');
 	include_once('../functions/functions.php');
+	include('../js/home_js.js');
 	
 ?>
 
@@ -10,107 +11,16 @@
 
 $(function() {
 
-	$('header span').removeClass('active');
-	$('#home').addClass('active');
+	$('#viewSent').click(function() {
+		alert('todo view sent messages');
+	});
+
+	$('#newMessage').click(function() {
+		$('#newMessageContainer').slideDown();
 	
-	$('input.message').click(function() {
-				var el = $(this);
-				var messageID = el.val();
-					$.ajax({ 
-						 type: 'post',
-						 dataType: 'json',
-						 url: '../functions/latest_activity.php',
-						 data: {
-						 			'action': 'markAsReceived',
-						 			'type'	: 'message',
-						 			'received': messageID
-						 },
-						 success: function(data) {
-								el.parent('span').replaceWith( $("<span class='messageMarked'></span").text(data.msg) );
-							}
-					});// end ajax
-			});// end click
-	
-			$('input.notification').click(function() {
-				var el = $(this);
-				var tagID = el.val();
-					$.ajax({ 
-						 type: 'post',
-						 dataType: 'json',
-						 url: '../functions/latest_activity.php',
-						 data: {
-						 			'action': 'markAsReceived',
-						 			'type' : 'article_user_tag',
-						 			'received': tagID
-						 },
-						 success: function(data) {
-								el.parent('span').replaceWith( $("<span class='notificationMarked'></span").text(data.msg) );
-							}
-					});// end ajax
-			});// end click
-			
-			$('span.preview').click(function() {
-				el = $(this);
-				el.parent().next('.full_message').slideToggle();			
-			}); 
-			
-			$('.postReply').live('click',function() {
-				var el = $(this);
-				var msgID = el.siblings('.msgID').val();
-				var content = el.siblings('.replyContent').val();
-				var toUser = el.siblings('.toUser').val();
-				
-				var dataString = 'action=postReply&rootMsgID='+msgID+
-													'&content='+content+
-													'&toUser='+toUser;alert(dataString);
-				
-					$.ajax({ 
-						 type: 'post',
-						 dataType: 'json',
-						 url: '../functions/latest_activity.php',
-						 data: dataString,
-						 success: function(data) {
-								el.parent().replaceWith( $("<span></span").text(data.msg) );
-							}
-					});// end ajax
-			});// end click	
-			
-				$('input.validation').click(function() {
-				var el = $(this);
-				var userID = el.val();
-				
-					$.ajax({ 
-						 type: 'post',
-						 dataType: 'json',
-						 url: '../functions/latest_activity.php',
-						 data: {
-						 			'action': 'validateUser',
-						 			'user_id' : userID
-						 },
-						 success: function(data) {
-								el.parent('span').replaceWith( $("<span class='validationMarked'></span").text(data.msg) );
-							}
-					});// end ajax
-			});// end click
-			
-			$('input.trip_notification').click(function() {
-				var el = $(this);
-				var tripID = el.val();
-				
-					$.ajax({ 
-						 type: 'post',
-						 dataType: 'json',
-						 url: '../functions/latest_activity.php',
-						 data: {
-						 			'action': 'markTripAsReceived',
-						 			'tripID' : tripID
-						 },
-						 success: function(data) {
-								el.parent('span').replaceWith( $("<span class='tripMarked'></span").text(data.msg) );
-							}
-					});// end ajax
-			});// end click
-			
+	});
+
+
 });
 
 </script>
@@ -126,6 +36,20 @@ $(function() {
 
 <div id="messages">
 	<h2>Messages: <? echo getNewMessages('count'); ?></h2>
+	
+	<div id='viewSent' class='button_container' style=''>View sent messages
+	<span class='next'></span></div><br>
+	
+	<div id='newMessage' class='button_container' style=''>Write a message
+	<span class='addNew'></span></div>
+	
+	<div id='newMessageContainer' class='full_message' style='display:none'>
+		<? echo getUsersAsSelect('recipient', null, false, 'Select recipient'); ?>
+		<input style='width:50%;margin-bottom:.5em;' type='text' placeholder='Subject here' id='message_subject'>
+		<textarea style="height:6em;width:92%" id="message_content" maxlength="4000" placeholder="Message here"></textarea>
+		<input type='button' value='Send' id='sendNewMessage'>
+	</div>
+	
 	<? echo formatMessages() ?>
 </div>
 

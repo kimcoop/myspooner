@@ -125,20 +125,25 @@ function searchBlog($val) {
 	return $tags;
  }
  
- function getUsersAsSelect($selectID =null, $active='') {
+ function getUsersAsSelect($selectID=null, $active='', $disable='true', $default='Not specified') {
  	$users = getAllUsers();
  	$str = "";
  	if ($selectID != null) $str .= "<select id='$selectID'";
  	else $str .= "<select";
- 	$str .= " class='editable' disabled>";
- 	$str .= "<option value='0'>Not specified</option>";
+ 	
+ 	if ($disable) $str .= " class='editable' disabled>";
+ 	else $str .= " class='editable'>";
+ 	
+ 	$str .= "<option value='0'>".$default."</option>";
  	foreach($users as $u) {
  		$id = $u['id'];
  		$name = getUsername($id, 'full');
  		$email = $u['email'];
- 		if ($active == $id) $str .= "<option selected";
- 		else $str .= "<option";
- 		$str .= " id='$email' value='$id'>$name</option>";
+ 		if ($id != $_SESSION['user_id']) {
+			if ($active == $id) $str .= "<option selected";
+			else $str .= "<option";
+			$str .= " id='$email' value='$id'>$name</option>";
+		}
  	}
  	$str .= "</select>";
  	return $str;
