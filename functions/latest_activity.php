@@ -172,7 +172,7 @@
 			
 			if ($action != null) {
 				$messages = mysql_num_rows($result);
-				return "<span class='georgia'>$messages</span> new";
+				return "$messages new";
 			} else {
 				$messages = array();
 				while($row = mysql_fetch_array($result)){
@@ -258,7 +258,7 @@
 		
 		if ($action != null) {
 			$tags = mysql_num_rows($result);
-			return "<span class='georgia'>$tags</span> new";
+			return "$tags new";
 		} else {
 			$notifications = array();
 			while($row = mysql_fetch_array($result)){

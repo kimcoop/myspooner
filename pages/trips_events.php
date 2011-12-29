@@ -11,12 +11,12 @@
 $(function() {
 
 	$('header span').removeClass('active');
-	$('#trips_and_events').addClass('active');
+	$('#trips_events').addClass('active');
 	
 	var editingTrip = false;
 	var tripID;
 	
-	var editingIndicator = $('<span class="greenText"></span>').html('<strong>Editing trip. Doubleclick a date to change it. </strong>');
+	var editingIndicator = $('<span class="greenText"></span>').html('<strong>Editing trip. Doubleclick blue text to change it. </strong>');
 	var saveButton = $('<input type="button" style="margin-right:.4em" value="Save" id="saveTripButton">');
 	var cancelButton = $('<input type="button" value="Cancel" id="cancelTripButton">');
 	var lineBreak = $('<div></div>').html('<br>');
