@@ -56,7 +56,7 @@
 	function getSentMessages($writer) {
 		$writer = $_SESSION['user_id'];
 	
-		$query = "SELECT * FROM message WHERE written_by = '$writer' ORDER BY post_date";
+		$query = "SELECT * FROM message WHERE written_by = '$writer' ORDER BY post_date DESC";
 		$result = mysql_query($query);
 		$str = "";
 		while($row = mysql_fetch_array($result)){
