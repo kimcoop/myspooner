@@ -42,11 +42,29 @@
 				getMyPosts($_POST['user']);
 				unset($_POST['action']);
 				break;
+			case 'deleteArticle':
+				deleteArticle($_POST['articleID']);
+				unset($_POST['action']);
+				break;
+			case 'editArticle':
+				editArticle($_POST['articleID'], $_POST['content']);
+				unset($_POST['action']);
+				break;
 		}
 	}
 	
+	function editArticle($aID, $content) {
+	 $query = "UPDATE article SET content='$content' WHERE id='$aID'";
+	 mysql_query($query);
+	}
+	
+	function deleteArticle($aID) {
+	 $query = "UPDATE article SET active='0' WHERE id='$aID'";
+	 mysql_query($query);
+	}
+	
 	function getMyPosts($user) {
-		$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE article.user_id='$user' AND article.id=article_tag.article_id AND article_tag.tag_id=tag.id GROUP BY article.id ORDER BY article.post_date";
+		$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE article.active='1' AND article.user_id='$user' AND article.id=article_tag.article_id AND article_tag.tag_id=tag.id GROUP BY article.id ORDER BY article.post_date";
 		$result = mysql_query($query) or die(mysql_error());
 		$results = array();
 		while($row = mysql_fetch_array($result)){
@@ -71,7 +89,7 @@ function formatSearchResults($val) {
 }
 	
 function searchBlog($val) {
-	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE title LIKE '%$val%' OR (tag.name LIKE '%$val%' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id)";
+	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE article.active='1' AND title LIKE '%$val%' OR (tag.name LIKE '%$val%' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id)";
 	$result = mysql_query($query) or die(mysql_error());
 	$results = array();
 	while($row = mysql_fetch_array($result)){
@@ -191,7 +209,7 @@ function searchBlog($val) {
  }
 
 function queryArticles() {
-	$query = "SELECT * FROM article ORDER BY post_date DESC";
+	$query = "SELECT * FROM article WHERE article.active='1' ORDER BY post_date DESC";
 	$result = mysql_query($query) or die(mysql_error());
 	$articles = array();
 	while($row = mysql_fetch_array($result)){
@@ -203,7 +221,7 @@ function queryArticles() {
 
 function queryArticlesByTag($tag) {
 	$tag = trim($tag);
-	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, user.fname FROM article, article_user_tag, user WHERE user.fname='$tag' AND user.id = article_user_tag.user_id AND article_user_tag.article_id = article.id ORDER BY article.post_date DESC";
+	$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, user.fname FROM article, article_user_tag, user WHERE article.active='1' AND user.fname='$tag' AND user.id = article_user_tag.user_id AND article_user_tag.article_id = article.id ORDER BY article.post_date DESC";
 
 	$result = mysql_query($query) or die(mysql_error());
 	$articles = array();
@@ -211,7 +229,7 @@ function queryArticlesByTag($tag) {
 			$articles[] = $row;
 		}
 
-	$query2 = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE tag.name= '$tag' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id ORDER BY article.post_date DESC";
+	$query2 = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE article.active='1' AND tag.name= '$tag' AND tag.id = article_tag.tag_id AND article_tag.article_id = article.id ORDER BY article.post_date DESC";
 
 	$result2 = mysql_query($query2) or die(mysql_error());
 	$articles2 = array();
@@ -261,7 +279,7 @@ function formatArticles($articles, $editable = false) {
 		$str .= "<h3>".$a['title']."</h3>";
 		$str .= "<span class='author'>by ".getUsername($a['user_id'])."</span>";
 		$str .= "<span class='memberTimestamp'>".toDateWithAgo($a['post_date'])."</span><br>";
-		$str .= $a['content'];
+		$str .= "<span class='article_content'>".$a['content']."</span>";
 		$str .= "<div class='tags'>";
 		$str .= formatUserTagsForArticle($a['id']);		
 		$str .= formatTagsForArticle($a['id']);
@@ -311,7 +329,7 @@ function getAllArticles() {
 }
 
 function getUserTagsForArticle($id) {
-	$query = "SELECT user.id, fname FROM article_user_tag, user WHERE article_id = '$id' AND user.id = article_user_tag.user_id";
+	$query = "SELECT user.id, fname FROM article_user_tag, user WHERE article.active='1' AND article_id = '$id' AND user.id = article_user_tag.user_id";
 	$result = mysql_query($query);
 	$tags = array();
 	while($row = mysql_fetch_array($result)){
