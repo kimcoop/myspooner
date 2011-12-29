@@ -267,7 +267,7 @@
 	
 	function getNotifications($action=null) {
 		$id = $_SESSION['user_id'];
-		$query = "SELECT * FROM article_user_tag WHERE received=0 AND user_id='$id'";
+		$query = "SELECT * FROM article_user_tag WHERE received=0 AND user_id='$id' LIMIT 10";
 		$result = mysql_query($query);
 		
 		if ($action != null) {

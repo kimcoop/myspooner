@@ -87,6 +87,9 @@ $(function() {
 			$('#reg').detach();
 		});
 		
+		$('body').css('background','white');
+		$('#container').css('padding-top','100px');
+		
 });
 
 </script>
@@ -116,11 +119,11 @@ $(function() {
 		<p>Sign up by filling out these fields.<br>Once your account is verified, you'll be notified via email.</p>
 		<form class="main" method="post" id="registerForm">
 			<table>
-				<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email"/></td></tr>
+				<tr><th><label for=email>Email*:&nbsp;</label></th><td><input required name="email" id="email" type="email" placeholder="example@test.com"/></td></tr>
 				<tr><th><label for=password>Password*:&nbsp;</label></th><td><input class="clear" required name="password" id="password" type="password"/></td></tr>
 				<tr><th><label for=fname>First name*:&nbsp;</label></th><td><input class="clear" required name="fname" id="fname" type="text"/></td></tr>
 				<tr><th><label for=lname>Last name*:&nbsp;</label></th><td><input class="clear" required name="lname" id="lname" type="text"/></td></tr>
-				<tr><th><label for=lname>About*:&nbsp;</label></th><td><input class="clear" required name="about" id="about" type="text"/></td></tr>
+				<tr><th><label for=lname>About*:&nbsp;</label></th><td><input class="clear" required name="about" id="about" type="text" placeholder="Just a little about yourself"/></td></tr>
 				<tr><td colspan="2" style="text-align:center"><input type="submit" name="register" id="registerButton" value="Register"/></td></tr>
 			</table>
 		</form>

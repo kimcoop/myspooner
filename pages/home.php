@@ -26,7 +26,7 @@ $(function() {
 		content = $('#message_content').val();
 		
 		if (recipient < 1 || content=='') {
-			alert('error');
+			notice('Recipient and content are required to send a message.', 1);
 		} else { //ping db
 			
 			dataString = 'action=newMessage&recipient='+recipient
@@ -40,7 +40,7 @@ $(function() {
 					 data: dataString,
 					 success: function(data) {
 						if (data.error) {
-							notice('error');
+							notice('error', 1);
 						} else {
 							$('#newMessageContainer').slideUp();
 							$('#recipient').val(0);
@@ -67,11 +67,13 @@ $(function() {
 	<? echo formatNotifications() ?>
 </div>
 
+<br><br>
 
 <div id="messages">
-	<h2>Messages: <? echo getNewMessages('count'); ?></h2>
-	<div id="notice" style="visibility:hidden">&nbsp;</div>
+	<h2 style='display:inline'>Messages: <? echo getNewMessages('count'); ?>&nbsp;&nbsp;</h2>
+	<span id="notice" style="visibility:hidden">&nbsp;</span>
 	
+	<br>
 	<div id='viewSent' class='button_container' style=''>View sent messages
 	<span class='next'></span></div><br>
 	

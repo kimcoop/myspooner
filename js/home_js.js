@@ -54,15 +54,14 @@ $(function() {
 				
 				var dataString = 'action=postReply&rootMsgID='+msgID+
 													'&content='+content+
-													'&toUser='+toUser;alert(dataString);
-				
+													'&toUser='+toUser;
 					$.ajax({ 
 						 type: 'post',
 						 dataType: 'json',
 						 url: '../functions/latest_activity.php',
 						 data: dataString,
 						 success: function(data) {
-								el.parent().replaceWith( $("<span></span").text(data.msg) );
+								notice('Reply sent.', 0); //todo y this not work
 							}
 					});// end ajax
 			});// end click	
