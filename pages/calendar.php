@@ -31,7 +31,7 @@ $(function() {
             alert('Error fetching events.');
         },
         color: '#00C8D6',   // a non-ajax option
-        textColor: '#333' // a non-ajax option
+        textColor: '#fff' // a non-ajax option
     }, //end events
     
      eventClick: function(calEvent, jsEvent, view) {
