@@ -38,7 +38,7 @@ $(function() {
 						 data: dataString,
 						 success: function(data) {
 							if (data.error) {
-								$('#error').text(data.error).fadeIn().delay(2000).fadeOut();
+								notice(data.error, 1);
 							} else {
 								window.location.href = 'blog.php';
 							}
@@ -58,7 +58,7 @@ $(function() {
 
 <h2>New Blog Post</h2>
 
-<div id="error" class="errorText" style="display:none;"></div>
+<div id="notice" style="visibility:hidden;">&nbsp;</div>
 
 <div id="newPost">
 	<form method="post" action="">

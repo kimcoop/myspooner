@@ -42,17 +42,11 @@ $(function() {
 			var birthday = $('#birthday').val();
 			
 			if (fname=='' || lname=='' || email=='') {
-				$('#notice').text('First name, last name, and email are required.').addClass('errorText').css({
-										'visibility':'visible',
-										'opacity':0
-									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+				notice('First name, last name, and email are required.', 1);
 			} else if (fname==$.originals['fname'] && lname==$.originals['lname'] && email==$.originals['email'] && phone==$.originals['phone'] && mother==$.originals['mother'] && father==$.originals['father'] && about==$.originals['about'] && birthday==$.originals['birthday']) {
 				solidify();
 			} else if (!isValidEmail(email)) {
-				$('#notice').text('Invalid email address.').addClass('errorText').css({
-										'visibility':'visible',
-										'opacity':0
-									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+				notice('Invalid email address.', 1);
 			} else {
 			
 			$.originals['fname'] = fname;
@@ -78,10 +72,7 @@ $(function() {
 						 url: '../functions/settings.php',
 						 data: dataString,
 						 success: function() {
-								$('#notice').text('Profile updated.').addClass('errorText').css({
-										'visibility':'visible',
-										'opacity':0
-									}).fadeTo('slow',1).delay(2000).fadeTo('slow',0);
+								notice('Profile updated.', 0);
 								solidify();
 						}
 				});
