@@ -41,6 +41,14 @@ $(function() {
 					});// end ajax
 			});// end click
 			
+			indicator = $('<span></span>').text('Click to read');
+			$('span.preview').mouseover(function() {
+				el = $(this);
+				indicator.appendTo(el);
+			}).mouseout(function() {
+				indicator.detach();			
+			});
+			
 			$('span.preview').click(function() {
 				el = $(this);
 				el.parent().next('.full_message').slideToggle();			
