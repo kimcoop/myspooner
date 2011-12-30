@@ -78,12 +78,12 @@ $(function() {
 
 <div id="newPost">
 	<form method="post" action="">
-		<input type="text" maxlength="255" id="name" placeholder="Enter event name here"><br>
-		<input type="text" maxlength="255" id="location" placeholder="Enter location of event here"><br>
-		<textarea style='height:6em' id="content" maxlength="4000" placeholder="Enter description here"></textarea><br>	
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;<input type="text" maxlength="255" id="name" placeholder="Enter event name here"><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;Location&nbsp;<input type="text" maxlength="255" id="location" placeholder="Enter location of event here"><br>
+		Description&nbsp;<textarea style='height:6em' id="content" maxlength="4000" placeholder="Enter description here"></textarea><br>	
 		
-		<label>Start date: </label><input type="text" id="eventStart" class="smaller" placeholder="Click for datepicker"><br>
-		<label>End date: </label><input type="text" id="eventEnd" class="smaller" placeholder="Click for datepicker"><br>
+		<label>Starting </label><input type="text" id="eventStart" class="smaller" placeholder="Click for datepicker"><br>
+		<label>Ending </label><input type="text" id="eventEnd" class="smaller" placeholder="Click for datepicker"><br>
 		
 		<div id="tagsAsCheckboxes">
 			<span id='tagError' style='visibility:hidden'>&nbsp;</span>

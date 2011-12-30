@@ -81,7 +81,8 @@ $(function() {
 		}
 		});
 		
-		$('#linkRegister').click(function() {
+		$('#linkRegister').click(function(e) {
+			e.preventDefault();
 			$('#access').html( $('#reg').html() );
 			$('#email').focus();
 			$('#reg').detach();
@@ -110,7 +111,7 @@ $(function() {
 				<tr><td colspan="2" style="text-align:center"><input type="submit" name="login" id="loginButton" value="Login"/></td></tr>
 			</table>
 		</form>
-		<a href='return:false' style='float:right;margin:0 .5em .2em 0;' id='linkRegister'>New? Click here to register.</a>
+		<a href='#' style='float:right;margin:0 .5em .2em 0;' id='linkRegister'>New? Click here to register.</a>
 		</div>	
 				
 		</fieldset>

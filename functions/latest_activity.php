@@ -254,7 +254,7 @@
 			$tagger = getUsername($taggerID);
 			$date = toDate($tag['tag_date']);
 			$id = $tag['id'];
-			$str .= "<div class='notification'><span class='user' id='$taggerID'>$tagger</span> tagged you in a post called $post. <span class='timestamp'>$date</span>";
+			$str .= "<div class='notification'><span class='user' id='$taggerID'>$tagger</span> tagged you in a post called <span class='goto_blog'>$post.</span><span class='timestamp'>$date</span>";
 			$str .= "<span class='checkboxes'><input type='checkbox' class='notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 		}
 		
@@ -272,7 +272,7 @@
 				$tagger = getUsername($taggerID);
 				$date = toDate($tag['tag_date']);
 				$id = $tag['trip_id'];
-				$str .= "<div class='trip_notification'><span class='user' id='$taggerID'>$tagger</span> tagged you on a Spooner trip! <span class='timestamp'>$date</span>";
+				$str .= "<div class='trip_notification'><span class='user' id='$taggerID'>$tagger</span> tagged you on a <span class='goto_trips'>Spooner trip!</span> <span class='timestamp'>$date</span>";
 				$str .= "<span class='checkboxes'><input type='checkbox' class='trip_notification' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
 			}
 			return $str;
@@ -406,7 +406,7 @@
 				$date = toDate($a['post_date']);
 				$title = getArticleTitle($a['id']);
 				$grav = "<img class='grav' src='".getGravatar($_SESSION['email'], 40)."'/>";
-				$str .= "<div class='latest'><div>$grav</div><div><span class='user' id='$userID'>".$username."</span> wrote a blog post titled $title";
+				$str .= "<div class='latest'><div>$grav</div><div><span class='user' id='$userID'>".$username."</span> wrote a <span class='goto_blog'>blog post titled $title</span>";
 				$str .= "<br>".formatUserTagsForArticle($a['id']).formatTagsForArticle($a['id'])."</div><span class='datetime'>$date</span></div>";			
 			}
 		}

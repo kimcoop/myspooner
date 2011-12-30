@@ -89,8 +89,7 @@ $(function() {
 	<h2 style='display:inline'>Messages: <? echo getNewMessages('count'); ?>&nbsp;&nbsp;</h2>
 	<span id="notice" style="visibility:hidden">&nbsp;</span>
 	
-	<br>
-	<div id='viewSent' class='button_container' style=''>View sent messages
+	<div id='viewSent' class='button_container' style='padding-top:1.2em'>View sent messages
 	<span class='next'></span></div><br>
 	<div id='newMessage' class='button_container' style=''>Write a message
 	<span class='addNew'></span></div>

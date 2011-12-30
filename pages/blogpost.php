@@ -62,8 +62,8 @@ $(function() {
 
 <div id="newPost">
 	<form method="post" action="">
-		<input type="text" maxlength="255" id="title" placeholder="Enter title here"><br>
-		<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Title&nbsp;<input type="text" maxlength="255" id="title" placeholder="Enter title here"><br>
+		Content&nbsp;<textarea id="content" maxlength="4000" placeholder="Enter article content here"></textarea><br>	
 		
 		<br>Tag your post to make it more searchable:
 		<div id="tagsAsCheckboxes">

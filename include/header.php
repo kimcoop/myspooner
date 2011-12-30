@@ -36,6 +36,14 @@
 
 $(function() {
 
+	$('.goto_trips').live('click',function() {
+		window.location.href = 'trips_events.php';	
+	});
+	
+	$('.goto_blog').live('click',function() {
+		window.location.href = 'blog.php';	
+	});
+
 	$('#createNewTag').live('click', function() {
 				var el = $('#newTag');
 				var tag = el.val();
