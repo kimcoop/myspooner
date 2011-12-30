@@ -39,7 +39,7 @@
 				addNewTag($_POST['tag']);
 				break;
 			case 'getMyPosts':
-				getMyPosts($_POST['user']);
+				getMyPosts($_SESSION['user_id']);
 				unset($_POST['action']);
 				break;
 			case 'deleteArticle':
@@ -63,7 +63,7 @@
 	 mysql_query($query);
 	}
 	
-	function getMyPosts($user) {
+	function getMyPosts($user) { //doesn't work if no tags
 		$query = "SELECT article.id, article.title, article.user_id, article.post_date, article.content, tag.name FROM article, tag, article_tag WHERE article.active='1' AND article.user_id='$user' AND article.id=article_tag.article_id AND article_tag.tag_id=tag.id GROUP BY article.id ORDER BY article.post_date";
 		$result = mysql_query($query) or die(mysql_error());
 		$results = array();
@@ -371,7 +371,7 @@ function totalCommentsForArticle($id) {
 function createArticle() {
 
 	$title= $_POST['title'];
-	$content= $_POST['content'];
+	$content= stripslashes($_POST['content']);
 	$tags = $_POST['tags'];
 	$userTags = $_POST['userTags'];
 	

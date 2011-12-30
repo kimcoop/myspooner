@@ -32,6 +32,7 @@
 <script type='text/javascript' src="../js/galleria/plugins/flickr/galleria.flickr.min.js"></script>
 <script type='text/javascript' src="../js/galleria/themes/classic/galleria.classic.min.js"></script>
 
+<script type="text/javascript" src="../js/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 
 $(function() {

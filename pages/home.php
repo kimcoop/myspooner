@@ -83,7 +83,7 @@ $(function() {
 	<? echo formatNotifications() ?>
 </div>
 
-<br><br>
+<br>
 
 <div id="messages">
 	<h2 style='display:inline'>Messages: <? echo getNewMessages('count'); ?>&nbsp;&nbsp;</h2>

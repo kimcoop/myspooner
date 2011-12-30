@@ -83,19 +83,15 @@ $(function() {
 			
 		});
 		
-		$('#view_edit_posts').click(function() {
-		
-			//filter all posts written by user
-			//make editable
-			user = $('#user').val();
+		$('#view_edit_posts').live('click',function() {
 			
-			var dataString = 'action=getMyPosts&user='+user;
+			var dataString = 'action=getMyPosts';
 				$.ajax({ 
 						 type: 'post',
 						 dataType: 'json',
 						 url: '../functions/blog.php',
 						 data: dataString,
-						 success: function(data) {							 
+						 success: function(data) {
 								$('#container').load('filterblog.php', function() {
 									$('#filterOn').text('Posts you\'ve written');
 									$('#posts').html(data.articles);
@@ -107,8 +103,6 @@ $(function() {
 			
 });
 </script>
-
-<input type='hidden' id='user' value='<? echo $_SESSION['user_id'] ?>'>
 
 <div id="container">
 

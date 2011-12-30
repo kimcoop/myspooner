@@ -49,6 +49,7 @@
 	function getSentMessagesAsJSON($writer) {
 	
 		$str = getSentMessages($writer);
+		if (empty($str)) $str = '<div class="full_message">You haven\'t sent any messages.</div>';
 		echo json_encode(array('results'=>$str));
 	
 	}
@@ -329,7 +330,7 @@
 			$str .= "<div>$grav</div>";
 			$str .= "<div><span class='user' id='$userID'>".$username."</span> posted a Spooner trip: ";
 			$str .= "$arrival until $departure.";
-			if (!empty($notes)) $str .= "<br>".$notes;
+			if (!empty($notes)) $str .= "<br>Trip notes: ".$notes;
 			$str .= formatOthersForTrip($id);
 			$str .= "</div><span class='memberTimestamp'>$date</span>";
 			$str .= "</div>";
