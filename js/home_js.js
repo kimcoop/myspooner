@@ -41,6 +41,12 @@ $(function() {
 					});// end ajax
 			});// end click
 			
+			$('.close').click(function() {
+				el = $(this).parent();
+				el.slideUp();
+				el.removeClass('reading');			
+			});
+			
 			indicator = $('<span></span>').text('Click to read');
 			indicator_close = $('<span></span').text('Click to close');
 			$('span.preview').mouseover(function() {
