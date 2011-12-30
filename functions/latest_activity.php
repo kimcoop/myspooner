@@ -178,7 +178,9 @@
 				$str .= "&nbsp;<span class='timestamp'>$date</span>";
 				$str .= "<span class='next' style='margin:.1em 0 0 0'></span></span>";
 				$str .= "<span class='checkboxes'><input type='checkbox' class='message' value='$id' name='received'>&nbsp;<label>Mark as read</label></span></div>";
-				$str .= "<div class='full_message' style='display:none'><div class='subject'>Subject: $subject</div><div class='content'>$content.</div>";
+				$str .= "<div class='full_message' style='display:none'><div class='subject'>Subject: $subject</div><div class='content'>$content.";
+				$str .= "<span class='close' style='margin:-1.5em -.3em 0 0'></span>";
+				$str .= "</div>";
 				
 				$str .= formatReply($id, $fromID); //$fromID becomes $to
 				$str .= "</div>";

@@ -42,18 +42,36 @@ $(function() {
 			});// end click
 			
 			indicator = $('<span></span>').text('Click to read');
+			indicator_close = $('<span></span').text('Click to close');
 			$('span.preview').mouseover(function() {
 				el = $(this);
-				indicator.appendTo(el);
+				message = el.parent().next('.full_message');
+				if (message.hasClass('reading')) {
+					indicator_close.appendTo(el);
+				} else {
+					indicator.appendTo(el);
+				}
 			}).mouseout(function() {
-				indicator.detach();			
+				indicator.detach();
+				indicator_close.detach();
 			});
 			
 			$('span.preview').click(function() {
+				indicator.detach(); indicator_close.detach();
 				el = $(this);
-				el.parent().next('.full_message').slideToggle();			
-			}); 
-			
+				message = el.parent().next('.full_message');
+				message.slideToggle('slow', function() {
+				
+					if (message.css('display')=='block') {
+						message.addClass('reading');
+					} else { 
+						message.removeClass('reading');
+					}		
+				
+				});
+				
+			});
+						
 			$('.postReply').live('click',function() {
 				var el = $(this);
 				var msgID = el.siblings('.msgID').val();
