@@ -70,7 +70,8 @@
 		while($row = mysql_fetch_array($result)){
 				$results[] = $row;
 			}
-		$str = formatArticles($results, true);
+		if (empty($results)) $str = "You haven't written any blog posts :(";
+		else $str = formatArticles($results, true);
 		echo json_encode(array('articles'=>$str));
 }
 	
